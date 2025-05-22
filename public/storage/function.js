@@ -12,7 +12,7 @@ function formatUangTanpaRupiah(angka, prefix) {
     }
 
     rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-    return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+    return prefix == undefined ? rupiah : (rupiah ? '' + rupiah : '');
 }
 
 function generateNomorUrut(urut) {
@@ -22,4 +22,27 @@ function generateNomorUrut(urut) {
     const tahun = String(now.getFullYear());
 
     return `${tanggal}${bulan}${tahun}-${String(urut).padStart(3, '0')}`;
+}
+
+
+function resultFormatAngka(lokalString) {
+    // Langkah 1: Hilangkan pemisah ribuan (titik)
+    const tanpaTitik = lokalString.replace(/\./g, "");
+
+    // Langkah 2: Ganti koma dengan titik sebagai desimal
+    const denganTitikDesimal = tanpaTitik.replace(",", ".");
+
+    // Langkah 3: Konversi ke number
+    return parseFloat(denganTitikDesimal);
+}
+
+
+function formatAngkaView(angka) {
+    const formatID = new Intl.NumberFormat('id-ID', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
+
+    return formatID.format(angka);
+
 }

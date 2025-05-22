@@ -1,11 +1,13 @@
 <?php
 
 use App\Http\Controllers\BarangController;
+use App\Http\Controllers\JenisController;
 use App\Http\Controllers\SatuanController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TodoController;
 use App\Http\Middleware\Auth;
+use App\Models\Satuan;
 use Illuminate\Http\Request;
 use App\Models\Todos;
 
@@ -66,20 +68,44 @@ Route::middleware([Auth::class])->group(function () {
 
     Route::post('/load-satuan',[SatuanController::class, 'load']);
 
+    Route::post('/load-data-satuan',[SatuanController::class, 'loadData']);
+
+    Route::post('/load-data-jenis',[JenisController::class, 'loadData']);
+
+    Route::post('/load-jenis',[JenisController::class, 'load']);
+
     Route::post('/save-todo',[TodoController::class, 'save']);
 
+    Route::post('/save-barang',[BarangController::class, 'save']);
+
     Route::post('/save-satuan',[SatuanController::class, 'save']);
+
+    Route::post('/save-jenis',[JenisController::class, 'save']);
 
     // Route::post('/update-todo',[TodoController::class, 'update']);
     Route::post('/update-todo',[TodoController::class, 'updateNew']);
 
     Route::post('/update-satuan',[SatuanController::class, 'update']);
 
+    Route::post('/update-jenis',[JenisController::class, 'update']);
+
+    Route::post('/update-barang',[BarangController::class, 'update']);
+
     Route::post('/delete-todo',[TodoController::class, 'delete']);
 
     Route::post('/delete-satuan',[SatuanController::class, 'delete']);
 
+    Route::post('/delete-jenis',[JenisController::class, 'delete']);
+
+    Route::post('/delete-barang',[BarangController::class, 'delete']);
+
     Route::post('/search-todo',[TodoController::class, 'search']);
+
+    Route::post('/search-satuan',[SatuanController::class, 'search']);
+
+    Route::post('/search-barang',[BarangController::class, 'search']);
+
+    Route::post('/search-jenis',[JenisController::class, 'search']);
 
     Route::post('/upload-foto',[TodoController::class, 'upload']);
 });

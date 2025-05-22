@@ -11,6 +11,10 @@ class SatuanController extends Controller
         return Satuan::paginate(10);
     }
 
+    public function loadData(){
+        return Satuan::all();
+    }
+
     public function save(Request $request){
         $satuan = new Satuan();
 
@@ -31,5 +35,11 @@ class SatuanController extends Controller
         $Satuan = Satuan::find($request->id);
 
        return $Satuan->delete() ? response()->json(['result'=>true]) : response()->json(['result'=>false]);
+    }
+
+     public function search(Request $request){
+        $satuan = Satuan::where('satuan','like','%'.$request->search.'%')->get();
+
+        return ($satuan);
     }
 }

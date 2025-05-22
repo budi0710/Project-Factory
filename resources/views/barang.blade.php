@@ -41,17 +41,17 @@
         <center>
             <input type="text" @keyup="searchData" ref="search" v-model="search" placeholder="Search" class="input input-primary" />
         </center>
-
+<div class="badge badge-secondary">Total Harga @{{total}}</div>
         <!-- Open the modal using ID.showModal() method -->
         <center>
-            <button class="btn btn-primary" onclick="my_modal_1.showModal()">Add</button>
+            <button class="btn btn-primary" onclick="my_modal_add.showModal()">Add</button>
         </center>
 
         <center>
             <span v-if="loading" class="loading loading-spinner loading-md"></span>
         </center>
 
-        <dialog id="my_modal_1" class="modal">
+        <dialog id="my_modal_add" class="modal">
 
             <div class="modal-box">
                 <h3 class="text-lg font-bold"></h3>
@@ -63,17 +63,27 @@
                     </svg>
                         <span>Data has been saved !</span>
                     </div><br>
-                    <div class="avatar">
+                  
+                    <input type="text" ref="nama" v-model="nama" placeholder="Nama" class="input input-primary" /><br><br>
+                    <input type="text" ref="harga" v-model="harga" @keyup="changeCurrency" placeholder="Harga" class="input input-primary" /><br><br>
+                    <select v-model="result_satuan" class="select">
+                        <option disabled selected>Pilih Satuan</option>
+                        <option v-for="data in data_satuan" :value="data.id">@{{data.satuan}}</option>
+                    </select> <br> <br>
+                     <select v-model="result_jenis" class="select">
+                        <option disabled selected>Pilih Jenis</option>
+                        <option v-for="data in data_jenis" :value="data.id">@{{data.jenis}}</option>
+                    </select>
+                    <br><br>
+                    <input type="number" ref="stock" v-model="stock" placeholder="Stock" class="input input-primary" /><br><br>
+                     <div class="avatar">
                         <div class="w-24 rounded-full">
-                            <img :src="my_foto" />
+                            <img :src="foto_barang" />
                         </div>
                     </div>
-                    <input type="file" id="my_foto" name="my_foto" @change="changeImage($event)" class="file-input file-input-ghost" />
-                    <br> <br>
-                    <input type="text" ref="todo" v-model="todo" placeholder="Todo" class="input input-primary" /><br><br>
-                    <input type="text" ref="rp" v-model="rp" @keyup="changeCurrency" placeholder="Rp" class="input input-primary" /> <br> <br>
-
-                    <br><br>
+                <input type="file" id="file_barang" name="file_barang" @change="changeImage($event)"
+                    class="file-input file-input-ghost" />
+                <br> <br>
                     <button @click="save" class="btn btn-success">Save</button>
                 </p>
                 <div class="modal-action">
@@ -87,30 +97,41 @@
 
         <!-- Open the modal using ID.showModal() method -->
 
-        <dialog id="my_modal_edit" class="modal">
-            <div class="modal-box">
-                <h3 class="text-lg font-bold">Edit</h3>
-                <p class="py-4">
-                    <div class="avatar">
+       <!-- Open the modal using ID.showModal() method -->
+<dialog id="my_modal_edit" class="modal">
+  <div class="modal-box">
+    <h3 class="text-lg font-bold">Edit Data </h3>
+    <p class="py-4">
+<input type="text" ref="nama_edit" v-model="nama_edit" placeholder="Nama" class="input input-primary" /><br><br>
+                    <input type="text" ref="harga_edit" v-model="harga_edit" @keyup="changeCurrencyEdit" placeholder="Harga" class="input input-primary" /><br><br>
+                    <select v-model="result_satuan_edit" class="select">
+                        <option disabled selected>Pilih Satuan</option>
+                        <option v-for="data in data_satuan" :value="data.id">@{{data.satuan}}</option>
+                    </select> <br> <br>
+                     <select v-model="result_jenis_edit" class="select">
+                        <option disabled selected>Pilih Jenis</option>
+                        <option v-for="data in data_jenis" :value="data.id">@{{data.jenis}}</option>
+                    </select>
+                    <br><br>
+                    <input type="number" ref="stock_edit" v-model="stock_edit" placeholder="Stock" class="input input-primary" /><br><br>
+                     <div class="avatar">
                         <div class="w-24 rounded-full">
-                            <img :src="my_foto_edit" />
+                            <img :src="foto_barang_edit" />
                         </div>
                     </div>
-                    <input type="file" id="my_foto_edit" name="my_foto_edit" @change="changeImageEdit($event)" class="file-input file-input-ghost" />
-                    <br> <br>
-                    <input type="text" ref="todo_edit" v-model="todo_edit" placeholder="Todo" class="input input-primary" /><br><br>
-                    <input type="text" ref="rp_edit" v-model="rp_edit" @keyup="changeCurrencyEdit" placeholder="Rp" class="input input-primary" /> <br> <br>
-
-                    <br><br>
-                    <button class="btn btn-warning" @click="updateData">Update</button>
-                </p>
-                <div class="modal-action">
-
-                    <button class="btn" onclick="my_modal_edit.close()">Close</button>
-
-                </div>
-            </div>
-        </dialog>
+                    <input type="file" id="file_barang_edit" name="file_barang_edit" @change="changeImageEdit($event)"
+                    class="file-input file-input-ghost" />
+                <br> <br>
+                    <button @click="updateData" class="btn btn-success">Update</button>
+    </p>
+    <div class="modal-action">
+      <form method="dialog">
+        <!-- if there is a button in form, it will close the modal -->
+        <button class="btn">Close</button>
+      </form>
+    </div>
+  </div>
+</dialog>
 
         <div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100">
 
@@ -124,6 +145,7 @@
                         <th>Satuan</th>
                         <th>Jenis</th>
                         <th>Stock</th>
+                        <th>Foto</th>
                         <th>@</th>
 
                     </tr>
@@ -133,7 +155,7 @@
                     <tr v-for="data in barangs">
                         <th>@{{ data.id }}</th>
                         <td>@{{ data.nama }}</td>
-                        <td>@{{ data.harga }}</td>
+                        <td>@{{ viewFormat(data.harga) }}</td>
                         <td>@{{ data.satuan }}</td>
                         <td>@{{ data.jenis }}</td>
                         <td>@{{ data.stock }}</td>
@@ -149,7 +171,7 @@
                         </td>
                         <td>
                             <button @click="editModal(data)" class="btn btn-warning">Edit</button>
-                            <button @click="deleteData(data.id,data.todo)" class="btn btn-error">x</button>
+                            <button @click="deleteData(data.id,data.nama)" class="btn btn-error">x</button>
                         </td>
                     </tr>
 
@@ -173,15 +195,109 @@
             el: "#app",
             data: {
                 barangs : null,
-                todo: null,
+                data_satuan : null,
+                search : null,
+                alert : null,
+                harga : null,
+                nama : null,
+                loading : false,
+                links: null,
+                data_jenis : null,
+                stock : null,
+                file_barang: null,
+                foto_barang : './storage/todo/no-image.png',
+                result_satuan:null,
+                result_jenis:null,
+                total : null,
+                nama_edit: null,
+                harga_edit:null,
+                stock_edit:null,
+                result_jenis_edit : null,
+                result_satuan_edit : null,
+                file_barang_edit : null,
+                foto_barang_edit : null,
+                id_edit : null
             },
             methods: {
-              
+                
+                viewFormat:function(data){
+                    return formatAngkaView(data);
+                },
+                changeCurrency: function() {
+                    this.harga = formatUangTanpaRupiah(this.harga, '');
+                },
+                changeCurrencyEdit: function() {
+                    this.harga_edit = formatUangTanpaRupiah(this.harga_edit, '');
+                },
+                updateData: function(){
+                    if (this.id_edit){
+                        if (this.nama_edit == null) {
+                            this.loading = false;
+                            this.$refs.nama_edit.focus()
+                            return
+                        }
+                        if (this.harga_edit  == null) {
+                            this.loading = false;
+                            this.$refs.harga_edit.focus()
+                            return
+                        }
+                        if (this.result_satuan_edit == null) {
+                        alert("Pilih satuan dulu !")
+                            return
+                        }
+                        if (this.result_jenis_edit == null) {
+                        alert("Pilih jenis dulu !")
+                            return
+                        }
+                        if (this.stock_edit == null) {
+                            this.loading = false;
+                            this.$refs.stock_edit.focus()
+                            return
+                        }
+                        this.loading = true;
+                        const $this = this;
+
+                         _upload = new Upload({
+                        // Array
+                        el: ['file_barang_edit'],
+                        // String
+                        url: '/update-barang',
+                        // String
+                        data: {
+                            nama : this.nama_edit,
+                            id_satuan : this.result_satuan_edit,
+                            id_jenis : this.result_jenis_edit,
+                            harga : resultFormatAngka(this.harga_edit),
+                            stock : this.stock_edit,
+                            id : this.id_edit
+                        },
+                        // String
+                        token: _TOKEN_
+                    }).start(($response) => {
+                        $this.loading = false;
+                        var obj = JSON.parse($response)
+
+                        if (obj.result) {
+                            alert("Berhasil update Data")
+                            $this.loadData();
+                           
+                        }
+                    });
+                    }
+                },
                 editModal: function(data) {
                     this.id_edit = data.id;
-                    this.todo_edit = data.todo;
-                    this.rp_edit = data.number;
-                    this.my_foto_edit = '/storage/todo/' + data.foto;
+                    this.result_satuan_edit = data.id_satuan;
+                    this.result_jenis_edit = data.id_jenis;
+                    this.nama_edit = data.nama;
+                    this.harga_edit = formatAngkaView(data.harga);
+                    this.stock_edit = data.stock;
+                     if ( data.foto==='no-image.png'){
+                        this.foto_barang_edit = '/storage/todo/' + data.foto;
+                    }else{
+                         this.foto_barang_edit = '/storage/barang/' + data.foto;
+                    }
+                    
                     my_modal_edit.showModal()
                 },
                 changeImageEdit: function(e) {
@@ -199,13 +315,7 @@
                         });
                         return;
                     }
-                    this.my_foto_edit = URL.createObjectURL(files[0])
-                },
-                changeCurrency: function() {
-                    this.rp = formatUangTanpaRupiah(this.rp, 'Rp. ');
-                },
-                changeCurrencyEdit: function() {
-                    this.rp_edit = formatUangTanpaRupiah(this.rp_edit, 'Rp. ');
+                    this.foto_barang_edit = URL.createObjectURL(files[0])
                 },
                 changeImage: function(e) {
                     var files = e.target.files || e.dataTransfer.files;
@@ -222,10 +332,14 @@
                         });
                         return;
                     }
-                    this.my_foto = URL.createObjectURL(files[0])
+                    this.foto_barang = URL.createObjectURL(files[0])
                 },
                 viewFoto: function(foto) {
-                    return '/storage/todo/' + foto
+                    if (foto==='no-image.png'){
+                        return '/storage/todo/' + foto
+                    }else{
+                        return '/storage/barang/' + foto
+                    }
                 },
 
                 loadPaginate: function(url) {
@@ -240,7 +354,7 @@
                         .then(function(response) {
                             if (response.data) {
                                 $this.loading = false;
-                                $this.todos = response.data.data;
+                                $this.barangs = response.data.data;
                                 $this.links = response.data.links;
                             }
                         })
@@ -260,14 +374,14 @@
                     }
                     this.loading = true;
                     const $this = this;
-                    axios.post("/search-todo", {
+                    axios.post("/search-barang", {
                             _token: _TOKEN_,
                             search: this.search
                         })
                         .then(function(response) {
                             if (response.data) {
                                 $this.loading = false;
-                                $this.todos = response.data;
+                                $this.barangs = response.data;
                             }
                         })
                         .catch(function(error) {
@@ -275,23 +389,45 @@
                         });
                 },
                 save: function() {
-                    if (this.todo == null) {
+                    if (this.nama == null) {
                         this.loading = false;
-                        this.$refs.todo.focus()
+                        this.$refs.nama.focus()
+                        return
+                    }
+                      if (this.harga == null) {
+                        this.loading = false;
+                        this.$refs.harga.focus()
+                        return
+                    }
+                    if (this.result_satuan == null) {
+                       alert("Pilih satuan dulu !")
+                        return
+                    }
+                     if (this.result_jenis == null) {
+                       alert("Pilih jenis dulu !")
+                        return
+                    }
+                     if (this.stock == null) {
+                        this.loading = false;
+                        this.$refs.stock.focus()
                         return
                     }
                     this.loading = true;
                     const $this = this;
 
+
                     _upload = new Upload({
                         // Array
-                        el: ['my_foto'],
+                        el: ['file_barang'],
                         // String
-                        url: '/save-todo',
+                        url: '/save-barang',
                         // String
                         data: {
-                            todo: this.todo,
-                            number: this.rp
+                            nama : this.nama,
+                            id_satuan : this.result_satuan,
+                            id_jenis : this.result_jenis,
+                            harga : resultFormatAngka(this.harga),
+                            stock : this.stock,
                         },
                         // String
                         token: _TOKEN_
@@ -302,19 +438,22 @@
                         if (obj.result) {
                             alert("Berhasil Add Data")
                             $this.loadData();
-                            $this.todo = null;
-                            $this.rp = null;
-                            $this.my_foto = 'storage/todo/no-image.png'
+                            $this.harga = null;
+                            $this.stock = null;
+                            $this.nama = null;
+                            $this.result_satuan = null;
+                            $this.result_jenis = null;
+                            $this.foto_barang = 'storage/todo/no-image.png'
                         }
                     });
                 },
-                deleteData: function(id, todo) {
+                deleteData: function(id, barang) {
                     if (id) {
 
                         const $this = this;
                         Swal.fire({
                             title: "Are you sure?",
-                            text: "Apakah anda ingin menghapus data ini {" + todo + "}",
+                            text: "Apakah anda ingin menghapus data ini {" + barang + "}",
                             icon: "warning",
                             showCancelButton: true,
                             confirmButtonColor: "#3085d6",
@@ -323,7 +462,7 @@
                         }).then((result) => {
                             if (result.isConfirmed) {
                                 this.loading = true;
-                                axios.post("/delete-todo", {
+                                axios.post("/delete-barang", {
                                         _token: _TOKEN_,
                                         id: id
                                     })
@@ -363,6 +502,40 @@
 
                                 $this.barangs = response.data.data;
                                 $this.links = response.data.links;
+
+                                var total = 0;
+                                response.data.data.forEach(element => {
+                                   total += parseFloat(element['harga'])
+                                });
+                                $this.total = _moneyFormat(total.toFixed(2))
+                            }
+                        })
+                        .catch(function(error) {
+                            console.log(error);
+                        });
+                },
+                loadDataSatuan: function() {
+                    const $this = this;
+                    axios.post("/load-data-satuan", {
+                            _token: _TOKEN_
+                        })
+                        .then(function(response) {
+                            if (response.data) {
+                                $this.data_satuan = response.data;
+                            }
+                        })
+                        .catch(function(error) {
+                            console.log(error);
+                        });
+                },
+                loadDataJenis: function() {
+                    const $this = this;
+                    axios.post("/load-data-jenis", {
+                            _token: _TOKEN_
+                        })
+                        .then(function(response) {
+                            if (response.data) {
+                                $this.data_jenis = response.data;
                             }
                         })
                         .catch(function(error) {
@@ -371,7 +544,9 @@
                 }
             },
             mounted() {
-                this.loadData()
+                this.loadData();
+                this.loadDataSatuan()
+                this.loadDataJenis()
             }
         });
     </script>

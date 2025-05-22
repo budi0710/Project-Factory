@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Satuan Page</title>
+    <title>Jenis Page</title>
     @include('@component/assets')
 
 </head>
@@ -65,7 +65,7 @@
                     </div><br>
                     
                    
-                    <input type="text" ref="satuan" v-model="satuan" placeholder="Satuan" class="input input-primary" /><br><br>
+                    <input type="text" ref="jenis" v-model="jenis" placeholder="Jenis" class="input input-primary" /><br><br>
                     
                     <button @click="save" class="btn btn-success">Save</button>
                 </p>
@@ -86,7 +86,7 @@
                 <p class="py-4">
                    
                   
-                    <input type="text" ref="satuan_edit" v-model="satuan_edit" placeholder="Satuan" class="input input-primary" /><br><br>
+                    <input type="text" ref="jenis_edit" v-model="jenis_edit" placeholder="Jenis" class="input input-primary" /><br><br>
                   
                     <button class="btn btn-warning" @click="updateData">Update</button>
                 </p>
@@ -112,9 +112,9 @@
                 </thead>
                 <tbody>
                     <!-- row 1 -->
-                    <tr v-for="data in satuans">
+                    <tr v-for="data in jeniss">
                         <th>@{{ data.id }}</th>
-                        <td>@{{ data.satuan }}</td>
+                        <td>@{{ data.jenis }}</td>
                       
                         <td>
                             <button @click="editModal(data)" class="btn btn-warning">Edit</button>
@@ -142,12 +142,12 @@
             el: "#app",
             data: {
                 barangs : null,
-                satuans : null,
+                jeniss : null,
                 alert: false,
-                satuan_edit : null,
+                jenis_edit : null,
                 links :null,
                 search : null,
-                satuan : null,
+                jenis : null,
                 loading :false,
                 id_edit : null
             },
@@ -164,7 +164,7 @@
                         .then(function(response) {
                             if (response.data) {
                                 $this.loading = false;
-                                $this.satuans = response.data.data;
+                                $this.jeniss = response.data.data;
                                 $this.links = response.data.links;
                             }
                         })
@@ -174,16 +174,16 @@
                 },
                editModal: function(data) {
                     this.id_edit = data.id;
-                    this.satuan_edit = data.satuan;
+                    this.jenis_edit = data.jenis;
                     my_modal_edit.showModal()
                 },
               updateData: function(){
                     if (this.id_edit) {
                         const $this = this;
                        
-                         axios.post("/update-satuan", {
+                         axios.post("/update-jenis", {
                             _token: _TOKEN_,
-                            satuan: this.satuan_edit,
+                            jenis: this.jenis_edit,
                             id : this.id_edit
                         })
                         .then(function(response) {
@@ -205,14 +205,14 @@
                     }
                     this.loading = true;
                     const $this = this;
-                    axios.post("/search-satuan", {
+                    axios.post("/search-jenis", {
                             _token: _TOKEN_,
                             search: this.search
                         })
                         .then(function(response) {
                             if (response.data) {
                                 $this.loading = false;
-                                $this.satuans = response.data;
+                                $this.jeniss = response.data;
                             }
                         })
                         .catch(function(error) {
@@ -220,23 +220,23 @@
                         });
                 },
                 save: function() {
-                    if (this.satuan == null) {
+                    if (this.jenis == null) {
                         this.alert = false;
-                        this.$refs.satuan.focus()
+                        this.$refs.jenis.focus()
                         return
                     }
                     
                     const $this = this;
 
-                     axios.post("/save-satuan", {
+                     axios.post("/save-jenis", {
                                         _token: _TOKEN_,
-                                        satuan: this.satuan
+                                        jenis: this.jenis
                                     })
                                     .then(function(response) {
                                         if (response.data.result) {
                                             $this.loadData();
                                             $this.alert = false;
-                                             $this.satuan = null;
+                                            $this.jenis = null;
                                             alert("Tambah data sukses");
                                             // Swal.fire({
                                             //     icon: "success",
@@ -265,7 +265,7 @@
                         }).then((result) => {
                             if (result.isConfirmed) {
                                 this.loading = true;
-                                axios.post("/delete-satuan", {
+                                axios.post("/delete-jenis", {
                                         _token: _TOKEN_,
                                         id: id
                                     })
@@ -296,13 +296,13 @@
                 loadData: function() {
                     const $this = this;
             
-                    axios.post("/load-satuan", {
+                    axios.post("/load-jenis", {
                             _token: _TOKEN_
                         })
                         .then(function(response) {
                             $this.loading = false;
                             if (response.data) {
-                                $this.satuans = response.data.data;
+                                $this.jeniss = response.data.data;
                                 $this.links = response.data.links;
                             }
                         })
