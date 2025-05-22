@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\BarangController;
+use App\Http\Controllers\SatuanController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TodoController;
@@ -27,6 +29,18 @@ Route::middleware([Auth::class])->group(function () {
         return view('home');
     });
 
+     Route::get('/barang',function(){
+        return view('barang');
+    });
+
+     Route::get('/satuan',function(){
+        return view('satuan');
+    });
+
+     Route::get('/jenis',function(){
+        return view('jenis');
+    });
+
     Route::get('/profile',function(){
         return view('profile');
     });
@@ -48,12 +62,22 @@ Route::middleware([Auth::class])->group(function () {
 
     Route::post('/load-todo',[TodoController::class, 'load']);
 
+    Route::post('/load-barang',[BarangController::class, 'load']);
+
+    Route::post('/load-satuan',[SatuanController::class, 'load']);
+
     Route::post('/save-todo',[TodoController::class, 'save']);
+
+    Route::post('/save-satuan',[SatuanController::class, 'save']);
 
     // Route::post('/update-todo',[TodoController::class, 'update']);
     Route::post('/update-todo',[TodoController::class, 'updateNew']);
 
+    Route::post('/update-satuan',[SatuanController::class, 'update']);
+
     Route::post('/delete-todo',[TodoController::class, 'delete']);
+
+    Route::post('/delete-satuan',[SatuanController::class, 'delete']);
 
     Route::post('/search-todo',[TodoController::class, 'search']);
 

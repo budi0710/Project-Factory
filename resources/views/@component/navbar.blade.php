@@ -13,9 +13,21 @@
             </div>
             <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
                 <li>
-                    <a href="/profile" class="justify-between">
-                        Profile
-                        <span class="badge">New</span>
+                    <a href="./barang" class="justify-between">
+                        Barang
+                        <span class="badge"></span>
+                    </a>
+                </li>
+                 <li>
+                    <a href="./satuan" class="justify-between">
+                        Satuan
+                        <span class="badge"></span>
+                    </a>
+                </li>
+                 <li>
+                    <a href="./jenis" class="justify-between">
+                        Jenis
+                        <span class="badge"></span>
                     </a>
                 </li>
 
