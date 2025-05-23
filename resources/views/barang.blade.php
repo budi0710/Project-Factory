@@ -139,7 +139,7 @@
                 <!-- head -->
                 <thead>
                     <tr>
-                        <th></th>
+                        <th>ID</th>
                         <th>Nama</th>
                         <th>Harga</th>
                         <th>Satuan</th>

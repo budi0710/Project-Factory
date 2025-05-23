@@ -104,7 +104,7 @@
                 <!-- head -->
                 <thead>
                     <tr>
-                        <th></th>
+                        <th>ID</th>
                         <th>Satuan</th>
                         <th>@</th>
 
@@ -118,7 +118,7 @@
                       
                         <td>
                             <button @click="editModal(data)" class="btn btn-warning">Edit</button>
-                            <button @click="deleteData(data.id)" class="btn btn-error">x</button>
+                            <button @click="deleteData(data.id,data.satuan)" class="btn btn-error">x</button>
                         </td>
                     </tr>
 
@@ -250,13 +250,13 @@
                                         console.log(error);
                                     }); 
                 },
-                deleteData: function(id, todo) {
+                deleteData: function(id, satuan) {
                     if (id) {
 
                         const $this = this;
                         Swal.fire({
                             title: "Are you sure?",
-                            text: "Apakah anda ingin menghapus data ini {" + todo + "}",
+                            text: "Apakah anda ingin menghapus data ini {" + satuan + "}",
                             icon: "warning",
                             showCancelButton: true,
                             confirmButtonColor: "#3085d6",
