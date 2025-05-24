@@ -13,6 +13,17 @@ class BarangController extends Controller
         return ViewBarang::paginate(5);
     }
 
+    public function generateId(){
+       $result  = Barang::select('id_otomatis')
+                        ->first();
+
+       if ($result==null){
+        return 'BR-001';
+       }else{
+        return $result;
+       }
+    }
+
     public function save(Request $request){
         $file = $request->file('file_barang');
         $name = '';
@@ -33,6 +44,7 @@ class BarangController extends Controller
         $stock = $data->{'stock'};
         $id_satuan = $data->{'id_satuan'};
         $id_jenis = $data->{'id_jenis'};
+          $id_otomatis = $data->{'id_otomatis'};
 
         $barang = new Barang();
 
@@ -42,6 +54,7 @@ class BarangController extends Controller
         $barang->id_satuan = $id_satuan;
         $barang->id_jenis = $id_jenis;
         $barang->foto = $name;
+         $barang->id_otomatis = $id_otomatis;
 
         return $barang->save() ? response()->json(['result'=>true]) : response()->json(['result'=>false]);
     }
@@ -79,6 +92,7 @@ class BarangController extends Controller
         $id = $data->{'id'};
         $id_satuan = $data->{'id_satuan'};
         $id_jenis = $data->{'id_jenis'};
+        $id_otomatis = $data->{'id_otomatis_edit'};
 
         $barang = Barang::find($id);
 
@@ -88,6 +102,7 @@ class BarangController extends Controller
         $barang->id_satuan = $id_satuan;
         $barang->id_jenis = $id_jenis;
         $barang->foto = $name;
+        $barang->id_otomatis = $id_otomatis;
 
         return $barang->save() ? response()->json(['result'=>true]) : response()->json(['result'=>false]);
     }

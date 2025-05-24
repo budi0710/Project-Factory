@@ -46,3 +46,15 @@ function formatAngkaView(angka) {
     return formatID.format(angka);
 
 }
+
+
+function generateNewId(latestId) {
+    if (!latestId) return 'BR-001';
+
+    const [prefix, number] = latestId.split('-');
+    const newNumber = String(parseInt(number, 10) + 1).padStart(3, '0');
+    if (newNumber >= 999) {
+        return 'erorr'
+    }
+    return `${prefix}-${newNumber}`;
+}

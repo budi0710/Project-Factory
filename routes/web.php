@@ -108,6 +108,8 @@ Route::middleware([Auth::class])->group(function () {
     Route::post('/search-jenis',[JenisController::class, 'search']);
 
     Route::post('/upload-foto',[TodoController::class, 'upload']);
+
+    Route::post('/generate-id',[BarangController::class, 'generateId']);
 });
 
 
