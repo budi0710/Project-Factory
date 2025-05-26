@@ -202,7 +202,7 @@
         <br>
         <center>
             <button class="btn btn-dash btn-primary" @click="loadPaginate(link.url)" v-for="link in links"
-                v-html="link.label"></button>
+                v-html="link.label" :disabled="! link.active"></button>
         </center>
     </div>
 

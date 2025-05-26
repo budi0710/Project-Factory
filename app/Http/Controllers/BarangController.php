@@ -15,13 +15,11 @@ class BarangController extends Controller
 
     public function generateId(){
        $result  = Barang::select('id_otomatis')
+                        ->orderBy('id_otomatis', 'desc')
                         ->first();
 
-       if ($result==null){
-        return 'BR-001';
-       }else{
-        return $result;
-       }
+      return ($result==null) ? 'BR-001' : $result;
+        
     }
 
     public function save(Request $request){
