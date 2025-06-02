@@ -1,0 +1,64 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Rls_brg_sup;
+use App\Models\ViewRelasiBarangSupplier;
+
+class Rls_brg_supController extends Controller
+{
+    public function load(){
+        return ViewRelasiBarangSupplier::paginate(5);
+    }
+
+    public function loadData(){
+        return ViewRelasiBarangSupplier::all();
+    }
+
+    public function generateId(){
+       $result  = Rls_brg_sup::select('kode_rls')
+                        ->first();
+
+       if ($result==null){
+        return 'RLS-001';
+       }else{
+        return $result;
+       }
+    }
+
+    public function save(Request $request){
+        $Rls_brg_sup = new Rls_brg_sup();
+
+        $Rls_brg_sup->kode_supplier = $request->kode_supplier;
+        $Rls_brg_sup->id_otomatis = $request->id_otomatis;
+        $Rls_brg_sup->kode_rls = $request->kode_rls;
+        $Rls_brg_sup->nama_brg_sup = $request->nama_brg_sup;
+        $Rls_brg_sup->kode_part = $request->kode_part;
+        $Rls_brg_sup->harga_beli = $request->harga_beli;
+        $Rls_brg_sup->satuan_beli = $request->satuan_beli;
+        return $Rls_brg_sup->save() ? response()->json(['result'=>true]) : response()->json(['result'=>false]);
+    }
+
+    public function update(Request $request){
+        $Rls_brg_sup = Rls_brg_sup::find($request->id);
+
+        $Rls_brg_sup->nama_brg_sup = $request->nama_brg_sup;
+        $Rls_brg_sup->harga_beli = $request->harga_beli;
+        $Rls_brg_sup->satuan_beli = $request->satuan_beli;
+        $Rls_brg_sup->kode_part = $request->kode_part;
+        return $Rls_brg_sup->save() ? response()->json(['result'=>true]) : response()->json(['result'=>false]);
+    }
+
+    public function delete(Request $request){
+        $Rls_brg_sup = Rls_brg_sup::find($request->id);
+
+       return $Rls_brg_sup->delete() ? response()->json(['result'=>true]) : response()->json(['result'=>false]);
+    }
+
+    public function search(Request $request){
+        $ViewRelasiBarangSupplier = ViewRelasiBarangSupplier::where('nama_brg_sup','like','%'.$request->search.'%')->get();
+
+        return ($ViewRelasiBarangSupplier);
+    }
+}

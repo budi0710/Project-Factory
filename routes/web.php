@@ -3,6 +3,9 @@
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\JenisController;
 use App\Http\Controllers\SatuanController;
+use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\Rls_brg_supController;
+use App\Http\Controllers\CustomerController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TodoController;
@@ -46,6 +49,27 @@ Route::middleware([Auth::class])->group(function () {
     Route::get('/profile',function(){
         return view('profile');
     });
+
+    Route::get('/supplier',function(){
+        return view('supplier');
+    });
+
+    Route::get('/rls_brg_sup',function(){
+        return view('rls_brg_sup');
+    });
+
+    Route::get('/customer',function(){
+        return view('customer');
+    });
+
+    Route::get('/brj',function(){
+        return view('brj');
+    });
+
+    Route::get('/rls_brg_cus',function(){
+        return view('rls_brg_cus');
+    });
+
 
     Route::get('/edit-data/{id}',function($id){
         $todo = Todos::where('id', $id)->count();
@@ -110,6 +134,46 @@ Route::middleware([Auth::class])->group(function () {
     Route::post('/upload-foto',[TodoController::class, 'upload']);
 
     Route::post('/generate-id',[BarangController::class, 'generateId']);
+
+    Route::post('/load-supplier',[SupplierController::class, 'load']);
+
+    Route::post('/delete-supplier',[SupplierController::class, 'delete']);
+
+    Route::post('/update-supplier',[SupplierController::class, 'update']);
+
+    Route::post('/save-supplier',[SupplierController::class, 'save']);
+
+    Route::post('/search-supplier',[SupplierController::class, 'search']);
+
+    Route::post('/load-rls-brg-sup',[Rls_brg_supController::class, 'load']);
+
+    Route::post('/load-data-rls-brg-sup',[Rls_brg_supController::class, 'loadData']);
+
+    Route::post('/update-rls-sup',[Rls_brg_supController::class, 'update']);
+
+    Route::post('/delete-rls-sup',[Rls_brg_supController::class, 'delete']);
+
+    Route::post('/generate-id-rls-sup',[Rls_brg_supController::class, 'generateId']);
+
+    Route::post('/load-data-supplier',[SupplierController::class, 'loadData']);
+
+    Route::post('/load-data-barang',[BarangController::class, 'loadData']);
+
+    Route::post('/save-rls-sup',[Rls_brg_supController::class, 'save']);
+
+    Route::post('/search-rls-sup',[Rls_brg_supController::class, 'search']);
+
+    Route::post('/load-customer',[CustomerController::class, 'load']);
+
+    Route::post('/delete-customer',[CustomerController::class, 'delete']);
+
+    Route::post('/update-customer',[CustomerController::class, 'update']);
+
+    Route::post('/save-customer',[CustomerController::class, 'save']);
+
+    Route::post('/search-customer',[CustomerController::class, 'search']);
+
+
 });
 
 

@@ -1,58 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Satuan Page</title>
     @include('@component/assets')
-
 </head>
-
 <body>
     @include('@component/navbar')
-    <br>
-
     <div id="app" class="mx-auto">
-        <div class="items-center">
-            <div class="carousel w-full">
-                <div id="item1" class="carousel-item w-full">
-                    <img src="https://img.daisyui.com/images/stock/photo-1625726411847-8cbb60cc71e6.webp" class="w-full" />
-                </div>
-                <div id="item2" class="carousel-item w-full">
-                    <img src="https://img.daisyui.com/images/stock/photo-1609621838510-5ad474b7d25d.webp" class="w-full" />
-                </div>
-                <div id="item3" class="carousel-item w-full">
-                    <img src="https://img.daisyui.com/images/stock/photo-1414694762283-acccc27bca85.webp" class="w-full" />
-                </div>
-                <div id="item4" class="carousel-item w-full">
-                    <img src="https://img.daisyui.com/images/stock/photo-1665553365602-b2fb8e5d1707.webp" class="w-full" />
-                </div>
-            </div>
-            <div class="flex w-full justify-center gap-2 py-2">
-                <a href="#item1" class="btn btn-xs">1</a>
-                <a href="#item2" class="btn btn-xs">2</a>
-                <a href="#item3" class="btn btn-xs">3</a>
-                <a href="#item4" class="btn btn-xs">4</a>
-            </div>
-        </div>
-
+        @include('@component/slide')
         <hr>
         <center>
             <input type="text" @keyup="searchData" ref="search" v-model="search" placeholder="Search" class="input input-primary" />
         </center>
-
         <!-- Open the modal using ID.showModal() method -->
         <center>
             <button class="btn btn-primary" onclick="my_modal_1.showModal()">Add</button>
         </center>
-
         <center>
             <span v-if="loading" class="loading loading-spinner loading-md"></span>
         </center>
-
         <dialog id="my_modal_1" class="modal">
-
             <div class="modal-box">
                 <h3 class="text-lg font-bold"></h3>
                 <p class="py-4">
@@ -63,10 +32,7 @@
                     </svg>
                         <span>Data has been saved !</span>
                     </div><br>
-                    
-                   
                     <input type="text" ref="satuan" v-model="satuan" placeholder="Satuan" class="input input-primary" /><br><br>
-                    
                     <button @click="save" class="btn btn-success">Save</button>
                 </p>
                 <div class="modal-action">
@@ -84,30 +50,22 @@
             <div class="modal-box">
                 <h3 class="text-lg font-bold">Edit</h3>
                 <p class="py-4">
-                   
-                  
                     <input type="text" ref="satuan_edit" v-model="satuan_edit" placeholder="Satuan" class="input input-primary" /><br><br>
-                  
                     <button class="btn btn-warning" @click="updateData">Update</button>
                 </p>
                 <div class="modal-action">
-
                     <button class="btn" onclick="my_modal_edit.close()">Close</button>
-
                 </div>
             </div>
         </dialog>
-
         <div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100">
-
             <table class="table">
                 <!-- head -->
                 <thead>
                     <tr>
                         <th>ID</th>
                         <th>Satuan</th>
-                        <th>@</th>
-
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -121,20 +79,17 @@
                             <button @click="deleteData(data.id,data.satuan)" class="btn btn-error">x</button>
                         </td>
                     </tr>
-
                 </tbody>
             </table>
             <hr>
-
-
         </div>
         <br>
         <center>
             <button class="btn btn-dash btn-primary" @click="loadPaginate(link.url)" v-for="link in links" v-html="link.label"></button>
         </center>
     </div>
-
-
+    <br><br>
+    @include('@component/footer')
     <script>
         const _TOKEN_ = '<?= csrf_token() ?>';
 
@@ -317,5 +272,4 @@
         });
     </script>
 </body>
-
 </html>

@@ -8,14 +8,14 @@ use Illuminate\Http\Request;
 class JenisController extends Controller
 {
     public function load(){
-        return Jenis::paginate(10);
+        return Jenis::paginate(5);
     }
 
     public function loadData(){
         return Jenis::all();
     }
 
-      public function save(Request $request){
+    public function save(Request $request){
         $Jenis = new Jenis();
 
         $Jenis->jenis = $request->jenis;
@@ -33,13 +33,11 @@ class JenisController extends Controller
 
       public function delete(Request $request){
         $Jenis = Jenis::find($request->id);
-
        return $Jenis->delete() ? response()->json(['result'=>true]) : response()->json(['result'=>false]);
     }
 
      public function search(Request $request){
         $Jenis = Jenis::where('jenis','like','%'.$request->search.'%')->get();
-
         return ($Jenis);
     }
 }

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Jenis Page</title>
+    <title>Data Supplier</title>
     @include('@component/assets')
 
 </head>
@@ -30,21 +30,37 @@
         </center>
 
         <dialog id="my_modal_1" class="modal">
-
             <div class="modal-box">
-                <h3 class="text-lg font-bold"></h3>
+                <h3 class="text-lg font-bold">Input Data Supplier</h3>
                 <p class="py-4">
                     <div v-if="alert" role="alert" class="alert alert-success">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                        <span>Data has been saved !</span>
-                    </div><br>
-                    
-                   
-                    <input type="text" ref="jenis" v-model="jenis" placeholder="Jenis" class="input input-primary" /><br><br>
-                    
+                    <span>Data has been saved !</span>
+                    </div>
+                    <input type="text" ref="kode_supplier" v-model="kode_supplier" placeholder="Kode" class="input input-primary" maxlength="4" /><br>
+                    <input type="text" ref="nama_supplier" v-model="nama_supplier" placeholder="Nama" class="input input-primary" /><br>
+                    <input type="text" ref="notelp_supplier" v-model="notelp_supplier" placeholder="No Telp" class="input input-primary" /><br>
+                    <textarea class="textarea" ref="alamat_supplier" v-model="alamat_supplier"  placeholder="Alamat Supplier"></textarea><br>
+                    <input type="text" ref="email_supplier" v-model="email_supplier" placeholder="Email" class="input input-primary" /><br>
+                    <fieldset class="fieldset bg-base-100 border-base-300 rounded-box w-64 border p-4">
+                    <legend class="fieldset-legend">PPN</legend>
+                        <label class="label">
+                            <input type="checkbox" ref="PPN_supplier" v-model="PPN_supplier" class="checkbox" />
+                        </label>
+                    </fieldset>
+                    <br>
+                    <input type="text" id="npwp" maxlength="20" ref="NPWP_supplier" v-model="NPWP_supplier" placeholder="N.P.W.P" class="input input-primary"/><br>
+                    <fieldset class="fieldset bg-base-100 border-base-300 rounded-box w-64 border p-4">
+                    <legend class="fieldset-legend">PPH 23</legend>
+                        <label class="label">
+                            <input type="checkbox" ref="PPH23_supplier" v-model="PPH23_supplier" class="checkbox" />
+                        </label>
+                    </fieldset>
+                    <br>
+                    <input type="text" ref="CP_supplier" v-model="CP_supplier" placeholder="Contact" class="input input-primary" /><br><br>
                     <button @click="save" class="btn btn-success">Save</button>
                 </p>
                 <div class="modal-action">
@@ -60,18 +76,33 @@
 
         <dialog id="my_modal_edit" class="modal">
             <div class="modal-box">
-                <h3 class="text-lg font-bold">Edit</h3>
+                <h3 class="text-lg font-bold">Edit Data Supplier</h3>
                 <p class="py-4">
-                   
-                  
-                    <input type="text" ref="jenis_edit" v-model="jenis_edit" placeholder="Jenis" class="input input-primary" /><br><br>
-                  
+                    <input type="text" ref="kode_supplier_edit" v-model="kode_supplier_edit" placeholder="Kode" class="input input-primary" /><br>
+                    <input type="text" ref="nama_supplier_edit" v-model="nama_supplier_edit" placeholder="Nama" class="input input-primary" /><br>
+                    <input type="text" ref="notelp_supplier_edit" v-model="notelp_supplier_edit" placeholder="No Telp" class="input input-primary" /><br>
+                    <textarea class="textarea" ref="alamat_supplier_edit" v-model="alamat_supplier_edit"  placeholder="Alamat Supplier"></textarea><br>
+                    <input type="text" ref="email_supplier_edit" v-model="email_supplier_edit" placeholder="Email" class="input input-primary" /><br>
+                    <fieldset class="fieldset bg-base-100 border-base-300 rounded-box w-64 border p-4">
+                    <legend class="fieldset-legend">PPN</legend>
+                        <label class="label">
+                            <input type="checkbox" ref="PPN_supplier_edit" v-model="PPN_supplier_edit" class="checkbox" />
+                        </label>
+                    </fieldset>
+                    <br>
+                    <input type="text" id="npwp_edit" maxlength="20" ref="NPWP_supplier_edit" v-model="NPWP_supplier_edit" placeholder="N.P.W.P" class="input input-primary" /><br>
+                    <fieldset class="fieldset bg-base-100 border-base-300 rounded-box w-64 border p-4">
+                    <legend class="fieldset-legend">PPH 23</legend>
+                        <label class="label">
+                            <input type="checkbox" ref="PPH23_supplier_edit" v-model="PPH23_supplier_edit" class="checkbox" />
+                        </label>
+                    </fieldset>
+                    <br>
+                    <input type="text" ref="CP_supplier_edit" v-model="CP_supplier_edit" placeholder="Contact" class="input input-primary" /><br><br>
                     <button class="btn btn-warning" @click="updateData">Update</button>
                 </p>
                 <div class="modal-action">
-
                     <button class="btn" onclick="my_modal_edit.close()">Close</button>
-
                 </div>
             </div>
         </dialog>
@@ -83,20 +114,34 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Jenis</th>
+                        <th>Kode</th>
+                        <th>Nama</th>
+                        <th>Notelp</th>
+                        <th>Alamat</th>
+                        <th>Email</th>
+                        <th>PPN</th>
+                        <th>NPWP</th>
+                        <th>PPH23</th>
+                        <th>Contact</th>
                         <th>Action</th>
-
                     </tr>
                 </thead>
                 <tbody>
                     <!-- row 1 -->
-                    <tr v-for="data in jeniss">
+                    <tr v-for="data in suppliers">
                         <th>@{{ data.id }}</th>
-                        <td>@{{ data.jenis }}</td>
-                      
+                        <td>@{{ data.kode_supplier }}</td>
+                        <td>@{{ data.nama_supplier }}</td>
+                        <td>@{{ data.notelp_supplier }}</td>
+                        <td>@{{ data.alamat_supplier }}</td>
+                        <td>@{{ data.email_supplier }}</td>
+                        <td>@{{ data.PPN_supplier }}</td>
+                        <td>@{{ data.NPWP_supplier }}</td>
+                        <td>@{{ data.PPH23_supplier }}</td>
+                        <td>@{{ data.CP_supplier }}</td>
                         <td>
                             <button @click="editModal(data)" class="btn btn-warning">Edit</button>
-                            <button @click="deleteData(data.id,data.jenis)" class="btn btn-error">x</button>
+                            <button @click="deleteData(data.id,data.nama_supplier)" class="btn btn-error">x</button>
                         </td>
                     </tr>
 
@@ -118,10 +163,9 @@
         new Vue({
             el: "#app",
             data: {
-                barangs : null,
-                jeniss : null,
+                suppliers : null,
                 alert: false,
-                jenis_edit : null,
+                kode_supplier_edit : null,
                 links :null,
                 search : null,
                 jenis : null,
@@ -141,7 +185,7 @@
                         .then(function(response) {
                             if (response.data) {
                                 $this.loading = false;
-                                $this.jeniss = response.data.data;
+                                $this.suppliers = response.data.data;
                                 $this.links = response.data.links;
                             }
                         })
@@ -151,21 +195,47 @@
                 },
                editModal: function(data) {
                     this.id_edit = data.id;
-                    this.jenis_edit = data.jenis;
+                    this.kode_supplier_edit = data.kode_supplier;
+                    this.nama_supplier_edit = data.nama_supplier;
+                    this.notelp_supplier_edit = data.notelp_supplier;
+                    this.alamat_supplier_edit = data.alamat_supplier;
+                    this.email_supplier_edit = data.email_supplier;
+                    this.PPN_supplier_edit = data.PPN_supplier;
+                    this.NPWP_supplier_edit = data.NPWP_supplier;
+                    this.PPH23_supplier_edit = data.PPH23_supplier;
+                    this.CP_supplier_edit = data.CP_supplier;
                     my_modal_edit.showModal()
                 },
               updateData: function(){
                     if (this.id_edit) {
                         const $this = this;
-                         axios.post("/update-jenis", {
+                       
+                         axios.post("/update-supplier", {
                             _token: _TOKEN_,
-                            jenis: this.jenis_edit,
+                            kode_supplier_edit: this.kode_supplier_edit,
+                            nama_supplier_edit: this.nama_supplier_edit,
+                            notelp_supplier_edit: this.notelp_supplier_edit,
+                            alamat_supplier_edit: this.alamat_supplier_edit,
+                            email_supplier_edit: this.email_supplier_edit,
+                            PPN_supplier_edit: this.PPN_supplier_edit,
+                            NPWP_supplier_edit: this.NPWP_supplier_edit,
+                            PPH23_supplier_edit: this.PPH23_supplier_edit,
+                            CP_supplier_edit: this.CP_supplier_edit,
                             id : this.id_edit
                         })
                         .then(function(response) {
                             if (response.data) {
                                 $this.loading = false;
                                 $this.loadData();
+                                $this.kode_supplier_edit = null;
+                                $this.nama_supplier_edit = null;
+                                $this.notelp_supplier_edit = null;
+                                $this.alamat_supplier_edit = null;
+                                $this.email_supplier_edit = null;
+                                $this.PPN_supplier_edit = null;
+                                $this.NPWP_supplier_edit = null;
+                                $this.PPH23_supplier_edit = null;
+                                $this.CP_supplier_edit = null;
                                 alert("Update data sukses")
                             }
                         })
@@ -181,14 +251,14 @@
                     }
                     this.loading = true;
                     const $this = this;
-                    axios.post("/search-jenis", {
+                    axios.post("/search-supplier", {
                             _token: _TOKEN_,
                             search: this.search
                         })
                         .then(function(response) {
                             if (response.data) {
                                 $this.loading = false;
-                                $this.jeniss = response.data;
+                                $this.suppliers = response.data;
                             }
                         })
                         .catch(function(error) {
@@ -196,23 +266,37 @@
                         });
                 },
                 save: function() {
-                    if (this.jenis == null) {
+                    if (this.kode_supplier == null) {
                         this.alert = false;
-                        this.$refs.jenis.focus()
+                        this.$refs.kode_supplier.focus()
                         return
                     }
-                    
                     const $this = this;
-
-                     axios.post("/save-jenis", {
+                     axios.post("/save-supplier", {
                                         _token: _TOKEN_,
-                                        jenis: this.jenis
+                                        kode_supplier: this.kode_supplier,
+                                        nama_supplier: this.nama_supplier,
+                                        notelp_supplier: this.notelp_supplier,
+                                        alamat_supplier: this.alamat_supplier,
+                                        email_supplier: this.email_supplier,
+                                        PPN_supplier: this.PPN_supplier,
+                                        NPWP_supplier: this.NPWP_supplier,
+                                        PPH23_supplier: this.PPH23_supplier,
+                                        CP_supplier: this.CP_supplier,
                                     })
                                     .then(function(response) {
                                         if (response.data.result) {
                                             $this.loadData();
                                             $this.alert = false;
-                                            $this.jenis = null;
+                                            $this.kode_supplier = null;
+                                            $this.nama_supplier = null;
+                                            $this.notelp_supplier = null;
+                                            $this.alamat_supplier = null;
+                                            $this.email_supplier = null;
+                                            $this.PPN_supplier = null;
+                                            $this.NPWP_supplier = null;
+                                            $this.PPH23_supplier = null;
+                                            $this.CP_supplier = null;
                                             alert("Tambah data sukses");
                                             // Swal.fire({
                                             //     icon: "success",
@@ -241,7 +325,7 @@
                         }).then((result) => {
                             if (result.isConfirmed) {
                                 this.loading = true;
-                                axios.post("/delete-jenis", {
+                                axios.post("/delete-supplier", {
                                         _token: _TOKEN_,
                                         id: id
                                     })
@@ -271,14 +355,13 @@
                 },
                 loadData: function() {
                     const $this = this;
-            
-                    axios.post("/load-jenis", {
+                    axios.post("/load-supplier", {
                             _token: _TOKEN_
                         })
                         .then(function(response) {
                             $this.loading = false;
                             if (response.data) {
-                                $this.jeniss = response.data.data;
+                                $this.suppliers = response.data.data;
                                 $this.links = response.data.links;
                             }
                         })
@@ -291,7 +374,15 @@
                 this.loadData()
             }
         });
+
+        const NPWP_INPUT = document.getElementById("npwp")
+            NPWP_INPUT.oninput = (e) => {
+                e.target.value = autoFormatNPWP(e.target.value);
+            };
+        const NPWP_EDIT = document.getElementById("npwp_edit")
+            NPWP_EDIT.oninput = (e) => {
+                e.target.value = autoFormatNPWP(e.target.value);
+            };
     </script>
 </body>
-
 </html>

@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\Models\Barang;
 use App\Models\ViewBarang;
@@ -13,13 +12,18 @@ class BarangController extends Controller
         return ViewBarang::paginate(5);
     }
 
+    public function loadData(){
+        return Barang::all();
+    }
     public function generateId(){
        $result  = Barang::select('id_otomatis')
-                        ->orderBy('id_otomatis', 'desc')
                         ->first();
 
-      return ($result==null) ? 'BR-001' : $result;
-        
+       if ($result==null){
+        return 'BR-001';
+       }else{
+        return $result;
+       }
     }
 
     public function save(Request $request){
@@ -28,9 +32,7 @@ class BarangController extends Controller
         if ($file==null){
             $name = 'no-image.png';
         }else{
-           
             $path = $file->store('barang', 'public');
-
             $name = basename($path);
         }
 
@@ -42,17 +44,16 @@ class BarangController extends Controller
         $stock = $data->{'stock'};
         $id_satuan = $data->{'id_satuan'};
         $id_jenis = $data->{'id_jenis'};
-          $id_otomatis = $data->{'id_otomatis'};
+        $id_otomatis = $data->{'id_otomatis'};
 
         $barang = new Barang();
-
         $barang->nama = $nama;
         $barang->harga = $harga;
         $barang->stock = $stock;
         $barang->id_satuan = $id_satuan;
         $barang->id_jenis = $id_jenis;
         $barang->foto = $name;
-         $barang->id_otomatis = $id_otomatis;
+        $barang->id_otomatis = $id_otomatis;
 
         return $barang->save() ? response()->json(['result'=>true]) : response()->json(['result'=>false]);
     }
@@ -77,7 +78,6 @@ class BarangController extends Controller
         }else{
              // Simpan ke storage/app/public/uploads
             $path = $file->store('barang', 'public');
-
             $name = basename($path);
         }
 

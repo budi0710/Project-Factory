@@ -11,36 +11,8 @@
 
 <body>
     @include('@component/navbar')
-    <br>
-
     <div id="app" class="mx-auto">
-        <div class="items-center">
-            <div class="carousel w-full">
-                <div id="item1" class="carousel-item w-full">
-                    <img src="https://img.daisyui.com/images/stock/photo-1625726411847-8cbb60cc71e6.webp"
-                        class="w-full" />
-                </div>
-                <div id="item2" class="carousel-item w-full">
-                    <img src="https://img.daisyui.com/images/stock/photo-1609621838510-5ad474b7d25d.webp"
-                        class="w-full" />
-                </div>
-                <div id="item3" class="carousel-item w-full">
-                    <img src="https://img.daisyui.com/images/stock/photo-1414694762283-acccc27bca85.webp"
-                        class="w-full" />
-                </div>
-                <div id="item4" class="carousel-item w-full">
-                    <img src="https://img.daisyui.com/images/stock/photo-1665553365602-b2fb8e5d1707.webp"
-                        class="w-full" />
-                </div>
-            </div>
-            <div class="flex w-full justify-center gap-2 py-2">
-                <a href="#item1" class="btn btn-xs">1</a>
-                <a href="#item2" class="btn btn-xs">2</a>
-                <a href="#item3" class="btn btn-xs">3</a>
-                <a href="#item4" class="btn btn-xs">4</a>
-            </div>
-        </div>
-
+    @include('@component/slide')
         <hr>
         <center>
             <input type="text" @keyup="searchData" ref="search" v-model="search" placeholder="Search"
@@ -59,7 +31,7 @@
         <dialog id="my_modal_add" class="modal">
 
             <div class="modal-box">
-                <h3 class="text-lg font-bold"></h3>
+                <h3 class="text-lg font-bold">Input Data Barang</h3>
                 <p class="py-4">
                 <div v-if="alert" role="alert" class="alert alert-error">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none"
@@ -105,8 +77,6 @@
                 </div>
             </div>
         </dialog>
-
-        <!-- Open the modal using ID.showModal() method -->
 
         <!-- Open the modal using ID.showModal() method -->
         <dialog id="my_modal_edit" class="modal">
@@ -163,7 +133,7 @@
                         <th>Jenis</th>
                         <th>Stock</th>
                         <th>Foto</th>
-                        <th>@</th>
+                        <th>Action</th>
 
                     </tr>
                 </thead>
@@ -189,7 +159,7 @@
                         </td>
                         <td>
                             <button @click="editModal(data,$event)"  class="btn btn-warning">Edit</button>
-                            <button @click="deleteData(data.id,data.nama)" class="btn btn-error">x</button>
+                            <button @click="deleteData(data.id,data.nama)" class="btn btn-error">Hapus</button>
                         </td>
                     </tr>
 
@@ -202,14 +172,13 @@
         <br>
         <center>
             <button class="btn btn-dash btn-primary" @click="loadPaginate(link.url)" v-for="link in links"
-                v-html="link.label" :disabled="! link.active"></button>
+                v-html="link.label"></button>
         </center>
     </div>
-
-
+    <br><br>
+    @include('@component/footer')
     <script>
         const _TOKEN_ = '<?= csrf_token() ?>';
-
         new Vue({
             el: "#app",
             data: {
@@ -255,9 +224,7 @@
                 },
                 openModalAdd: function() {
                     my_modal_add.showModal();
-
                     this.clear()
-                   
                     const $this = this;
                     axios.post("/generate-id", {
                         _token: _TOKEN_
@@ -293,7 +260,6 @@
                     this.harga_edit = formatUangTanpaRupiah(this.harga_edit, '');
                 },
                 updateData: function(e) {
-                   
                     if (this.id_edit) {
                         if (this.nama_edit == null) {
                             this.loading = false;
@@ -497,8 +463,6 @@
                     }
                     this.loading = true;
                     const $this = this;
-
-
                     _upload = new Upload({
                         // Array
                         el: ['file_barang'],
@@ -518,7 +482,6 @@
                     }).start(($response) => {
                         $this.loading = false;
                         var obj = JSON.parse($response)
-
                         if (obj.result) {
                             alert("Berhasil Add Data")
                             $this.loadData();
@@ -534,7 +497,6 @@
                 },
                 deleteData: function(id, barang) {
                     if (id) {
-
                         const $this = this;
                         Swal.fire({
                             title: "Are you sure?",
@@ -635,7 +597,7 @@
             },
             mounted() {
                 this.loadData();
-                this.loadDataSatuan()
+                this.loadDataSatuan();
                 this.loadDataJenis();
                 window.addEventListener('keydown', this.handleEnter);
             }
