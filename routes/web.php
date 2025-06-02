@@ -195,3 +195,8 @@ Route::get('/logout',function(Request $request){
 Route::get('/md5',function(){
     return md5('123456');
 });
+
+
+Route::get('/test',function(){
+    return 'ok';
+});
