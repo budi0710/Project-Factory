@@ -70,6 +70,10 @@ Route::middleware([Auth::class])->group(function () {
         return view('rls_brg_cus');
     });
 
+    Route::get('/po-supllier',function(){
+        return view('po-supplier');
+    });
+
 
     Route::get('/edit-data/{id}',function($id){
         $todo = Todos::where('id', $id)->count();

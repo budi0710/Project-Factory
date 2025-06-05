@@ -26,7 +26,7 @@
           <summary>Transaksi Supplier</summary>
           <ul class="p-2">
             <li><a href="./rls_brg_sup">Barang Supplier</a></li>
-            <li><a>PO Supplier</a></li>
+            <li><a href="./po-supplier">PO Supplier</a></li>
             <li><a>Receive</a></li>
             <li><a>Retur Receive</a></li>
             <li><a>AP</a></li>
