@@ -70,8 +70,12 @@ Route::middleware([Auth::class])->group(function () {
         return view('rls_brg_cus');
     });
 
-    Route::get('/po-supllier',function(){
-        return view('po-supplier');
+    Route::get('/posuppllier',function(){
+        return view('posuppllier');
+    });
+
+     Route::get('/receive',function(){
+        return view('receive');
     });
 
 

@@ -37,6 +37,7 @@ class Rls_brg_supController extends Controller
         $Rls_brg_sup->kode_part = $request->kode_part;
         $Rls_brg_sup->harga_beli = $request->harga_beli;
         $Rls_brg_sup->satuan_beli = $request->satuan_beli;
+        $Rls_brg_sup->foto = 'no-image.png';
         return $Rls_brg_sup->save() ? response()->json(['result'=>true]) : response()->json(['result'=>false]);
     }
 
