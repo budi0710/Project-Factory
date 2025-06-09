@@ -129,7 +129,7 @@
                         <td>@{{ data.fk_user }}</td>
                       
                         <td>
-                            <button @click="editModal(data)" class="btn btn-warning">Edit</button>
+                            {{-- <button @click="editModal(data)" class="btn btn-warning">Edit</button> --}}
                             <button @click="deleteData(data.id,data)" class="btn btn-error">x</button>
                         </td>
                     </tr>

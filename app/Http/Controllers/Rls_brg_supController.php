@@ -18,7 +18,7 @@ class Rls_brg_supController extends Controller
     }
 
     public function loadDataWhere(Request $request){
-        return ViewRelasiBarangSupplier::where('id', $request->id_supplier)->get();
+        return Rls_brg_sup::where('kode_supplier', $request->kode_supplier)->get();
     }
 
     public function generateId(){

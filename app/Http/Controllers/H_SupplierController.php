@@ -33,14 +33,16 @@ class H_SupplierController extends Controller
 
         $supplier->fno_pos = $request->no_pos;
         $supplier->fk_sup = $request->result_suppllier;
+
+        
+
         $supplier->fpph23 = $request->pph;
         $supplier->fket = $request->ket;
         $supplier->ftgl_pos = $request->tgl_pos;
         $supplier->fk_user = 1;
         $supplier->fppn = $request->ppn;
 
-        //return $supplier->save() ? response()->json(['result'=>true]) : response()->json(['result'=>false]);
-         $supplier->save();
+        $supplier->save();
 
         $data = $request->data;
         $data = json_decode($data);
