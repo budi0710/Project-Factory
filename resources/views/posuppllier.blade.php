@@ -22,7 +22,7 @@
 
         <!-- Open the modal using ID.showModal() method -->
         <center>
-            <button class="btn btn-primary" onclick="my_modal_1.showModal()">Add</button>
+            <button class="btn btn-primary" @click="showModalOpen">Add</button>
         </center>
 
         <center>
@@ -43,8 +43,30 @@
                     </div><br>
                     
                    
-                    <input type="text" ref="jenis" v-model="jenis" placeholder="Jenis" class="input input-primary" /><br><br>
-                    
+                    <input type="text" disabled ref="no_pos" v-model="no_pos" placeholder="NO Faktur PO" class="input input-primary" /><br><br>
+                     <input type="date" ref="tgl_pos" v-model="tgl_pos" placeholder="Tgl Faktur" class="input input-primary" /><br><br>
+                    <select  v-model="result_suppllier" ref="result_suppllier" class="select">
+                        <option disabled selected>Pilih Suppllier</option>
+                        <option v-for="data in data_suppllier" :value="data.id">@{{ data.kode_supplier	 }}</option>
+                    </select>
+                    <br>
+                     <legend class="fieldset-legend">PPN</legend>
+                        <label class="label">
+                            <input type="checkbox" ref="PPN_suppllier" v-model="PPN_suppllier" class="checkbox" />
+                        </label>
+                    </fieldset>
+                    <br>
+                     <legend class="fieldset-legend">PPH23</legend>
+                        <label class="label">
+                            <input type="checkbox" ref="pph23" v-model="pph23" class="checkbox" />
+                        </label>
+                    </fieldset>
+                    <br>
+                    <input type="text" ref="ket" v-model="ket" placeholder="Keterangan" class="input input-primary" /><br><br>
+                 {{-- <select  v-model="result_kode_user" ref="result_kode_user" class="select">
+                        <option disabled selected>Pilih User</option>
+                        <option v-for="data in data_kode_user" :value="data.id">@{{ data.fk_user }}</option>
+                    </select> <br><br> --}}
                     <button @click="save" class="btn btn-success">Save</button>
                 </p>
                 <div class="modal-action">
@@ -83,20 +105,32 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Jenis</th>
+                        <th>No POS</th>
+                        <th>Tgl POS</th>
+                        <th>Kode Supplier</th>
+                        <th>PPN</th>
+                        <th>PPH 23</th>
+                        <th>Ket</th>
+                        <th>Kode User</th>
                         <th>Action</th>
 
                     </tr>
                 </thead>
                 <tbody>
                     <!-- row 1 -->
-                    <tr v-for="data in jeniss">
+                    <tr v-for="data in h_supliers">
                         <th>@{{ data.id }}</th>
-                        <td>@{{ data.jenis }}</td>
+                        <td>@{{ data.fno_pos }}</td>
+                        <td>@{{ data.ftgl_pos }}</td>
+                        <td>@{{ data.fk_sup }}</td>
+                        <td>@{{ data.fppn }}</td>
+                        <td>@{{ data.fpph23 }}</td>
+                        <td>@{{ data.fket }}</td>
+                        <td>@{{ data.fk_user }}</td>
                       
                         <td>
                             <button @click="editModal(data)" class="btn btn-warning">Edit</button>
-                            <button @click="deleteData(data.id,data.jenis)" class="btn btn-error">x</button>
+                            <button @click="deleteData(data.id,data)" class="btn btn-error">x</button>
                         </td>
                     </tr>
 
@@ -119,16 +153,31 @@
             el: "#app",
             data: {
                 barangs : null,
-                jeniss : null,
+                h_supliers : null,
                 alert: false,
                 jenis_edit : null,
                 links :null,
                 search : null,
                 jenis : null,
                 loading :false,
-                id_edit : null
+                id_edit : null,
+                no_pos : null,
+                tgl_pos : null,
+                result_suppllier: null,
+                data_suppllier:null,
+                no_ppn : null,
+                pph23 : null,
+                PPN_suppllier :null,
+                ket:null,
+                result_kode_user : null,
+                data_kode_user:null
             },
             methods: {
+                showModalOpen: function(){
+                     window.location.href = './add-posuppllier';
+                    //my_modal_1.showModal();
+                    //this.generateId()
+                },
                  loadPaginate: function(url) {
                     if (url == null) {
                         return
@@ -196,23 +245,55 @@
                         });
                 },
                 save: function() {
-                    if (this.jenis == null) {
-                        this.alert = false;
-                        this.$refs.jenis.focus()
+                    if (this.tgl_pos == null) {
+                        this.$refs.tgl_pos.focus()
                         return
                     }
+                    if (this.result_suppllier == null) {
+                        this.$refs.result_suppllier.focus()
+                        return
+                    }
+                    if (this.PPN_suppllier == null) {
+                        
+                        this.$refs.PPN_suppllier.focus()
+                        return
+                    }
+                     if (this.pph23 == null) {
+                        
+                        this.$refs.pph23.focus()
+                        return
+                    }
+                    if (this.ket == null) {
+                        
+                        this.$refs.ket.focus()
+                        return
+                    }
+                    // if (this.result_kode_user == null) {
+                        
+                    //     this.$refs.result_kode_user.focus()
+                    //     return
+                    // }
                     
                     const $this = this;
 
-                     axios.post("/save-jenis", {
+                     axios.post("/save-po-suppllier", {
                                         _token: _TOKEN_,
-                                        jenis: this.jenis
+                                        tgl_pos : this.tgl_pos,
+                                        result_suppllier : this.result_suppllier,
+                                        PPN_suppllier : this.PPN_suppllier,
+                                        pph23 : this.pph23,
+                                        ket : this.ket,
+                                        no_pos : this.no_pos
                                     })
                                     .then(function(response) {
                                         if (response.data.result) {
                                             $this.loadData();
                                             $this.alert = false;
-                                            $this.jenis = null;
+                                            $this.no_pos = null;
+                                            $this.result_suppllier = null;
+                                            $this.ket = null;
+                                            $this.PPN_suppllier = null;
+                                            $this.pph23 = null
                                             alert("Tambah data sukses");
                                             // Swal.fire({
                                             //     icon: "success",
@@ -220,19 +301,21 @@
                                             //     text: "Add Success",
                                             //     footer: ''
                                             // });
+                                            $this.generateId()
+
                                         }
                                     })
                                     .catch(function(error) {
                                         console.log(error);
                                     }); 
                 },
-                deleteData: function(id, jenis) {
+                deleteData: function(id, data) {
                     if (id) {
 
                         const $this = this;
                         Swal.fire({
                             title: "Are you sure?",
-                            text: "Apakah anda ingin menghapus data ini {" + jenis + "}",
+                            text: "Apakah anda ingin menghapus data ini {" + data.fno_pos + "}",
                             icon: "warning",
                             showCancelButton: true,
                             confirmButtonColor: "#3085d6",
@@ -241,7 +324,7 @@
                         }).then((result) => {
                             if (result.isConfirmed) {
                                 this.loading = true;
-                                axios.post("/delete-jenis", {
+                                axios.post("/delete-h-supplier", {
                                         _token: _TOKEN_,
                                         id: id
                                     })
@@ -272,14 +355,52 @@
                 loadData: function() {
                     const $this = this;
             
-                    axios.post("/load-jenis", {
+                    axios.post("/load-h-suppllier", {
                             _token: _TOKEN_
                         })
                         .then(function(response) {
                             $this.loading = false;
                             if (response.data) {
-                                $this.jeniss = response.data.data;
+                                $this.h_supliers = response.data.data;
                                 $this.links = response.data.links;
+                            }
+                        })
+                        .catch(function(error) {
+                            console.log(error);
+                        });
+                },
+                generateId(){
+                    const $this = this;
+                     axios.post("/generate-id-h-supplier", {
+                            _token: _TOKEN_
+                        })
+                        .then(function(response) {
+                           
+                            if (response.data) {
+                                if (response.data.fno_pos){
+                                    const angka = String(response.data.fno_pos).slice(-3);
+
+                                     $this.no_pos =generateNoUrutDateMonth(angka);
+                                }else{
+                                    
+
+                                    $this.no_pos = tahun+bulan+(response.data);
+                                }
+                            }
+                        })
+                        .catch(function(error) {
+                            console.log(error);
+                        });
+                },
+                loadSupplier(){
+                     const $this = this;
+                     axios.post("/load-suppllier-data", {
+                            _token: _TOKEN_
+                        })
+                        .then(function(response) {
+                           
+                            if (response.data) {
+                                 $this.data_suppllier = response.data;
                             }
                         })
                         .catch(function(error) {
@@ -289,6 +410,8 @@
             },
             mounted() {
                 this.loadData()
+                this.generateId()
+               // this.loadSupplier()
             }
         });
     </script>

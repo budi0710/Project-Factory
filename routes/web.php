@@ -6,10 +6,12 @@ use App\Http\Controllers\SatuanController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\Rls_brg_supController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\H_SupplierController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TodoController;
 use App\Http\Middleware\Auth;
+use App\Models\H_Supplier;
 use App\Models\Satuan;
 use Illuminate\Http\Request;
 use App\Models\Todos;
@@ -74,6 +76,10 @@ Route::middleware([Auth::class])->group(function () {
         return view('posuppllier');
     });
 
+      Route::get('/add-posuppllier',function(){
+        return view('add-posuppllier');
+    });
+
      Route::get('/receive',function(){
         return view('receive');
     });
@@ -97,6 +103,8 @@ Route::middleware([Auth::class])->group(function () {
     Route::post('/load-todo',[TodoController::class, 'load']);
 
     Route::post('/load-barang',[BarangController::class, 'load']);
+
+    Route::post('/load-barang-suppllier',[Rls_brg_supController::class, 'loadDataWhere']);
 
     Route::post('/load-satuan',[SatuanController::class, 'load']);
 
@@ -145,6 +153,8 @@ Route::middleware([Auth::class])->group(function () {
 
     Route::post('/load-supplier',[SupplierController::class, 'load']);
 
+    Route::post('/load-suppllier-data',[SupplierController::class, 'loadData']);
+
     Route::post('/delete-supplier',[SupplierController::class, 'delete']);
 
     Route::post('/update-supplier',[SupplierController::class, 'update']);
@@ -173,15 +183,25 @@ Route::middleware([Auth::class])->group(function () {
 
     Route::post('/load-customer',[CustomerController::class, 'load']);
 
+    Route::post('/load-h-suppllier',[H_SupplierController::class, 'load']);
+
     Route::post('/delete-customer',[CustomerController::class, 'delete']);
+
+    Route::post('/delete-h-supplier',[H_SupplierController::class, 'delete']);
 
     Route::post('/update-customer',[CustomerController::class, 'update']);
 
     Route::post('/save-customer',[CustomerController::class, 'save']);
 
+    Route::post('/save-po-suppllier',[H_SupplierController::class, 'save']);
+
     Route::post('/search-customer',[CustomerController::class, 'search']);
 
+    Route::post('/generate-id-h-supplier',[H_SupplierController::class,'generateNo']);
 
+    Route::post('/generate-kode-spo',[H_SupplierController::class,'generateKodeSpo']);
+
+    Route::post('/save-h-supplier',[H_SupplierController::class,'saveData']);
 });
 
 

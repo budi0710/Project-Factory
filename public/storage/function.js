@@ -24,6 +24,19 @@ function generateNomorUrut(urut) {
     return `${tanggal}${bulan}${tahun}-${String(urut).padStart(3, '0')}`;
 }
 
+function generateNoUrutDateMonth(urut) {
+    const now = new Date();
+    const tanggal = String(now.getDate()).padStart(2, '0');
+    const bulan = String(now.getMonth() + 1).padStart(2, '0'); // Januari = 0
+    const tahun = String(now.getFullYear());
+    const urutt = parseInt(urut);
+    return `${tahun}${bulan}${String(urutt+1).padStart(3, '0')}`;
+}
+const now = new Date();
+const tanggal = String(now.getDate()).padStart(2, '0');
+const bulan = String(now.getMonth() + 1).padStart(2, '0'); // Januari = 0
+const tahun = String(now.getFullYear());
+
 
 function resultFormatAngka(lokalString) {
     // Langkah 1: Hilangkan pemisah ribuan (titik)

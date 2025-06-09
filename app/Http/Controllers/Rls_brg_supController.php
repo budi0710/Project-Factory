@@ -5,15 +5,20 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Rls_brg_sup;
 use App\Models\ViewRelasiBarangSupplier;
+use Illuminate\Support\Facades\Redis;
 
 class Rls_brg_supController extends Controller
 {
     public function load(){
-        return ViewRelasiBarangSupplier::paginate(5);
+        return ViewRelasiBarangSupplier::paginate(10);
     }
 
     public function loadData(){
         return ViewRelasiBarangSupplier::all();
+    }
+
+    public function loadDataWhere(Request $request){
+        return ViewRelasiBarangSupplier::where('id', $request->id_supplier)->get();
     }
 
     public function generateId(){
