@@ -34,8 +34,6 @@ class H_SupplierController extends Controller
         $supplier->fno_pos = $request->no_pos;
         $supplier->fk_sup = $request->result_suppllier;
 
-        
-
         $supplier->fpph23 = $request->pph;
         $supplier->fket = $request->ket;
         $supplier->ftgl_pos = $request->tgl_pos;
@@ -52,16 +50,42 @@ class H_SupplierController extends Controller
             $harga = $item->harga;
             $qty = $item->qty;
             $no_spo = $item->no_spo;
-            $no_pos = $item->no_pos;
 
+            $no_pos =$request->no_pos;
+          
             DB::insert('INSERT INTO tb_d_pos (fk_rls, fno_pos,fharga,fqa_pos,fno_spo) VALUES (?, ?, ?, ? , ?)', [$kode_rls, $no_pos,$harga,$qty,$no_spo]);
         }
 
         return response()->json(['result'=>true]) ;
     }
 
+    private function generateFNoPos(array  $existingNumbers): string{
+        // Ambil tahun dan bulan saat ini, misalnya 202506
+        $prefix = date('Ym');
+
+        // Filter hanya nomor yang sesuai dengan prefix tahun-bulan sekarang
+        $filtered = array_filter($existingNumbers, function ($number) use ($prefix) {
+            return strpos((string)$number, $prefix) === 0;
+        });
+
+        // Ambil 3 digit urutan terakhir dari nomor yang sesuai
+        $lastSequence = 0;
+        foreach ($filtered as $number) {
+            $sequence = (int)substr((string)$number, -3);
+            if ($sequence > $lastSequence) {
+                $lastSequence = $sequence;
+            }
+        }
+
+        // Tambahkan 1 ke urutan terakhir
+        $nextSequence = $lastSequence + 1;
+
+        // Gabungkan prefix dan nomor urut dengan format 3 digit
+        return $prefix . str_pad($nextSequence, 3, '0', STR_PAD_LEFT);
+    }
+
     /**
-     * Display the specified resource.
+     * Display the specified resource.z
      */
     public function load()
     {
