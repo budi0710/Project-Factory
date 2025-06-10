@@ -67,4 +67,12 @@ class Rls_brg_supController extends Controller
 
         return ($ViewRelasiBarangSupplier);
     }
+
+    public function searchData(Request $request){
+        $data = Rls_brg_sup::where('kode_supplier', $request->kode_supplier)
+                            ->where('nama_brg_sup','like','%'.$request->search.'%')
+                            ->get();
+      
+        return ($data);
+    }
 }

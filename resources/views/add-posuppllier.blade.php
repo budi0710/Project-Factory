@@ -49,7 +49,7 @@
 
                 <input type="text" ref="ket" v-model="ket" placeholder="Keterangan"
                     class="input input-primary" /><br><br>
-                <button class="btn" @click="openModalBarang">Cari Barang</button> <br><br>
+               
                 <button @click="save" class="btn btn-success">Save</button>
 
 
@@ -65,9 +65,10 @@
                 {{-- <input type="text" placeholder="NO POS" v-model="no_pos" class="input" /> --}}
                 <input type="text" placeholder="Harga POS" v-model="harga_pos" ref="harga_pos" class="input" />
                 <input type="text" placeholder="Qty POS" v-model="qty_pos" ref="qty_pos" class="input" />
-                <input type="text" placeholder="NO SPO" v-model="no_spo" class="input" disabled />
+                <input type="hidden" placeholder="NO SPO" v-model="no_spo" class="input" disabled />
 
                 <br><br>
+                 <button class="btn" @click="openModalBarang">Cari Barang</button> 
                 <button @click="addData" class="btn btn-primary">Add</button>
                 <button @click="clearData" class="btn btn-success">Clear</button>
                 <br><br>
@@ -88,7 +89,8 @@
                             <tr>
 
                                 <th>Kode RLS</th>
-                                <th>NO POS</th>
+                                {{-- <th>NO POS</th> --}}
+                                <th>Nama Barang</th>
                                 <th>Harga</th>
                                 <th>Qty</th>
                                 <th>Sub Total</th>
@@ -100,12 +102,13 @@
                             <!-- row 1 -->
                             <tr v-for="data in data_barangs">
                                 <th>@{{ data.kode_rls }}</th>
-                                <td>@{{ data.no_pos }}</td>
+                                {{-- <td>@{{ data.no_pos }}</td> --}}
+                                <td>@{{ data.nama_barang }}</td>
                                 <td>@{{ data.harga }}</td>
                                 <td>@{{ data.qty }}</td>
                                 <td>@{{ data.qty * data.harga }}</td>
                                 <td>
-                                    <button class="btn">x</button>
+                                    <button class="btn btn-error" @click="deleteData(data.kode_rls)">x</button>
                                 </td>
                                 {{-- <td>@{{ data.no_spo }}</td> --}}
                             </tr>
@@ -128,7 +131,7 @@
                 <h3 class="text-lg font-bold">Cari Barang</h3>
                 <hr>
                 <p class="py-4"></p>
-                <input type="text" placeholder="Search" class="input" />
+                <input type="text" placeholder="Search" @keyup="searchData"  v-model="search" ref="search" class="input" />
                 <br>
                 <div class="modal-action">
 
@@ -210,6 +213,9 @@
                 disabled_supplier: false
             },
             methods: {
+                deleteData: function(kd){
+                    alert(kd)
+                },
                 clearData: function() {
                     localStorage.clear()
                     _refresh()
@@ -250,6 +256,7 @@
 
                     var $data = [{
                         "kode_rls": this.kode_rls,
+                        "nama_barang" : this.nama_barang,
                         "no_pos": this.no_pos,
                         "harga": this.harga_pos,
                         "qty": this.qty_pos,
@@ -331,16 +338,16 @@
                         this.$refs.search.focus()
                         return
                     }
-                    this.loading = true;
+                   
                     const $this = this;
-                    axios.post("/search-jenis", {
+                    axios.post("/search-barang-supplier", {
                             _token: _TOKEN_,
-                            search: this.search
+                            search: this.search,
+                            kode_supplier : this.result_suppllier
                         })
                         .then(function(response) {
                             if (response.data) {
-                                $this.loading = false;
-                                $this.jeniss = response.data;
+                                $this.barangs = response.data;
                             }
                         })
                         .catch(function(error) {
@@ -393,9 +400,6 @@
                         .catch(function(error) {
                             console.log(error);
                         });
-                },
-                deleteData: function(id, data) {
-
                 },
                 logout: function() {
                     window.location.href = '/logout';

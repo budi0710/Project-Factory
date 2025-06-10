@@ -12,6 +12,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\TodoController;
 use App\Http\Middleware\Auth;
 use App\Models\H_Supplier;
+use App\Models\Rls_brg_sup;
 use App\Models\Satuan;
 use Illuminate\Http\Request;
 use App\Models\Todos;
@@ -202,6 +203,8 @@ Route::middleware([Auth::class])->group(function () {
     Route::post('/generate-kode-spo',[H_SupplierController::class,'generateKodeSpo']);
 
     Route::post('/save-h-supplier',[H_SupplierController::class,'saveData']);
+
+    Route::post('/search-barang-supplier',[Rls_brg_supController::class,'searchData']);
 });
 
 
