@@ -17,6 +17,7 @@ class BarangController extends Controller
     }
     public function generateId(){
        $result  = Barang::select('id_otomatis')
+                        ->orderBy('id_otomatis','desc')
                         ->first();
 
        if ($result==null){

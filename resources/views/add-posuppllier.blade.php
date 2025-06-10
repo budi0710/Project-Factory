@@ -92,6 +92,7 @@
                                 <th>Harga</th>
                                 <th>Qty</th>
                                 <th>Sub Total</th>
+                                <th>@</th>
                                 {{-- <th>No SPO</th> --}}
                             </tr>
                         </thead>
@@ -103,6 +104,9 @@
                                 <td>@{{ data.harga }}</td>
                                 <td>@{{ data.qty }}</td>
                                 <td>@{{ data.qty * data.harga }}</td>
+                                <td>
+                                    <button class="btn">x</button>
+                                </td>
                                 {{-- <td>@{{ data.no_spo }}</td> --}}
                             </tr>
                         </tbody>
