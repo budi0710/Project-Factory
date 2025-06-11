@@ -79,7 +79,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
-                    <span>Total : @{{ grand_total }}</span>
+                    <span>Total : @{{ _moneyFormat(grand_total) }}</span>
                 </div>
                 <div class="overflow-x-auto">
 
@@ -209,12 +209,29 @@
                 no_spo: null,
                 qty_pos: null,
                 data_barangs: null,
-                grand_total: null,
+                grand_total: 0,
                 disabled_supplier: false
             },
             methods: {
                 deleteData: function(kd){
-                    alert(kd)
+                    var $storage = _getStorage('data');
+                    $storage = JSON.parse($storage);
+                    
+                    var newData;
+                    $storage.forEach(element => {
+                        if (element['kode_rls']===kd){
+                            newData = $storage.filter(item => item.kode_rls !== kd);
+                        }
+                    });
+
+                    _saveStorage('data',JSON.stringify(newData))
+                    this.data_barangs = JSON.parse(_getStorage('data'));
+
+                    var grand_total = 0;
+                    newData.forEach(element => {
+                        grand_total += element['sub_total'];
+                    });
+                    this.grand_total = grand_total
                 },
                 clearData: function() {
                     localStorage.clear()
@@ -228,10 +245,8 @@
                         var $urut = [];
                         var $i = 0;
                         data.forEach(element => {
-                            $urut[$i] = element['no_spo'];
-
+                            $urut[$i] = element['no_spo']
                             $i++;
-
                         });
                         $urut = $urut.sort((a, b) => a - b);
                         const angka = String($urut[$urut.length - 1]).slice(-3);
@@ -269,15 +284,22 @@
 
                         $tmp = JSON.stringify($data);
                         _saveStorage('data', $tmp);
-                        this.data_barangs = JSON.parse(_getStorage('data'));
+                       
 
                     } else {
-
+                        var BreakException = {};
+                        $storage.forEach(element => {
+                            if (element['kode_rls']===this.kode_rls){
+                                alert("Data sudah ada !")
+                                throw BreakException;
+                            }   
+                        });
                         $storage.push(...$data);
                         _saveStorage('data', JSON.stringify($storage));
 
-                        this.data_barangs = JSON.parse(_getStorage('data'));
+                       
                     }
+                     this.data_barangs = JSON.parse(_getStorage('data'));
                     const $barang_total = this.data_barangs;
 
                     var grand_total = 0;
