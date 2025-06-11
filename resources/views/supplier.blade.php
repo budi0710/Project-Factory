@@ -22,14 +22,14 @@
 
         <!-- Open the modal using ID.showModal() method -->
         <center>
-            <button class="btn btn-primary" onclick="my_modal_1.showModal()">Add</button>
+            <button class="btn btn-primary" @click="openModalAdd()">Add</button>
         </center>
 
         <center>
             <span v-if="loading" class="loading loading-spinner loading-md"></span>
         </center>
 
-        <dialog id="my_modal_1" class="modal">
+        <dialog id="my_modal_add" class="modal">
             <div class="modal-box">
                 <h3 class="text-lg font-bold">Input Data Supplier</h3>
                 <p class="py-4">
@@ -40,7 +40,7 @@
                     </svg>
                     <span>Data has been saved !</span>
                     </div>
-                    <input type="text" ref="kode_supplier" v-model="kode_supplier" placeholder="Kode" class="input input-primary" maxlength="4" /><br>
+                    <input type="text" ref="kode_supplier" v-model="kode_supplier" disabled placeholder="Kode" class="input input-primary" maxlength="4" /><br>
                     <input type="text" ref="nama_supplier" v-model="nama_supplier" placeholder="Nama" class="input input-primary" /><br>
                     <input type="text" ref="notelp_supplier" v-model="notelp_supplier" placeholder="No Telp" class="input input-primary" /><br>
                     <textarea class="textarea" ref="alamat_supplier" v-model="alamat_supplier"  placeholder="Alamat Supplier"></textarea><br>
@@ -78,7 +78,7 @@
             <div class="modal-box">
                 <h3 class="text-lg font-bold">Edit Data Supplier</h3>
                 <p class="py-4">
-                    <input type="text" ref="kode_supplier_edit" v-model="kode_supplier_edit" placeholder="Kode" class="input input-primary" /><br>
+                    <input type="text" ref="kode_supplier_edit" v-model="kode_supplier_edit" disabled placeholder="Kode" class="input input-primary" /><br>
                     <input type="text" ref="nama_supplier_edit" v-model="nama_supplier_edit" placeholder="Nama" class="input input-primary" /><br>
                     <input type="text" ref="notelp_supplier_edit" v-model="notelp_supplier_edit" placeholder="No Telp" class="input input-primary" /><br>
                     <textarea class="textarea" ref="alamat_supplier_edit" v-model="alamat_supplier_edit"  placeholder="Alamat Supplier"></textarea><br>
@@ -164,6 +164,23 @@
             el: "#app",
             data: {
                 suppliers : null,
+                kode_supplier : null,
+                nama_supplier : null,
+                alamat_supplier : null,
+                email_supplier : null,
+                notelp_supplier : null,
+                PPN_supplier : null,
+                PPH23_supplier : null,
+                NPWP_supplier : null,
+                CP_supplier : null,
+                nama_supplier_edit : null,
+                notelp_supplier_edit : null,
+                alamat_supplier_edit : null,
+                email_supplier_edit : null,
+                PPN_supplier_edit : null,
+                NPWP_supplier_edit : null,
+                PPH23_supplier_edit : null,
+                CP_supplier_edit : null,
                 alert: false,
                 kode_supplier_edit : null,
                 links :null,
@@ -173,7 +190,18 @@
                 id_edit : null
             },
             methods: {
-                 loadPaginate: function(url) {
+                clear: function(){
+                    this.kode_supplier = null;
+                    this.nama_supplier = null;
+                    this.alamat_supplier = null;
+                    this.email_supplier = null;
+                    this.PPN_supplier = null;
+                    this.NPWP_supplier = null;
+                    this.PPH23_supplier = null;
+                    this.CP_supplier = null;
+                    this.alert = false;
+                },
+                loadPaginate: function(url) {
                     if (url == null) {
                         return
                     }
@@ -193,6 +221,32 @@
                             console.log(error);
                         });
                 },
+                openModalAdd: function() {
+                    my_modal_add.showModal();
+                    this.clear()
+                    const $this = this;
+                    axios.post("/generate-id-sup", {
+                        _token: _TOKEN_
+                    })
+                    .then(function(response) {
+                        if (response.data) {
+                             $this.$refs.nama_supplier.focus();
+                            const kode_supplier = (response.data.kode_supplier);
+                            if (kode_supplier==null){
+                                return $this.kode_supplier = generateNewId_sup();
+                            }else{
+                                $this.kode_supplier = generateNewId_sup(kode_supplier);
+                                if ($this.kode_supplier==="erorr"){
+                                    alert("Disabld Button")
+                                    $this.disabled_button_save = true
+                                }
+                            }
+                        }
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    });
+                },
                editModal: function(data) {
                     this.id_edit = data.id;
                     this.kode_supplier_edit = data.kode_supplier;
@@ -209,7 +263,6 @@
               updateData: function(){
                     if (this.id_edit) {
                         const $this = this;
-                       
                          axios.post("/update-supplier", {
                             _token: _TOKEN_,
                             kode_supplier_edit: this.kode_supplier_edit,
@@ -271,6 +324,36 @@
                         this.$refs.kode_supplier.focus()
                         return
                     }
+                    if (this.nama_supplier == null) {
+                        this.alert = false;
+                        this.$refs.nama_supplier.focus()
+                        return
+                    }
+                    if (this.notelp_supplier == null) {
+                        this.alert = false;
+                        this.$refs.notelp_supplier.focus()
+                        return
+                    }
+                    if (this.alamat_supplier == null) {
+                        this.alert = false;
+                        this.$refs.alamat_supplier.focus()
+                        return
+                    }
+                    if (this.email_supplier == null) {
+                        this.alert = false;
+                        this.$refs.email_supplier.focus()
+                        return
+                    }
+                    if (this.NPWP_supplier == null) {
+                        this.alert = false;
+                        this.$refs.NPWP_supplier.focus()
+                        return
+                    }
+                    if (this.CP_supplier == null) {
+                        this.alert = false;
+                        this.$refs.CP_supplier.focus()
+                        return
+                    }
                     const $this = this;
                      axios.post("/save-supplier", {
                                         _token: _TOKEN_,
@@ -312,7 +395,6 @@
                 },
                 deleteData: function(id, jenis) {
                     if (id) {
-
                         const $this = this;
                         Swal.fire({
                             title: "Are you sure?",

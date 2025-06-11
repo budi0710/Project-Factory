@@ -43,7 +43,6 @@
                 </div><br>
                 <input type="text" ref="id_otomatis" disabled v-model="id_otomatis" placeholder="ID Otomatis"
                     class="input input-primary" /><br><br>
-
                 <input type="text" @keyup.enter="saveData" ref="nama" v-model="nama" placeholder="Nama"
                     class="input input-primary" /><br><br>
                 <input type="text"  @keyup.enter="saveData" ref="harga" v-model="harga" @keyup="changeCurrency" placeholder="Harga"
@@ -230,7 +229,6 @@
                         _token: _TOKEN_
                     })
                     .then(function(response) {
-                       
                         if (response.data) {
                              $this.$refs.nama.focus();
                             const id_otomatis = (response.data.id_otomatis);
@@ -243,7 +241,6 @@
                                     $this.disabled_button_save = true
                                 }
                             }
-                            
                         }
                     })
                     .catch(function(error) {

@@ -174,6 +174,8 @@ Route::middleware([Auth::class])->group(function () {
 
     Route::post('/generate-id-rls-sup',[Rls_brg_supController::class, 'generateId']);
 
+    Route::post('/generate-id-sup',[SupplierController::class, 'generateId_sup']);
+
     Route::post('/load-data-supplier',[SupplierController::class, 'loadData']);
 
     Route::post('/load-data-barang',[BarangController::class, 'loadData']);
@@ -183,6 +185,8 @@ Route::middleware([Auth::class])->group(function () {
     Route::post('/search-rls-sup',[Rls_brg_supController::class, 'search']);
 
     Route::post('/load-customer',[CustomerController::class, 'load']);
+
+    Route::post('/generate-id-cus',[CustomerController::class, 'generateId_cus']);
 
     Route::post('/load-h-suppllier',[H_SupplierController::class, 'load']);
 

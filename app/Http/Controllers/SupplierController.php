@@ -14,7 +14,19 @@ class SupplierController extends Controller
         return Supplier::all();
     }
 
-      public function save(Request $request){
+  public function generateId_sup(){
+       $result  = Supplier::select('kode_supplier')
+                        ->orderBy('kode_supplier','desc')
+                        ->first();
+
+       if ($result==null){
+        return 'S001';
+       }else{
+        return $result;
+       }
+    }
+
+    public function save(Request $request){
         $Supplier = new Supplier();
 
         $Supplier->kode_supplier    = $request->kode_supplier;
@@ -30,7 +42,7 @@ class SupplierController extends Controller
         return $Supplier->save() ? response()->json(['result'=>true]) : response()->json(['result'=>false]);
     }
 
-      public function update(Request $request){
+    public function update(Request $request){
         $Supplier = Supplier::find($request->id);
         $Supplier->kode_supplier    = $request->kode_supplier_edit;
         $Supplier->nama_supplier    = $request->nama_supplier_edit;
@@ -45,12 +57,12 @@ class SupplierController extends Controller
         return $Supplier->save() ? response()->json(['result'=>true]) : response()->json(['result'=>false]);
     }
 
-      public function delete(Request $request){
+    public function delete(Request $request){
         $Supplier = Supplier::find($request->id);
         return $Supplier->delete() ? response()->json(['result'=>true]) : response()->json(['result'=>false]);
     }
 
-     public function search(Request $request){
+    public function search(Request $request){
         $Supplier = Supplier::where('nama_supplier','like','%'.$request->search.'%')->get();
         return ($Supplier);
     }

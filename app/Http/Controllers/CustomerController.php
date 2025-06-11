@@ -14,6 +14,17 @@ class CustomerController extends Controller
         return Customer::all();
     }
 
+    public function generateId_cus(){
+       $result  = Customer::select('kode_cus')
+                        ->orderBy('kode_cus','desc')
+                        ->first();
+
+       if ($result==null){
+        return 'C001';
+       }else{
+        return $result;
+       }
+    }
       public function save(Request $request){
         $Customer = new Customer();
 

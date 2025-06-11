@@ -71,26 +71,18 @@ function generateNewId(latestId) {
     return `${prefix}-${newNumber}`;
 }
 
-function generateNewId_sup(latestId) {
-    if (!latestId) return 'S001';
-
-    const [prefix, number] = latestId.split('-');
-    const newNumber = String(parseInt(number, 10) + 1).padStart(3, '0');
-    if (newNumber >= 999) {
-        return 'erorr'
-    }
-    return `${prefix}-${newNumber}`;
+function generateNewId_sup(lastId) {
+    const prefix = lastId.match(/[A-Z]+/)[0]; // Extract letters
+    const number = parseInt(lastId.match(/\d+/)[0]); // Extract number
+    const newNumber = number + 1;
+    return prefix + String(newNumber).padStart(3, '0');
 }
 
-function generateNewId_cus(latestId) {
-    if (!latestId) return 'C001';
-
-    const [prefix, number] = latestId.split('-');
-    const newNumber = String(parseInt(number, 10) + 1).padStart(3, '0');
-    if (newNumber >= 999) {
-        return 'erorr'
-    }
-    return `${prefix}-${newNumber}`;
+function generateNewId_cus(lastId) {
+    const prefix = lastId.match(/[A-Z]+/)[0]; // Extract letters
+    const number = parseInt(lastId.match(/\d+/)[0]); // Extract number
+    const newNumber = number + 1;
+    return prefix + String(newNumber).padStart(3, '0');
 }
 
 function generateNewId_rls_sup(latestId) {

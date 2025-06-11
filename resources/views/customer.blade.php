@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Data Customer</title>
     @include('@component/assets')
-
 </head>
-
 <body>
     @include('@component/navbar')
 
@@ -22,14 +19,14 @@
 
         <!-- Open the modal using ID.showModal() method -->
         <center>
-            <button class="btn btn-primary" onclick="my_modal_1.showModal()">Add</button>
+            <button class="btn btn-primary" @click="openModalAdd()">Add</button>
         </center>
 
         <center>
             <span v-if="loading" class="loading loading-spinner loading-md"></span>
         </center>
 
-        <dialog id="my_modal_1" class="modal">
+        <dialog id="my_modal_add" class="modal">
             <div class="modal-box">
                 <h3 class="text-lg font-bold">Input Data Customer</h3>
                 <p class="py-4">
@@ -40,7 +37,7 @@
                     </svg>
                     <span>Data has been saved !</span>
                     </div>
-                    <input type="text" ref="kode_cus" v-model="kode_cus" placeholder="Kode" class="input input-primary" maxlength="4" /><br>
+                    <input type="text" ref="kode_cus" v-model="kode_cus" disabled placeholder="Kode" class="input input-primary" maxlength="4" /><br>
                     <input type="text" ref="nama_cus" v-model="nama_cus" placeholder="Nama Customer" class="input input-primary" /><br>
                     <input type="text" ref="notelp_cus" v-model="notelp_cus" placeholder="No Telp" class="input input-primary" /><br>
                     <textarea class="textarea" ref="alamat_cus" v-model="alamat_cus"  placeholder="Alamat Supplier"></textarea><br>
@@ -78,7 +75,7 @@
             <div class="modal-box">
                 <h3 class="text-lg font-bold">Edit Data Customer</h3>
                 <p class="py-4">
-                    <input type="text" ref="kode_cus_edit" v-model="kode_cus_edit" placeholder="Kode" class="input input-primary" /><br>
+                    <input type="text" ref="kode_cus_edit" v-model="kode_cus_edit" disabled placeholder="Kode" class="input input-primary" /><br>
                     <input type="text" ref="nama_cus_edit" v-model="nama_cus_edit" placeholder="Nama" class="input input-primary" /><br>
                     <input type="text" ref="notelp_cus_edit" v-model="notelp_cus_edit" placeholder="No Telp" class="input input-primary" /><br>
                     <textarea class="textarea" ref="alamat_cus_edit" v-model="alamat_cus_edit"  placeholder="Alamat Supplier"></textarea><br>
@@ -188,7 +185,19 @@
                 id_edit : null
             },
             methods: {
-                 loadPaginate: function(url) {
+                clear: function(){
+                    this.kode_cus = null;
+                    this.nama_cus = null;
+                    this.notelp_cus = null;
+                    this.alamat_cus = null;
+                    this.email_cus = null;
+                    this.PPN_cus = null;
+                    this.NPWP_cus = null;
+                    this.PPH23_cus = null;
+                    this.CP_cus = null;
+                    this.alert = false;
+                },
+                loadPaginate: function(url) {
                     if (url == null) {
                         return
                     }
@@ -208,6 +217,32 @@
                             console.log(error);
                         });
                 },
+                openModalAdd: function() {
+                    my_modal_add.showModal();
+                    this.clear()
+                    const $this = this;
+                    axios.post("/generate-id-cus", {
+                        _token: _TOKEN_
+                    })
+                    .then(function(response) {
+                        if (response.data) {
+                             $this.$refs.nama_cus.focus();
+                            const kode_cus = (response.data.kode_cus);
+                            if (kode_cus==null){
+                                return $this.kode_cus = generateNewId_cus();
+                            }else{
+                                $this.kode_cus = generateNewId_cus(kode_cus);
+                                if ($this.kode_cus==="erorr"){
+                                    alert("Disabld Button")
+                                    $this.disabled_button_save = true
+                                }
+                            }
+                        }
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    });
+                },
                editModal: function(data) {
                     this.id_edit = data.id;
                     this.kode_cus_edit = data.kode_cus;
@@ -224,7 +259,6 @@
               updateData: function(){
                     if (this.id_edit) {
                         const $this = this;
-                       
                          axios.post("/update-customer", {
                             _token: _TOKEN_,
                             kode_cus_edit: this.kode_cus_edit,
@@ -283,6 +317,36 @@
                     if (this.kode_cus == null) {
                         this.alert = false;
                         this.$refs.kode_cus.focus()
+                        return
+                    }
+                    if (this.nama_cus == null) {
+                        this.alert = false;
+                        this.$refs.nama_cus.focus()
+                        return
+                    }
+                    if (this.notelp_cus == null) {
+                        this.alert = false;
+                        this.$refs.notelp_cus.focus()
+                        return
+                    }
+                    if (this.alamat_cus == null) {
+                        this.alert = false;
+                        this.$refs.alamat_cus.focus()
+                        return
+                    }
+                    if (this.email_cus == null) {
+                        this.alert = false;
+                        this.$refs.email_cus.focus()
+                        return
+                    }
+                    if (this.NPWP_cus == null) {
+                        this.alert = false;
+                        this.$refs.NPWP_cus.focus()
+                        return
+                    }
+                    if (this.CP_cus == null) {
+                        this.alert = false;
+                        this.$refs.CP_cus.focus()
                         return
                     }
                     const $this = this;
