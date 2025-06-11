@@ -1,65 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PO Supplier Page</title>
     @include('@component/assets')
-
 </head>
-
 <body>
     @include('@component/navbar')
-
     <div id="app" class="mx-auto">
         <br>
-        <div class="grid grid-cols-2 gap-4 p-4">
+        <div class="grid grid-flow-col grid-rows-1">
             <!-- Card 1 -->
-            <div class="bg-white rounded-xl shadow-md p-6">
-                <h2 class="text-xl font-semibold mb-2"></h2>
-                <h2 class="card-title">Header Data</h2>
-                <input type="text" disabled ref="no_pos" v-model="no_pos" placeholder="NO Faktur PO"
-                    class="input input-primary" /><br><br>
-                <input type="date" ref="tgl_pos" v-model="tgl_pos" placeholder="Tgl Faktur"
-                    class="input input-primary" /><br><br>
-                <select v-model="result_suppllier" :disabled="disabled_supplier" ref="result_suppllier" class="select">
-                    <option disabled selected>Pilih Suppllier</option>
-                    <option v-for="data in data_suppllier" :value="data.kode_supplier">@{{ data.kode_supplier }}</option>
-                </select>
-                <br>
-                <center>
-                    <legend class="fieldset-legend text-center"></legend>
-                </center>
-                <label class="label">
-                    PPN
-                    <input type="checkbox" ref="PPN_suppllier" v-model="PPN_suppllier" class="checkbox" />
-                </label>
-                </fieldset>
-                <br>
-                <center>
-                    <legend class="fieldset-legend"></legend>
-                </center>
-                <label class="label">
-                    PPH23
-                    <input type="checkbox" ref="pph23" v-model="pph23" class="checkbox" />
-                </label>
-                </fieldset>
-                <br><br>
+            <div class="row-span-1 ms-4">
+                <div class="bg-white rounded-xl shadow-md p-2">
+                    <h2 class="text-xl font-semibold mb-2"></h2>
+                    <h2 class="card-title">Header Data PO</h2>
+                    <input type="text" disabled ref="no_pos" v-model="no_pos" placeholder="NO Faktur PO"
+                        class="input input-primary" /><br><br>
+                    <input type="date" ref="tgl_pos" v-model="tgl_pos" placeholder="Tgl Faktur"
+                        class="input input-primary" /><br><br>
+                    <select v-model="result_suppllier" :disabled="disabled_supplier" ref="result_suppllier" class="select">
+                        <option disabled selected>Pilih Suppllier</option>
+                        <option v-for="data in data_suppllier" :value="data.kode_supplier">@{{ data.nama_supplier }}</option>
+                    </select>
+                    <br>
+                    <center>
+                        <legend class="fieldset-legend text-center"></legend>
+                    </center>
+                    <label class="label">
+                        <input type="checkbox" ref="PPN_suppllier" v-model="PPN_suppllier" class="checkbox" />
+                        PPN
+                    </label>
+                    </fieldset>
+                    <br>
+                    <center>
+                        <legend class="fieldset-legend"></legend>
+                    </center>
+                    <label class="label">
+                        <input type="checkbox" ref="pph23" v-model="pph23" class="checkbox" />
+                        PPH23
+                    </label>
+                    </fieldset>
+                    <br><br>
 
-                <input type="text" ref="ket" v-model="ket" placeholder="Keterangan"
-                    class="input input-primary" /><br><br>
-               
-                <button @click="save" class="btn btn-success">Save</button>
-
-
+                    <input type="text" ref="ket" v-model="ket" placeholder="Keterangan"
+                        class="input input-primary" /><br><br>
+                
+                    <button @click="save" class="btn btn-success">Save</button> |   <button class="btn btn-primary" onclick="window.location.href='./posuppllier'">Back</button>
+                </div>
             </div>
 
             <!-- Card 2 -->
-            <div class="bg-white rounded-xl shadow-md p-6">
-                <h2 class="text-xl font-semibold mb-2">Data Barang</h2>
+            <div class="col-span-2 row-span-2 ms-2">
+                <div class="bg-white rounded-xl shadow-md p-6">
+                <h2 class="text-xl font-semibold mb-2">Data Barang Supplier</h2>
                 <hr> <br>
-
                 <input type="text" placeholder="Kode RLS" v-model="kode_rls" class="input" disabled />
                 <input type="text" placeholder="Nama Barang" v-model="nama_barang" class="input" disabled />
                 {{-- <input type="text" placeholder="NO POS" v-model="no_pos" class="input" /> --}}
@@ -68,7 +64,7 @@
                 <input type="hidden" placeholder="NO SPO" v-model="no_spo" class="input" disabled />
 
                 <br><br>
-                 <button class="btn" @click="openModalBarang">Cari Barang</button> 
+                <button class="btn" @click="openModalBarang">Cari Barang</button> 
                 <button @click="addData" class="btn btn-primary">Add</button>
                 <button @click="clearData" class="btn btn-success">Clear</button>
                 <br><br>
@@ -87,7 +83,6 @@
                         <!-- head -->
                         <thead>
                             <tr>
-
                                 <th>Kode RLS</th>
                                 {{-- <th>NO POS</th> --}}
                                 <th>Nama Barang</th>
@@ -116,19 +111,12 @@
                     </table>
                 </div>
             </div>
+            </div>
         </div>
-
-        <center>
-            <button class="btn btn-primary" onclick="window.location.href='./posuppllier'">Back</button>
-        </center>
-
         <!-- Open the modal using ID.showModal() method -->
-
-
-
         <dialog id="my_modal_barang" class="modal">
             <div class="modal-box">
-                <h3 class="text-lg font-bold">Cari Barang</h3>
+                <h3 class="text-lg font-bold">Cari Barang Supplier</h3>
                 <hr>
                 <p class="py-4"></p>
                 <input type="text" placeholder="Search" @keyup="searchData"  v-model="search" ref="search" class="input" />
@@ -166,16 +154,11 @@
                             </tbody>
                         </table>
                     </div>
-
-
                 </div>
                 <!-- if there is a button in form, it will close the modal -->
                 <button class="btn" onclick="my_modal_barang.close()">Close</button>
             </div>
         </dialog>
-
-
-
     </div>
     <br><br>
     @include('@component/footer')

@@ -56,7 +56,7 @@
       </li>
       </ul>
     </div>
-    <a class="btn btn-ghost text-xl">daisyUI</a>
+    <a class="btn btn-ghost text-xl">Sistem Informasi Factory</a>
   </div>
   <div class="navbar-center hidden lg:flex">
     <ul class="menu menu-horizontal px-1">
