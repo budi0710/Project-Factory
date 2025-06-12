@@ -23,6 +23,7 @@ class Rls_brg_supController extends Controller
 
     public function generateId(){
        $result  = Rls_brg_sup::select('kode_rls')
+                        ->orderBy('kode_rls','desc')
                         ->first();
 
        if ($result==null){

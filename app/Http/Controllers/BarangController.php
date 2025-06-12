@@ -7,7 +7,7 @@ use App\Models\ViewBarang;
 
 class BarangController extends Controller
 {
-     public function load(){
+    public function load(){
         // return Barang::paginate(10);
         return ViewBarang::paginate(5);
     }

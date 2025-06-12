@@ -8,27 +8,23 @@
     @include('@component/assets')
 
 </head>
-
 <body>
     @include('@component/navbar')
 
     <div id="app" class="mx-auto">
     @include('@component/slide')
-
         <hr>
+        <br>
         <center>
             <input type="text" @keyup="searchData" ref="search" v-model="search" placeholder="Search" class="input input-primary" />
+            <button class="btn btn-primary" @click="openModalAdd()">Add</button>
         </center>
 
         <!-- Open the modal using ID.showModal() method -->
         <center>
-            <button class="btn btn-primary" @click="openModalAdd()">Add</button>
-        </center>
-
-        <center>
             <span v-if="loading" class="loading loading-spinner loading-md"></span>
         </center>
-
+        <br>
         <dialog id="my_modal_add" class="modal">
             <div class="modal-box">
                 <h3 class="text-lg font-bold">Input Data Supplier</h3>

@@ -11,12 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tbbrj', function (Blueprint $table) {
+        Schema::create('rls_brg_cus', function (Blueprint $table) {
             $table->id();
-            $table->string("kode_brj");
-            $table->string("nama_brj");
-            $table->string("decription");
-            $table->string('foto');
+            $table->string("kode_cus");
+            $table->string('kode_brj');
+            $table->string('kode_rbc');
+            $table->string("nama_brg_cus");
+            $table->string("kode_part");
+            $table->decimal("harga_jual");
+            $table->string("satuan_jual");
             $table->timestamps();
         });
     }
@@ -26,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tbbrj');
+        Schema::dropIfExists('rls_brg_cus');
     }
 };

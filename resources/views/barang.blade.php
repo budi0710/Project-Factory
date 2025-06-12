@@ -14,16 +14,13 @@
     <div id="app" class="mx-auto">
     @include('@component/slide')
         <hr>
+        <br>
         <center>
             <input type="text" @keyup="searchData" ref="search" v-model="search" placeholder="Search"
-                class="input input-primary" />
+                class="input input-primary" /> <button class="btn btn-primary" @click="openModalAdd">Add</button>
         </center>
         <div class="badge badge-secondary">Total Harga @{{ total }}</div>
         <!-- Open the modal using ID.showModal() method -->
-        <center>
-            <button class="btn btn-primary" @click="openModalAdd">Add</button>
-        </center>
-
         <center>
             <span v-if="loading" class="loading loading-spinner loading-md"></span>
         </center>

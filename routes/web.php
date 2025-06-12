@@ -5,7 +5,9 @@ use App\Http\Controllers\JenisController;
 use App\Http\Controllers\SatuanController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\Rls_brg_supController;
+use App\Http\Controllers\Rls_Brg_CusController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\BarangJadiController;
 use App\Http\Controllers\H_SupplierController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
@@ -86,7 +88,7 @@ Route::middleware([Auth::class])->group(function () {
     });
 
 
-    Route::get('/edit-data/{id}',function($id){
+Route::get('/edit-data/{id}',function($id){
         $todo = Todos::where('id', $id)->count();
         if ($todo){
             $todo = Todos::where('id', $id)->get();
@@ -105,6 +107,14 @@ Route::middleware([Auth::class])->group(function () {
 
     Route::post('/load-barang',[BarangController::class, 'load']);
 
+    Route::post('/save-barang',[BarangController::class, 'save']);
+
+    Route::post('/update-barang',[BarangController::class, 'update']);
+
+    Route::post('/delete-barang',[BarangController::class, 'delete']);
+
+    Route::post('/search-barang',[BarangController::class, 'search']);
+
     Route::post('/load-barang-suppllier',[Rls_brg_supController::class, 'loadDataWhere']);
 
     Route::post('/load-satuan',[SatuanController::class, 'load']);
@@ -117,8 +127,6 @@ Route::middleware([Auth::class])->group(function () {
 
     Route::post('/save-todo',[TodoController::class, 'save']);
 
-    Route::post('/save-barang',[BarangController::class, 'save']);
-
     Route::post('/save-satuan',[SatuanController::class, 'save']);
 
     Route::post('/save-jenis',[JenisController::class, 'save']);
@@ -130,21 +138,15 @@ Route::middleware([Auth::class])->group(function () {
 
     Route::post('/update-jenis',[JenisController::class, 'update']);
 
-    Route::post('/update-barang',[BarangController::class, 'update']);
-
     Route::post('/delete-todo',[TodoController::class, 'delete']);
 
     Route::post('/delete-satuan',[SatuanController::class, 'delete']);
 
     Route::post('/delete-jenis',[JenisController::class, 'delete']);
 
-    Route::post('/delete-barang',[BarangController::class, 'delete']);
-
     Route::post('/search-todo',[TodoController::class, 'search']);
 
     Route::post('/search-satuan',[SatuanController::class, 'search']);
-
-    Route::post('/search-barang',[BarangController::class, 'search']);
 
     Route::post('/search-jenis',[JenisController::class, 'search']);
 
@@ -209,6 +211,28 @@ Route::middleware([Auth::class])->group(function () {
     Route::post('/save-h-supplier',[H_SupplierController::class,'saveData']);
 
     Route::post('/search-barang-supplier',[Rls_brg_supController::class,'searchData']);
+
+    Route::post('/generate-id-brj',[BarangJadiController::class, 'generateNewId_BRJ']);
+
+    Route::post('/load-barang-jadi',[BarangJadiController::class, 'load']);
+
+    Route::post('/save-barang-jadi',[BarangJadiController::class, 'save']);
+
+    Route::post('/update-barang-jadi',[BarangJadiController::class, 'update']);
+
+    Route::post('/delete-barang-jadi',[BarangJadiController::class, 'delete']);
+
+    Route::post('/search-barang-jadi',[BarangJadiController::class, 'search']);
+
+    Route::post('/load-rls-brg-cus',[Rls_Brg_CusController::class, 'load']);
+
+    Route::post('/load-data-rls-brg-cus',[Rls_Brg_CusController::class, 'loadData']);
+
+    Route::post('/update-rls-cus',[Rls_Brg_CusController::class, 'update']);
+
+    Route::post('/delete-rls-cus',[Rls_Brg_CusController::class, 'delete']);
+
+    Route::post('/generate-id-rls-cus',[Rls_Brg_CusController::class, 'generateId_RBC']);
 });
 
 

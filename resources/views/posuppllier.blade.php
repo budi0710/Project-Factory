@@ -8,27 +8,20 @@
     @include('@component/assets')
 
 </head>
-
 <body>
     @include('@component/navbar')
-
     <div id="app" class="mx-auto">
     @include('@component/slide')
-
         <hr>
+        <br>
         <center>
-            <input type="text" @keyup="searchData" ref="search" v-model="search" placeholder="Search" class="input input-primary" />
+            <input type="text" @keyup="searchData" ref="search" v-model="search" placeholder="Search" class="input input-primary" /> <button class="btn btn-primary" @click="showModalOpen">Add</button>
         </center>
-
         <!-- Open the modal using ID.showModal() method -->
-        <center>
-            <button class="btn btn-primary" @click="showModalOpen">Add</button>
-        </center>
-
         <center>
             <span v-if="loading" class="loading loading-spinner loading-md"></span>
         </center>
-
+        <br>
         <dialog id="my_modal_1" class="modal">
 
             <div class="modal-box">
@@ -84,22 +77,15 @@
             <div class="modal-box">
                 <h3 class="text-lg font-bold">Edit</h3>
                 <p class="py-4">
-                   
-                  
                     <input type="text" ref="jenis_edit" v-model="jenis_edit" placeholder="Jenis" class="input input-primary" /><br><br>
-                  
                     <button class="btn btn-warning" @click="updateData">Update</button>
                 </p>
                 <div class="modal-action">
-
                     <button class="btn" onclick="my_modal_edit.close()">Close</button>
-
                 </div>
             </div>
         </dialog>
-
         <div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100">
-
             <table class="table">
                 <!-- head -->
                 <thead>

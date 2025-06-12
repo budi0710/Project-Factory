@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class SatuanController extends Controller
 {
     public function load(){
-        return Satuan::paginate(10);
+        return Satuan::paginate(5);
     }
 
     public function loadData(){

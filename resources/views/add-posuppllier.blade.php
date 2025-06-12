@@ -46,7 +46,6 @@
 
                     <input type="text" ref="ket" v-model="ket" placeholder="Keterangan"
                         class="input input-primary" /><br><br>
-                
                     <button @click="save" class="btn btn-success">Save</button> |   <button class="btn btn-primary" onclick="window.location.href='./posuppllier'">Back</button>
                 </div>
             </div>
