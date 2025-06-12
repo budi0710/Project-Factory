@@ -306,6 +306,8 @@
                     this.kode_rls = data.kode_rls
                     this.nama_barang = data.nama_brg_sup
                     this.harga_pos = data.harga_beli
+                    my_modal_barang.close()
+                    this.$refs.qty_pos.focus()
                 },
                 openModalBarang: function() {
 
