@@ -188,6 +188,8 @@ Route::get('/edit-data/{id}',function($id){
 
     Route::post('/load-customer',[CustomerController::class, 'load']);
 
+    Route::post('/load-data-customer',[CustomerController::class, 'loadData']);
+
     Route::post('/generate-id-cus',[CustomerController::class, 'generateId_cus']);
 
     Route::post('/load-h-suppllier',[H_SupplierController::class, 'load']);
@@ -216,6 +218,8 @@ Route::get('/edit-data/{id}',function($id){
 
     Route::post('/load-barang-jadi',[BarangJadiController::class, 'load']);
 
+    Route::post('/load-data-barang-jadi',[BarangJadiController::class, 'loadData']);
+
     Route::post('/save-barang-jadi',[BarangJadiController::class, 'save']);
 
     Route::post('/update-barang-jadi',[BarangJadiController::class, 'update']);
@@ -235,6 +239,8 @@ Route::get('/edit-data/{id}',function($id){
     Route::post('/delete-rls-cus',[Rls_Brg_CusController::class, 'delete']);
 
     Route::post('/generate-id-rls-cus',[Rls_Brg_CusController::class, 'generateNewId_rls_RBC']);
+
+    Route::post('/search-rls-cus',[Rls_Brg_CusController::class, 'search']);
 });
 
 

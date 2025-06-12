@@ -101,7 +101,7 @@
                 <tbody>
                     <!-- row 1 -->
                     <tr v-for="data in rls_brg_sup">
-                        <th>@{{ data.id }}</th>
+                        <td>@{{ data.id }} </td>
                         <td>@{{ data.kode_supplier }}</td>
                         <td>@{{ data.nama_supplier }}</td>
                         <td>@{{ data.id_otomatis }}</td>
@@ -183,7 +183,6 @@
                             console.log(error);
                         });
                 },
-
                 loadDataBarang: function() {
                     const $this = this;
                     axios.post("/load-data-barang", {

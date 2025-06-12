@@ -66,7 +66,7 @@
                     </select> <br> <br>
                     <select v-model="result_barang_jadi_edit" class="select">
                         <option disabled selected>Pilih Barang</option>
-                        <option v-for="data in data_barang_jadi_edit" :value="data.kode_brj">@{{ data.nama_brj }}</option>
+                        <option v-for="data in data_barang_jadi_input" :value="data.kode_brj">@{{ data.nama_brj }}</option>
                     </select>
                     <br><br>
                     <input type="text" ref="nama_brg_cus_edit" v-model="nama_brg_cus_edit" placeholder="Nama Barang Customer" class="input input-primary" /><br><br>
@@ -88,9 +88,9 @@
                         <th>ID</th>
                         <th>Kode Cus</th>
                         <th>Nama Customer</th>
-                        <th>Kode Brg</th>
-                        <th>Kode Rls</th>
-                        <th>Nama Barang</th>
+                        <th>Kode BRJ</th>
+                        <th>Kode RBC</th>
+                        <th>Nama Barang Jadi</th>
                         <th>Nama Barang Customer</th>
                         <th>Kode Part</th>
                         <th>Harga Jual</th>
@@ -101,7 +101,7 @@
                 <tbody>
                     <!-- row 1 -->
                     <tr v-for="data in rls_brg_cus">
-                        <th>@{{ data.id }}</th>
+                        <td>@{{ data.id }}</td>
                         <td>@{{ data.kode_cus }}</td>
                         <td>@{{ data.nama_cus }}</td>
                         <td>@{{ data.kode_brj }}</td>
@@ -113,7 +113,7 @@
                         <td>@{{ data.satuan_jual }}</td>
                         <td>
                             <button @click="editModal(data)" class="btn btn-warning">Edit</button>
-                            <button @click="deleteData(data.id,data.nama_brg_cus)" class="btn btn-error">x</button>
+                            <button @click="deleteData(data.id,data.nama_brg_cus)" class="btn btn-error">hapus</button>
                         </td>
                     </tr>
                 </tbody>
@@ -149,14 +149,12 @@
                 result_barang_jadi_edit : null,
                 data_barang_jadi_edit : null,
                 kode_brj : null,
-                data_kode_supplier : null,
                 data_customer_input : null,
                 data_barang_jadi_input : null,
                 rls_brg_cus : null, 
                 alert: false,
                 links :null,
                 search : null,
-                satuan : null,
                 loading :false,
                 id_edit : null
             },
@@ -174,7 +172,7 @@
 
                 loadDataCustomer: function() {
                     const $this = this;
-                    axios.post("/load-customer", {
+                    axios.post("/load-data-customer", {
                             _token: _TOKEN_
                         })
                         .then(function(response) {
@@ -189,7 +187,7 @@
 
                 loadDataBarangJadi: function() {
                     const $this = this;
-                    axios.post("/load-barang-jadi", {
+                    axios.post("/load-data-barang-jadi", {
                             _token: _TOKEN_
                         })
                         .then(function(response) {
@@ -213,7 +211,7 @@
                     .then(function(response) {
                         if (response.data) {
                              $this.$refs.result_customer.focus();
-                            const kode_rls = (response.data.kode_rbc);
+                            const kode_rbc = (response.data.kode_rbc);
                             if (kode_rbc==null){
                                 return $this.kode_rbc = generateNewId_rls_RBC();
                             }else{
@@ -252,12 +250,12 @@
                 },
                editModal: function(data) {
                     this.id_edit = data.id;
-                    this.result_customer_edit = data.kode_supplier;
-                    this.result_barang_edit = data.kode_brj;
+                    this.result_customer_edit = data.kode_cus;
+                    this.result_barang_jadi_edit = data.kode_brj;
                     this.kode_rbc_edit = data.kode_rbc;
-                    this.nama_brg_sup_edit = data.nama_brg_cus;
+                    this.nama_brg_cus_edit = data.nama_brg_cus;
                     this.kode_part_edit = data.kode_part;
-                    this.harga_beli_edit = formatAngkaView(data.harga_jual);
+                    this.harga_jual_edit = formatAngkaView(data.harga_jual);
                     this.satuan_jual_edit = data.satuan_jual;
                     my_modal_edit.showModal()
                 },
@@ -306,7 +304,7 @@
                         });
                 },
                 save: function() {
-                    if (this.kode_rls == null) {
+                    if (this.kode_rbc == null) {
                         this.alert = false;
                         this.$refs.kode_rbc.focus()
                         return
@@ -392,12 +390,15 @@
                 viewFormat: function(data) {
                     return formatAngkaView(data);
                 },
+                
                 changeCurrency: function() {
-                    this.harga_beli = formatUangTanpaRupiah(this.harga_jual, '');
+                    this.harga_jual = formatUangTanpaRupiah(this.harga_jual, '');
                 },
+
                 changeCurrencyEdit: function() {
-                    this.harga_beli_edit = formatUangTanpaRupiah(this.harga_jual_edit, '');
+                    this.harga_jual_edit = formatUangTanpaRupiah(this.harga_jual_edit, '');
                 },
+
                 loadData: function() {
                     const $this = this;
                     axios.post("/load-rls-brg-cus", {

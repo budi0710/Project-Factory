@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class Rls_Brg_CusController extends Controller
 {
     public function load(){
-        return ViewRelasiBarangCustomer::paginate(10);
+        return ViewRelasiBarangCustomer::paginate(5);
     }
 
     public function loadData(){
