@@ -217,6 +217,7 @@
                             url: '/update-barang-jadi',
                             // String
                             data: {
+                                id: this.id_edit,
                                 nama_brj: this.nama_brj_edit,
                                 decription: this.decription_edit,
                                 kode_brj: this.kode_brj_edit,
@@ -249,9 +250,8 @@
                      
                     my_modal_edit.showModal()
                     this.$nextTick(() => {
-                        this.$refs.nama_edit.focus();
+                        this.$refs.nama_brj_edit.focus();
                     });
-                   
                    //this.$refs.nama_edit.focus();
                 },
                 toggle: function(e){

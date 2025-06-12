@@ -74,11 +74,12 @@ class BarangJadiController extends Controller
 
         $data = $request->_data;
         $data = json_decode($data);
-       
+
+        $id = $data->{'id'};
         $kode_brj = $data->{'kode_brj'};
         $nama_brj = $data->{'nama_brj'};
         $decription = $data->{'decription'};
-
+        
         $BarangJadi = BarangJadi::find($id);
         $BarangJadi->kode_brj = $kode_brj;
         $BarangJadi->nama_brj = $nama_brj;
