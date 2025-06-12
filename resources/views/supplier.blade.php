@@ -10,9 +10,7 @@
 </head>
 <body>
     @include('@component/navbar')
-
     <div id="app" class="mx-auto">
-    @include('@component/slide')
         <hr>
         <br>
         <center>

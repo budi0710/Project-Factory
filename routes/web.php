@@ -230,9 +230,11 @@ Route::get('/edit-data/{id}',function($id){
 
     Route::post('/update-rls-cus',[Rls_Brg_CusController::class, 'update']);
 
+    Route::post('/save-rls-cus',[Rls_Brg_CusController::class, 'save']);
+
     Route::post('/delete-rls-cus',[Rls_Brg_CusController::class, 'delete']);
 
-    Route::post('/generate-id-rls-cus',[Rls_Brg_CusController::class, 'generateId_RBC']);
+    Route::post('/generate-id-rls-cus',[Rls_Brg_CusController::class, 'generateNewId_rls_RBC']);
 });
 
 

@@ -17,16 +17,8 @@
         <hr>
         <div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100">
             <center>
-                <button @click="go('barang')" class="btn btn-active">Data Barang</button>
-                <button @click="go('satuan')" class="btn btn-active btn-primary">Data Satuan</button>
-                <button @click="go('jenis')" class="btn btn-active btn-secondary">Data Jenis</button>
-                <button @click="go('brj')" class="btn btn-active btn-secondary">Barang Jadi</button>
-                <button @click="go('supplier')" class="btn btn-active btn-secondary">Data Supplier</button>
-                <button @click="go('rls_brg_sup')" class="btn btn-active btn-secondary">Barang Supplier</button>
-                <button @click="go('customer')" class="btn btn-active btn-secondary">Data Customer</button>
-                <button @click="go('rls_brg_cus')" class="btn btn-active btn-secondary">Barang Customer</button>
+                <h1>Selamat Datang di Sistem Informasi Produksi</h1>
             </center>
-
         </div>
     </div>
     <br><br>

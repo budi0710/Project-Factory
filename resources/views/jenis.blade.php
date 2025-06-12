@@ -11,24 +11,17 @@
 
 <body>
     @include('@component/navbar')
-
     <div id="app" class="mx-auto">
-    @include('@component/slide')
-
         <hr>
+        <br>
         <center>
-            <input type="text" @keyup="searchData" ref="search" v-model="search" placeholder="Search" class="input input-primary" />
+            <input type="text" @keyup="searchData" ref="search" v-model="search" placeholder="Search" class="input input-primary" /> | <button class="btn btn-primary" onclick="my_modal_1.showModal()">Add</button>
         </center>
-
         <!-- Open the modal using ID.showModal() method -->
-        <center>
-            <button class="btn btn-primary" onclick="my_modal_1.showModal()">Add</button>
-        </center>
-
         <center>
             <span v-if="loading" class="loading loading-spinner loading-md"></span>
         </center>
-
+        <br>
         <dialog id="my_modal_1" class="modal">
 
             <div class="modal-box">

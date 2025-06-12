@@ -107,6 +107,17 @@ function generateNewId_rls_sup(latestId) {
     return `${prefix}-${newNumber}`;
 }
 
+function generateNewId_rls_RBC(latestId) {
+    if (!latestId) return 'RBC-001';
+
+    const [prefix, number] = latestId.split('-');
+    const newNumber = String(parseInt(number, 10) + 1).padStart(3, '0');
+    if (newNumber >= 999) {
+        return 'erorr'
+    }
+    return `${prefix}-${newNumber}`;
+}
+
 function autoFormatNPWP(NPWPString) {
     try {
         var cleaned = ("" + NPWPString).replace(/\D/g, "");
