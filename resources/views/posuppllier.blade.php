@@ -93,6 +93,7 @@
                         <th>No POS</th>
                         <th>Tgl POS</th>
                         <th>Kode Supplier</th>
+                        <th>Nama Supplier</th>
                         <th>PPN</th>
                         <th>PPH 23</th>
                         <th>Ket</th>
@@ -108,6 +109,7 @@
                         <td>@{{ data.fno_pos }}</td>
                         <td>@{{ data.ftgl_pos }}</td>
                         <td>@{{ data.fk_sup }}</td>
+                        <td>@{{ data.nama_supplier }}</td>
                         <td>@{{ data.fppn }}</td>
                         <td>@{{ data.fpph23 }}</td>
                         <td>@{{ data.fket }}</td>
@@ -260,7 +262,6 @@
                     // }
                     
                     const $this = this;
-
                      axios.post("/save-po-suppllier", {
                                         _token: _TOKEN_,
                                         tgl_pos : this.tgl_pos,
@@ -296,7 +297,6 @@
                 },
                 deleteData: function(id, data) {
                     if (id) {
-
                         const $this = this;
                         Swal.fire({
                             title: "Are you sure?",

@@ -230,7 +230,7 @@ Route::get('/edit-data/{id}',function($id){
 
     Route::post('/load-rls-brg-cus',[Rls_Brg_CusController::class, 'load']);
 
-    Route::post('/load-data-rls-brg-cus',[Rls_Brg_CusController::class, 'loadData']);
+    Route::post('/load-data-brg-cus',[Rls_Brg_CusController::class, 'loadData']);
 
     Route::post('/update-rls-cus',[Rls_Brg_CusController::class, 'update']);
 

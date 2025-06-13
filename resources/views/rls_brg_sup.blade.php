@@ -378,13 +378,8 @@
 
                             }
                         });
-
                     }
                 },
-                logout: function() {
-                    window.location.href = '/logout';
-                },
-
                 viewFormat: function(data) {
                     return formatAngkaView(data);
                 },

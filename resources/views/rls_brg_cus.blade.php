@@ -132,6 +132,7 @@
         new Vue({
             el: "#app",
             data: {
+                rls_brg_cus : null, 
                 kode_rbc : null,
                 nama_brg_cus : null,
                 kode_part : null,
@@ -151,7 +152,6 @@
                 kode_brj : null,
                 data_customer_input : null,
                 data_barang_jadi_input : null,
-                rls_brg_cus : null, 
                 alert: false,
                 links :null,
                 search : null,
@@ -167,6 +167,8 @@
                     this.kode_part = null;
                     this.harga_jual = null;
                     this.satuan_jual = null;
+                    this.result_customer = null,
+                    this.result_barang_jadi = null,
                     this.alert = false;
                 },
 
@@ -382,9 +384,6 @@
                         });
 
                     }
-                },
-                logout: function() {
-                    window.location.href = '/logout';
                 },
 
                 viewFormat: function(data) {
