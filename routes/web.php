@@ -8,6 +8,7 @@ use App\Http\Controllers\Rls_brg_supController;
 use App\Http\Controllers\Rls_Brg_CusController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\BarangJadiController;
+use App\Http\Controllers\DetailBarangController;
 use App\Http\Controllers\H_SupplierController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
@@ -241,6 +242,8 @@ Route::get('/edit-data/{id}',function($id){
     Route::post('/generate-id-rls-cus',[Rls_Brg_CusController::class, 'generateNewId_rls_RBC']);
 
     Route::post('/search-rls-cus',[Rls_Brg_CusController::class, 'search']);
+
+    Route::post('/load-detail-barang',[DetailBarangController::class, 'loadWhere']);
 });
 
 

@@ -23,7 +23,10 @@ class UserController extends Controller
         $users = Users::where('email', $email)->where('password',md5($password))->count();
        
         if ($users){
-             session(['admin' => $email]);
+            $id= Users::select('id')->where('email', $email)->where('password',md5($password))->get();
+            $id = $id[0];
+            $id = $id['id'];
+            session(['admin' => $id]);
             return response()->json(['result'=>true,'message'=>"Email or password is true"]);
         }else{
             return response()->json(['result'=>false,'message'=>"Email or password is incorrect"]);

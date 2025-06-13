@@ -37,7 +37,7 @@ class H_SupplierController extends Controller
         $supplier->fpph23 = $request->pph;
         $supplier->fket = $request->ket;
         $supplier->ftgl_pos = $request->tgl_pos;
-        $supplier->fk_user = 1;
+        $supplier->fk_user =  $request->session()->get('admin');
         $supplier->fppn = $request->ppn;
 
         $supplier->save();
@@ -141,7 +141,20 @@ class H_SupplierController extends Controller
      */
     public function delete(request $request)
     {
-        $spplier = H_Supplier::find($request->id);
-       return $spplier->delete() ? response()->json(['result'=>true]) : response()->json(['result'=>false]);
+        // check receive apakah sudah pernah dilakukan transaksi 
+
+        // ambil fno_pos terlebih dahulu
+        $fno_pos = H_Supplier::select('fno_pos')->where("id",$request->id)->get();
+        // ambil data index ke 0 dan key fno_pos
+        $fno_pos = $fno_pos[0]['fno_pos'];
+       
+        // delete data di table header berdasarkan primary key id
+        $supplier = H_Supplier::find($request->id);
+        $supplier->delete();
+
+        // delete data di table detail berdasarkan fno_pos
+        $detail = tb_d_pos::where('fno_pos',$fno_pos)->delete();
+        
+        return $detail ? response()->json(['result'=>true]) : response()->json(['result'=>false]);
     }
 }

@@ -451,7 +451,7 @@
                 }
             },
             mounted() {
-
+                localStorage.clear(); 
                 this.generateId()
                 this.loadSupplier()
             }

@@ -8,13 +8,15 @@
     @include('@component/assets')
 
 </head>
+
 <body>
     @include('@component/navbar')
     <div id="app" class="mx-auto">
         <hr>
         <br>
         <center>
-            <input type="text" @keyup="searchData" ref="search" v-model="search" placeholder="Search" class="input input-primary" /> <button class="btn btn-primary" @click="showModalOpen">Add</button>
+            <input type="text" @keyup="searchData" ref="search" v-model="search" placeholder="Search"
+                class="input input-primary" /> <button class="btn btn-primary" @click="openPage">Add</button>
         </center>
         <!-- Open the modal using ID.showModal() method -->
         <center>
@@ -26,40 +28,44 @@
             <div class="modal-box">
                 <h3 class="text-lg font-bold"></h3>
                 <p class="py-4">
-                    <div v-if="alert" role="alert" class="alert alert-success">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
+                <div v-if="alert" role="alert" class="alert alert-success">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none"
+                        viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                        <span>Data has been saved !</span>
-                    </div><br>
-                    
-                   
-                    <input type="text" disabled ref="no_pos" v-model="no_pos" placeholder="NO Faktur PO" class="input input-primary" /><br><br>
-                     <input type="date" ref="tgl_pos" v-model="tgl_pos" placeholder="Tgl Faktur" class="input input-primary" /><br><br>
-                    <select  v-model="result_suppllier" ref="result_suppllier" class="select">
-                        <option disabled selected>Pilih Suppllier</option>
-                        <option v-for="data in data_suppllier" :value="data.id">@{{ data.kode_supplier	 }}</option>
-                    </select>
-                    <br>
-                     <legend class="fieldset-legend">PPN</legend>
-                        <label class="label">
-                            <input type="checkbox" ref="PPN_suppllier" v-model="PPN_suppllier" class="checkbox" />
-                        </label>
-                    </fieldset>
-                    <br>
-                     <legend class="fieldset-legend">PPH23</legend>
-                        <label class="label">
-                            <input type="checkbox" ref="pph23" v-model="pph23" class="checkbox" />
-                        </label>
-                    </fieldset>
-                    <br>
-                    <input type="text" ref="ket" v-model="ket" placeholder="Keterangan" class="input input-primary" /><br><br>
-                 {{-- <select  v-model="result_kode_user" ref="result_kode_user" class="select">
+                    <span>Data has been saved !</span>
+                </div><br>
+
+
+                <input type="text" disabled ref="no_pos" v-model="no_pos" placeholder="NO Faktur PO"
+                    class="input input-primary" /><br><br>
+                <input type="date" ref="tgl_pos" v-model="tgl_pos" placeholder="Tgl Faktur"
+                    class="input input-primary" /><br><br>
+                <select v-model="result_suppllier" ref="result_suppllier" class="select">
+                    <option disabled selected>Pilih Suppllier</option>
+                    <option v-for="data in data_suppllier" :value="data.id">@{{ data.kode_supplier }}</option>
+                </select>
+                <br>
+                <legend class="fieldset-legend">PPN</legend>
+                <label class="label">
+                    <input type="checkbox" ref="PPN_suppllier" v-model="PPN_suppllier" class="checkbox" />
+                </label>
+                </fieldset>
+                <br>
+                <legend class="fieldset-legend">PPH23</legend>
+                <label class="label">
+                    <input type="checkbox" ref="pph23" v-model="pph23" class="checkbox" />
+                </label>
+                </fieldset>
+                <br>
+                <input type="text" ref="ket" v-model="ket" placeholder="Keterangan"
+                    class="input input-primary" /><br><br>
+                {{-- <select  v-model="result_kode_user" ref="result_kode_user" class="select">
                         <option disabled selected>Pilih User</option>
                         <option v-for="data in data_kode_user" :value="data.id">@{{ data.fk_user }}</option>
                     </select> <br><br> --}}
-                    <button @click="save" class="btn btn-success">Save</button>
+                <button @click="save" class="btn btn-success">Save</button>
                 </p>
                 <div class="modal-action">
                     <form method="dialog">
@@ -72,15 +78,38 @@
 
         <!-- Open the modal using ID.showModal() method -->
 
-        <dialog id="my_modal_edit" class="modal">
+        <dialog id="my_modal_detail" class="modal">
             <div class="modal-box">
-                <h3 class="text-lg font-bold">Edit</h3>
+                <h3 class="text-lg font-bold">Detail PO</h3>
                 <p class="py-4">
-                    <input type="text" ref="jenis_edit" v-model="jenis_edit" placeholder="Jenis" class="input input-primary" /><br><br>
-                    <button class="btn btn-warning" @click="updateData">Update</button>
+                <div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100">
+                    <table class="table">
+                        <!-- head -->
+                        <thead>
+                            <tr>
+                                <th>Kode Barang</th>
+                                <th>Nama Barang</th>
+                                <th>Kode Part</th>
+                                <th>Qty</th>
+                                <th>Harga</th>
+                                <th>Sub Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="data in detail_barangs">
+                                <th>@{{data.id_otomatis}}</th>
+                                <td>@{{data.nama_brg_sup}}</td>
+                                <td>@{{data.kode_part}}</td>
+                                <td>@{{data.fqa_pos}}</td>
+                                <td>@{{data.fharga}}</td>
+                                <td>@{{data.FJumlah}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
                 </p>
                 <div class="modal-action">
-                    <button class="btn" onclick="my_modal_edit.close()">Close</button>
+                    <button class="btn" onclick="my_modal_detail.close()">Close</button>
                 </div>
             </div>
         </dialog>
@@ -112,9 +141,9 @@
                         <td>@{{ data.fpph23 }}</td>
                         <td>@{{ data.fket }}</td>
                         <td>@{{ data.fk_user }}</td>
-                      
+
                         <td>
-                            {{-- <button @click="editModal(data)" class="btn btn-warning">Edit</button> --}}
+                            <button @click="editModal(data.fno_pos)" class="btn btn-warning">Lihat Detail</button>
                             <button @click="deleteData(data.id,data)" class="btn btn-error">x</button>
                         </td>
                     </tr>
@@ -127,7 +156,8 @@
         </div>
         <br>
         <center>
-            <button class="btn btn-dash btn-primary" @click="loadPaginate(link.url)" v-for="link in links" v-html="link.label"></button>
+            <button class="btn btn-dash btn-primary" @click="loadPaginate(link.url)" v-for="link in links"
+                v-html="link.label"></button>
         </center>
     </div>
     <br><br>
@@ -137,33 +167,32 @@
         new Vue({
             el: "#app",
             data: {
-                barangs : null,
-                h_supliers : null,
+                barangs: null,
+                h_supliers: null,
                 alert: false,
-                jenis_edit : null,
-                links :null,
-                search : null,
-                jenis : null,
-                loading :false,
-                id_edit : null,
-                no_pos : null,
-                tgl_pos : null,
+                jenis_edit: null,
+                links: null,
+                search: null,
+                jenis: null,
+                loading: false,
+                id_edit: null,
+                no_pos: null,
+                tgl_pos: null,
                 result_suppllier: null,
-                data_suppllier:null,
-                no_ppn : null,
-                pph23 : null,
-                PPN_suppllier :null,
-                ket:null,
-                result_kode_user : null,
-                data_kode_user:null
+                data_suppllier: null,
+                no_ppn: null,
+                pph23: null,
+                PPN_suppllier: null,
+                ket: null,
+                result_kode_user: null,
+                data_kode_user: null,
+                detail_barangs : null
             },
             methods: {
-                showModalOpen: function(){
-                     window.location.href = './add-posuppllier';
-                    //my_modal_1.showModal();
-                    //this.generateId()
+                openPage: function() {
+                    window.location.href = './add-posuppllier';
                 },
-                 loadPaginate: function(url) {
+                loadPaginate: function(url) {
                     if (url == null) {
                         return
                     }
@@ -183,31 +212,43 @@
                             console.log(error);
                         });
                 },
-               editModal: function(data) {
-                    this.id_edit = data.id;
-                    this.jenis_edit = data.jenis;
-                    my_modal_edit.showModal()
+                editModal: function(fno_pos) {
+                    my_modal_detail.showModal();
+                    const $this = this;
+                    axios.post("/load-detail-barang", {
+                        _token: _TOKEN_,
+                        fno_pos : fno_pos
+                    })
+                    .then(function(response) {
+                    
+                        if (response.data) {
+                            $this.detail_barangs = response.data;
+                        }
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    });
                 },
-              updateData: function(){
+                updateData: function() {
                     if (this.id_edit) {
                         const $this = this;
-                         axios.post("/update-jenis", {
-                            _token: _TOKEN_,
-                            jenis: this.jenis_edit,
-                            id : this.id_edit
-                        })
-                        .then(function(response) {
-                            if (response.data) {
-                                $this.loading = false;
-                                $this.loadData();
-                                alert("Update data sukses")
-                            }
-                        })
-                        .catch(function(error) {
-                            console.log(error);
-                        });
+                        axios.post("/update-jenis", {
+                                _token: _TOKEN_,
+                                jenis: this.jenis_edit,
+                                id: this.id_edit
+                            })
+                            .then(function(response) {
+                                if (response.data) {
+                                    $this.loading = false;
+                                    $this.loadData();
+                                    alert("Update data sukses")
+                                }
+                            })
+                            .catch(function(error) {
+                                console.log(error);
+                            });
                     }
-              },
+                },
                 searchData: function() {
                     if (this.search == null) {
                         this.$refs.search.focus()
@@ -239,60 +280,56 @@
                         return
                     }
                     if (this.PPN_suppllier == null) {
-                        
+
                         this.$refs.PPN_suppllier.focus()
                         return
                     }
-                     if (this.pph23 == null) {
-                        
+                    if (this.pph23 == null) {
+
                         this.$refs.pph23.focus()
                         return
                     }
                     if (this.ket == null) {
-                        
+
                         this.$refs.ket.focus()
                         return
                     }
-                    // if (this.result_kode_user == null) {
-                        
-                    //     this.$refs.result_kode_user.focus()
-                    //     return
-                    // }
-                    
+                
+
                     const $this = this;
 
-                     axios.post("/save-po-suppllier", {
-                                        _token: _TOKEN_,
-                                        tgl_pos : this.tgl_pos,
-                                        result_suppllier : this.result_suppllier,
-                                        PPN_suppllier : this.PPN_suppllier,
-                                        pph23 : this.pph23,
-                                        ket : this.ket,
-                                        no_pos : this.no_pos
-                                    })
-                                    .then(function(response) {
-                                        if (response.data.result) {
-                                            $this.loadData();
-                                            $this.alert = false;
-                                            $this.no_pos = null;
-                                            $this.result_suppllier = null;
-                                            $this.ket = null;
-                                            $this.PPN_suppllier = null;
-                                            $this.pph23 = null
-                                            alert("Tambah data sukses");
-                                            // Swal.fire({
-                                            //     icon: "success",
-                                            //     title: "Mantap",
-                                            //     text: "Add Success",
-                                            //     footer: ''
-                                            // });
-                                            $this.generateId()
+                    axios.post("/save-po-suppllier", {
+                            _token: _TOKEN_,
+                            tgl_pos: this.tgl_pos,
+                            result_suppllier: this.result_suppllier,
+                            PPN_suppllier: this.PPN_suppllier,
+                            pph23: this.pph23,
+                            ket: this.ket,
+                            no_pos: this.no_pos
+                        })
+                        .then(function(response) {
+                            if (response.data.result) {
+                                $this.loadData();
+                                $this.alert = false;
+                                $this.no_pos = null;
+                                $this.result_suppllier = null;
+                                $this.ket = null;
+                                $this.PPN_suppllier = null;
+                                $this.pph23 = null
+                                alert("Tambah data sukses");
+                                // Swal.fire({
+                                //     icon: "success",
+                                //     title: "Mantap",
+                                //     text: "Add Success",
+                                //     footer: ''
+                                // });
+                                $this.generateId()
 
-                                        }
-                                    })
-                                    .catch(function(error) {
-                                        console.log(error);
-                                    }); 
+                            }
+                        })
+                        .catch(function(error) {
+                            console.log(error);
+                        });
                 },
                 deleteData: function(id, data) {
                     if (id) {
@@ -339,7 +376,7 @@
                 },
                 loadData: function() {
                     const $this = this;
-            
+
                     axios.post("/load-h-suppllier", {
                             _token: _TOKEN_
                         })
@@ -354,22 +391,22 @@
                             console.log(error);
                         });
                 },
-                generateId(){
+                generateId() {
                     const $this = this;
-                     axios.post("/generate-id-h-supplier", {
+                    axios.post("/generate-id-h-supplier", {
                             _token: _TOKEN_
                         })
                         .then(function(response) {
-                           
+
                             if (response.data) {
-                                if (response.data.fno_pos){
+                                if (response.data.fno_pos) {
                                     const angka = String(response.data.fno_pos).slice(-3);
 
-                                     $this.no_pos =generateNoUrutDateMonth(angka);
-                                }else{
-                                    
+                                    $this.no_pos = generateNoUrutDateMonth(angka);
+                                } else {
 
-                                    $this.no_pos = tahun+bulan+(response.data);
+
+                                    $this.no_pos = tahun + bulan + (response.data);
                                 }
                             }
                         })
@@ -377,15 +414,15 @@
                             console.log(error);
                         });
                 },
-                loadSupplier(){
-                     const $this = this;
-                     axios.post("/load-suppllier-data", {
+                loadSupplier() {
+                    const $this = this;
+                    axios.post("/load-suppllier-data", {
                             _token: _TOKEN_
                         })
                         .then(function(response) {
-                           
+
                             if (response.data) {
-                                 $this.data_suppllier = response.data;
+                                $this.data_suppllier = response.data;
                             }
                         })
                         .catch(function(error) {
@@ -396,7 +433,7 @@
             mounted() {
                 this.loadData()
                 this.generateId()
-               // this.loadSupplier()
+                // this.loadSupplier()
             }
         });
     </script>
