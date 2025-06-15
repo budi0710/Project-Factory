@@ -15,10 +15,17 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\TodoController;
 use App\Http\Middleware\Auth;
 use App\Models\H_Supplier;
+use App\Models\L_d_pos;
 use App\Models\Rls_brg_sup;
 use App\Models\Satuan;
+use App\Models\tb_d_pos;
 use Illuminate\Http\Request;
 use App\Models\Todos;
+use App\Models\ViewRelasiBarangSupplier;
+
+function formatRupiah($angka, $prefix = 'Rp') {
+    return $prefix . ' ' . number_format($angka, 0, ',', '.');
+}
 
 Route::get('/',function(){
     return redirect('/home');
@@ -244,6 +251,49 @@ Route::get('/edit-data/{id}',function($id){
     Route::post('/search-rls-cus',[Rls_Brg_CusController::class, 'search']);
 
     Route::post('/load-detail-barang',[DetailBarangController::class, 'loadWhere']);
+
+    Route::get('/print-posuppllier/{fnopos}',function($fnopos){
+        $data = H_Supplier::where('fno_pos',$fnopos)->count();
+
+        if ($data){
+            // ambil data detail
+             $data_detail_pos =  L_d_pos::where('fno_pos',$fnopos)->get();
+             
+             $data_header     = H_Supplier::where('fno_pos',$fnopos)->get();
+             $data_header = $data_header[0];
+             $kode_rls='';
+
+             $sub_total =0;
+            foreach ($data_detail_pos as $x) {
+                $kode_rls =  $x['fk_rls'];
+                $sub_total += $x['FJumlah'];
+            }
+             
+              $ppn = 0;
+              $grand_total = 0;
+             if ($data_header['fppn']==1){
+                $ppn = 11/100 * $sub_total;
+                $grand_total = $ppn + $sub_total;
+             }else{
+                 $ppn = 0;
+                 $grand_total = $sub_total;
+             }
+
+             $view_relasi = ViewRelasiBarangSupplier::where('kode_rls',$kode_rls)->get();
+             $view_relasi = $view_relasi[0];
+
+             $data = array('data_detail'=>$data_detail_pos,
+                            'data_header'=>$data_header,
+                                'view_relasi'=>$view_relasi,
+                                'data_total'=>$sub_total,
+                                'ppn'=>$ppn,
+                                'grand_total'=> $grand_total);
+            
+            return view('print-posupplier',$data);
+        }else{
+            return redirect('/posuppllier');
+        }
+    });
 });
 
 

@@ -143,6 +143,8 @@
                         <td>@{{ data.fk_user }}</td>
 
                         <td>
+
+                            <button @click="printPage(data.fno_pos)" class="btn btn-success">Print</button>
                             <button @click="editModal(data.fno_pos)" class="btn btn-warning">Lihat Detail</button>
                             <button @click="deleteData(data.id,data)" class="btn btn-error">x</button>
                         </td>
@@ -189,6 +191,9 @@
                 detail_barangs : null
             },
             methods: {
+                printPage : function(fno_pos){
+                    window.location.href = './print-posuppllier/'+fno_pos;
+                },
                 openPage: function() {
                     window.location.href = './add-posuppllier';
                 },
