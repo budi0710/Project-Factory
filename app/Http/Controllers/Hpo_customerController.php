@@ -1,11 +1,12 @@
 <?php
+
 namespace App\Http\Controllers;
-use App\Models\H_Supplier;
-use App\Models\tb_d_pos;
+use App\Models\Hpo_Customer;
+use App\Models\dpo_Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class H_SupplierController extends Controller
+class Hpo_customerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -28,37 +29,34 @@ class H_SupplierController extends Controller
      */
     public function saveData(Request $request)
     {
-        $supplier = new H_Supplier();
+        $Hpo_Customer = new Hpo_Customer();
 
-        $supplier->fno_pos = $request->no_pos;
-        $supplier->fk_sup = $request->result_suppllier;
-
-        $supplier->fpph23 = $request->pph;
-        $supplier->fket = $request->ket;
-        $supplier->ftgl_pos = $request->tgl_pos;
-        $supplier->fk_user =  $request->session()->get('admin');
-        $supplier->fppn = $request->ppn;
-
-        $supplier->save();
+        $Hpo_Customer->fno_poc = $request->fno_poc;
+        $Hpo_Customer->fk_cus = $request->result_customer;
+        $Hpo_Customer->fppn = $request->PPN_customer;
+        $Hpo_Customer->fpph23 = $request->pph23_customer;
+        $Hpo_Customer->fket = $request->ket;
+        $Hpo_Customer->ftgl_poc = $request->ftgl_poc;
+        $Hpo_Customer->fk_user =  $request->session()->get('admin');
+        $Hpo_Customer->save();
 
         $data = $request->data;
         $data = json_decode($data);
         
        foreach ($data as $item) {
-            $kode_rls = $item->kode_rls;
-            $harga = $item->harga;
-            $qty = $item->qty;
-            $no_spo = $item->no_spo;
-
-            $no_pos =$request->no_pos;
+            $fno_rbc = $item->kode_rbc;
+            $harga = $item->harga_poc;
+            $fqt_poc = $item->fqt_poc;
+            $fno_spk = $item->fno_spk;
+            $fno_poc =$request->fno_poc;
           
-            DB::insert('INSERT INTO tb_d_pos (fk_rls, fno_pos,fharga,fqa_pos,fno_spo) VALUES (?, ?, ?, ? , ?)', [$kode_rls, $no_pos,$harga,$qty,$no_spo]);
+            DB::insert('INSERT INTO dpo_customer (fno_rbc, fno_poc,fharga,fqt_poc,fno_spk) VALUES (?, ?, ?, ? , ?)', [$fno_rbc, $fno_poc, $harga, $fqt_poc, $fno_spk]);
         }
 
         return response()->json(['result'=>true]) ;
     }
 
-    private function generateFNoPos(array  $existingNumbers): string{
+    private function generateFNoPoc(array  $existingNumbers): string{
         // Ambil tahun dan bulan saat ini, misalnya 202506
         $prefix = date('Ym');
 
@@ -88,7 +86,7 @@ class H_SupplierController extends Controller
      */
     public function load()
     {
-        return H_Supplier::paginate(10);
+        return Hpo_Customer::paginate(10);
     }
 
     private function getLast3($angka){
@@ -98,18 +96,16 @@ class H_SupplierController extends Controller
     }
 
     public function generateNo(){
-        $result= H_Supplier::select('fno_pos')->orderBy('fno_pos','desc')->first();
-       
+        $result= Hpo_Customer::select('fno_poc')->orderBy('fno_poc','desc')->first();
        if ($result==null){
           return '001';
        }else{
-          
           return ($result);
        }
     }
 
-    public function generateKodeSpo(){
-         $result= tb_d_pos::select('fno_spo')->orderBy('fno_spo','desc')->first();
+    public function generateKodeSpk(){
+         $result= dpo_Customer::select('fno_spk')->orderBy('fno_spk','desc')->first();
        
        if ($result==null){
           return '001';
@@ -143,17 +139,17 @@ class H_SupplierController extends Controller
         // check receive apakah sudah pernah dilakukan transaksi 
 
         // ambil fno_pos terlebih dahulu
-        $fno_pos = H_Supplier::select('fno_pos')->where("id",$request->id)->get();
+        $fno_poc = hpo_customer::select('fno_poc')->where("id",$request->id)->get();
         // ambil data index ke 0 dan key fno_pos
-        $fno_pos = $fno_pos[0]['fno_pos'];
+        $fno_poc = $fno_poc[0]['fno_poc'];
        
         // delete data di table header berdasarkan primary key id
-        $supplier = H_Supplier::find($request->id);
-        $supplier->delete();
+        $hpo_customer = hpo_customer::find($request->id);
+        $hpo_customer->delete();
 
         // delete data di table detail berdasarkan fno_pos
-        $detail = tb_d_pos::where('fno_pos',$fno_pos)->delete();
+        $dpo_customer = dpo_customer::where('fno_poc',$fno_poc)->delete();
         
-        return $supplier ? response()->json(['result'=>true]) : response()->json(['result'=>false]);
+        return $detail ? response()->json(['result'=>true]) : response()->json(['result'=>false]);
     }
 }

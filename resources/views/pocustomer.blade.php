@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PO Supplier Page</title>
+    <title>PO Customer</title>
     @include('@component/assets')
 </head>
 <body>
@@ -21,7 +21,6 @@
         </center>
         <br>
         <dialog id="my_modal_1" class="modal">
-
             <div class="modal-box">
                 <h3 class="text-lg font-bold"></h3>
                 <p class="py-4">
@@ -33,35 +32,29 @@
                     </svg>
                     <span>Data has been saved !</span>
                 </div><br>
-
-
-                <input type="text" disabled ref="no_pos" v-model="no_pos" placeholder="NO Faktur PO"
+                <input type="text" disabled ref="fno_poc" v-model="fno_poc" placeholder="No POC"
                     class="input input-primary" /><br><br>
-                <input type="date" ref="tgl_pos" v-model="tgl_pos" placeholder="Tgl Faktur"
+                <input type="date" ref="tgl_poc" v-model="tgl_poc" placeholder="Tgl Faktur"
                     class="input input-primary" /><br><br>
-                <select v-model="result_suppllier" ref="result_suppllier" class="select">
-                    <option disabled selected>Pilih Suppllier</option>
-                    <option v-for="data in data_suppllier" :value="data.id">@{{ data.kode_supplier }}</option>
+                <select v-model="result_customer" ref="result_customer" class="select">
+                    <option disabled selected>Pilih Customer</option>
+                    <option v-for="data in data_customer" :value="data.id">@{{ data.kode_cus }}</option>
                 </select>
                 <br>
                 <legend class="fieldset-legend">PPN</legend>
                 <label class="label">
-                    <input type="checkbox" ref="PPN_suppllier" v-model="PPN_suppllier" class="checkbox" />
+                    <input type="checkbox" ref="PPN_Customer" v-model="PPN_Customer" class="checkbox" />
                 </label>
                 </fieldset>
                 <br>
                 <legend class="fieldset-legend">PPH23</legend>
                 <label class="label">
-                    <input type="checkbox" ref="pph23" v-model="pph23" class="checkbox" />
+                    <input type="checkbox" ref="pph23_customer" v-model="pph23_customer" class="checkbox" />
                 </label>
                 </fieldset>
                 <br>
                 <input type="text" ref="ket" v-model="ket" placeholder="Keterangan"
                     class="input input-primary" /><br><br>
-                {{-- <select  v-model="result_kode_user" ref="result_kode_user" class="select">
-                        <option disabled selected>Pilih User</option>
-                        <option v-for="data in data_kode_user" :value="data.id">@{{ data.fk_user }}</option>
-                    </select> <br><br> --}}
                 <button @click="save" class="btn btn-success">Save</button>
                 </p>
                 <div class="modal-action">
@@ -74,7 +67,6 @@
         </dialog>
 
         <!-- Open the modal using ID.showModal() method -->
-
         <dialog id="my_modal_detail" class="modal">
             <div class="modal-box">
                 <h3 class="text-lg font-bold">Detail PO</h3>
@@ -93,11 +85,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="data in detail_barangs">
-                                <th>@{{data.id_otomatis}}</th>
-                                <td>@{{data.nama_brg_sup}}</td>
+                            <tr v-for="data in detail_poc">
+                                <th>@{{data.kode_brj}}</th>
+                                <td>@{{data.nama_brg_cus}}</td>
                                 <td>@{{data.kode_part}}</td>
-                                <td>@{{data.fqa_pos}}</td>
+                                <td>@{{data.fqt_poc}}</td>
                                 <td>@{{data.fharga}}</td>
                                 <td>@{{data.FJumlah}}</td>
                             </tr>
@@ -116,9 +108,9 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>No POS</th>
-                        <th>Tgl POS</th>
-                        <th>Kode Supplier</th>
+                        <th>No POC</th>
+                        <th>Tgl POC</th>
+                        <th>Kode Customer</th>
                         <th>PPN</th>
                         <th>PPH 23</th>
                         <th>Ket</th>
@@ -129,20 +121,18 @@
                 </thead>
                 <tbody>
                     <!-- row 1 -->
-                    <tr v-for="data in h_supliers">
+                    <tr v-for="data in Hpo_Customer">
                         <th>@{{ data.id }}</th>
-                        <td>@{{ data.fno_pos }}</td>
-                        <td>@{{ data.ftgl_pos }}</td>
-                        <td>@{{ data.fk_sup }}</td>
+                        <td>@{{ data.fno_poc }}</td>
+                        <td>@{{ data.ftgl_poc }}</td>
+                        <td>@{{ data.fk_cus }}</td>
                         <td>@{{ data.fppn }}</td>
                         <td>@{{ data.fpph23 }}</td>
                         <td>@{{ data.fket }}</td>
                         <td>@{{ data.fk_user }}</td>
-
                         <td>
-                            <button @click="printPage(data.fno_pos)" class="btn btn-success">Print</button>
-                            <button @click="editPage(data.fno_pos)" class="btn btn-primary">Edit</button>
-                            <button @click="editModal(data.fno_pos)" class="btn btn-warning">Lihat Detail</button>
+                            <button @click="printPage(data.fno_poc)" class="btn btn-success">Print</button>
+                            <button @click="editModal(data.fno_poc)" class="btn btn-warning">Lihat Detail</button>
                             <button @click="editData(data.id,data)" class="btn btn-error">Edit</button>
                             <button @click="deleteData(data.id,data)" class="btn btn-error">x</button>
                         </td>
@@ -168,35 +158,34 @@
             el: "#app",
             data: {
                 barangs: null,
+                Hpo_Customer : null,
+                fno_poc : null,
                 h_supliers: null,
                 alert: false,
-                jenis_edit: null,
                 links: null,
                 search: null,
                 jenis: null,
                 loading: false,
                 id_edit: null,
-                no_pos: null,
-                tgl_pos: null,
-                result_suppllier: null,
-                data_suppllier: null,
+                no_poc: null,
+                tgl_poc: null,
+                result_customer: null,
+                data_customer: null,
                 no_ppn: null,
-                pph23: null,
-                PPN_suppllier: null,
+                pph23_customer: null,
+                PPN_Customer: null,
                 ket: null,
                 result_kode_user: null,
                 data_kode_user: null,
-                detail_barangs : null
+                searchData : null,
+                detail_poc : null
             },
             methods: {
-                editPage: function(fnopos){
-                    window.location.href="./edit-posupplier/"+fnopos;
-                },
                 printPage : function(fno_pos){
-                    window.location.href = './print-posuppllier/'+fno_pos;
+                    window.location.href = './print-pocustomer/'+fno_pos;
                 },
                 openPage: function() {
-                    window.location.href = './add-posuppllier';
+                    window.location.href = './add-pocustomer';
                 },
                 loadPaginate: function(url) {
                     if (url == null) {
@@ -218,81 +207,40 @@
                             console.log(error);
                         });
                 },
-                editModal: function(fno_pos) {
+                editModal: function(fno_poc) {
                     my_modal_detail.showModal();
                     const $this = this;
-                    axios.post("/load-detail-barang", {
+                    axios.post("/load-detail-poc", {
                         _token: _TOKEN_,
-                        fno_pos : fno_pos
+                        fno_poc : fno_poc
                     })
                     .then(function(response) {
                     
                         if (response.data) {
-                            $this.detail_barangs = response.data;
+                            $this.detail_poc = response.data;
                         }
                     })
                     .catch(function(error) {
                         console.log(error);
                     });
                 },
-                updateData: function() {
-                    if (this.id_edit) {
-                        const $this = this;
-                        axios.post("/update-jenis", {
-                                _token: _TOKEN_,
-                                jenis: this.jenis_edit,
-                                id: this.id_edit
-                            })
-                            .then(function(response) {
-                                if (response.data) {
-                                    $this.loading = false;
-                                    $this.loadData();
-                                    alert("Update data sukses")
-                                }
-                            })
-                            .catch(function(error) {
-                                console.log(error);
-                            });
-                    }
-                },
-                searchData: function() {
-                    if (this.search == null) {
-                        this.$refs.search.focus()
-                        return
-                    }
-                    this.loading = true;
-                    const $this = this;
-                    axios.post("/search-jenis", {
-                            _token: _TOKEN_,
-                            search: this.search
-                        })
-                        .then(function(response) {
-                            if (response.data) {
-                                $this.loading = false;
-                                $this.jeniss = response.data;
-                            }
-                        })
-                        .catch(function(error) {
-                            console.log(error);
-                        });
-                },
                 save: function() {
                     if (this.tgl_pos == null) {
-                        this.$refs.tgl_pos.focus()
+                        this.$refs.tgl_pocfocus()
                         return
                     }
-                    if (this.result_suppllier == null) {
-                        this.$refs.result_suppllier.focus()
+                    if (this.result_customer == null) {
+                        this.$refs.result_customer.focus()
                         return
                     }
-                    if (this.PPN_suppllier == null) {
+                    if (this.PPN_customer == null) {
 
-                        this.$refs.PPN_suppllier.focus()
+                        this.$refs.PPN_customer.focus()
                         return
                     }
-                    if (this.pph23 == null) {
+                    if (this.pph23_customer == null) {
 
-                        this.$refs.pph23.focus()
+                        this.$refs.pph23_customer.focus()
                         return
                     }
                     if (this.ket == null) {
@@ -300,27 +248,26 @@
                         this.$refs.ket.focus()
                         return
                     }
-                
 
                     const $this = this;
-                    axios.post("/save-po-suppllier", {
+                    axios.post("/save-hpo_customer", {
                             _token: _TOKEN_,
-                            tgl_pos: this.tgl_pos,
-                            result_suppllier: this.result_suppllier,
-                            PPN_suppllier: this.PPN_suppllier,
-                            pph23: this.pph23,
+                            tgl_poc: this.tgl_poc,
+                            result_customer: this.result_customer,
+                            PPN_customer: this.PPN_customer,
+                            pph23_customer: this.pph23_customer,
                             ket: this.ket,
-                            no_pos: this.no_pos
+                            no_poc: this.no_poc
                         })
                         .then(function(response) {
                             if (response.data.result) {
                                 $this.loadData();
                                 $this.alert = false;
-                                $this.no_pos = null;
-                                $this.result_suppllier = null;
+                                $this.no_poc = null;
+                                $this.result_customer = null;
                                 $this.ket = null;
-                                $this.PPN_suppllier = null;
-                                $this.pph23 = null
+                                $this.PPN_customer= null;
+                                $this.pph23_customer = null
                                 alert("Tambah data sukses");
                                 // Swal.fire({
                                 //     icon: "success",
@@ -338,7 +285,6 @@
                 },
                 deleteData: function(id, data) {
                     if (id) {
-
                         const $this = this;
                         Swal.fire({
                             title: "Are you sure?",
@@ -351,7 +297,7 @@
                         }).then((result) => {
                             if (result.isConfirmed) {
                                 this.loading = true;
-                                axios.post("/delete-h-supplier", {
+                                axios.post("/delete-hpo_customer", {
                                         _token: _TOKEN_,
                                         id: id
                                     })
@@ -381,13 +327,13 @@
                 },
                 loadData: function() {
                     const $this = this;
-                    axios.post("/load-h-suppllier", {
+                    axios.post("/load-hpo-customer", {
                             _token: _TOKEN_
                         })
                         .then(function(response) {
                             $this.loading = false;
                             if (response.data) {
-                                $this.h_supliers = response.data.data;
+                                $this.Hpo_Customer = response.data.data;
                                 $this.links = response.data.links;
                             }
                         })
@@ -397,20 +343,16 @@
                 },
                 generateId() {
                     const $this = this;
-                    axios.post("/generate-id-h-supplier", {
+                    axios.post("/generate-id-hpo-customer", {
                             _token: _TOKEN_
                         })
                         .then(function(response) {
-
                             if (response.data) {
-                                if (response.data.fno_pos) {
-                                    const angka = String(response.data.fno_pos).slice(-3);
-
-                                    $this.no_pos = generateNoUrutDateMonth(angka);
+                                if (response.data.fno_poc) {
+                                    const angka = String(response.data.fno_poc).slice(-3);
+                                    $this.fno_poc = generateNoUrutDateMonth(angka);
                                 } else {
-
-
-                                    $this.no_pos = tahun + bulan + (response.data);
+                                    $this.fno_poc = tahun + bulan + (response.data);
                                 }
                             }
                         })
@@ -418,15 +360,14 @@
                             console.log(error);
                         });
                 },
-                loadSupplier() {
+                loadCustomer() {
                     const $this = this;
-                    axios.post("/load-suppllier-data", {
+                    axios.post("/load-data-customer", {
                             _token: _TOKEN_
                         })
                         .then(function(response) {
-
                             if (response.data) {
-                                $this.data_suppllier = response.data;
+                                $this.data_customer = response.data;
                             }
                         })
                         .catch(function(error) {

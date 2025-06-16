@@ -91,7 +91,7 @@
           <summary>Transaksi Customer</summary>
           <ul class="p-2">
             <li><a href="./rls_brg_cus">Barang Customer</a></li>
-            <li><a>PO Customer</a></li>
+            <li><a href="./pocustomer">PO Customer</a></li>
             <li><a>Pengiriman</a></li>
             <li><a>Retur Kirim</a></li>
             <li><a>AR</a></li>
