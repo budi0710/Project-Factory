@@ -217,6 +217,8 @@ Route::middleware([Auth::class])->group(function () {
 
     Route::post('/save-h-supplier',[H_SupplierController::class,'saveData']);
 
+    Route::post('/update-h-supplier',[H_SupplierController::class,'updateData']);
+
     Route::post('/search-barang-supplier',[Rls_brg_supController::class,'searchData']);
 
     Route::post('/generate-id-brj',[BarangJadiController::class, 'generateNewId_BRJ']);
@@ -275,7 +277,7 @@ Route::middleware([Auth::class])->group(function () {
 
     Route::post('/save-hpo_customer',[Hpo_customerController::class,'saveData']);
 
-    Route::post('/load-detail-poc',[DetailPocController::class, 'loadWhere']);
+  //  Route::post('/load-detail-poc',[DetailPocController::class, 'loadWhere']);
 
     Route::get('/print-pocustomer/{fnopos}',function($fnopos){
         $data = H_Supplier::where('fno_pos',$fnopos)->count();

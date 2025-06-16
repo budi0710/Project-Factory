@@ -47,7 +47,7 @@
 
                     <input type="text" ref="ket" v-model="ket" placeholder="Keterangan"
                         class="input input-primary" /><br><br>
-                    <button @click="save" class="btn btn-success">Save</button> |   <button class="btn btn-primary" onclick="window.location.href='../posuppllier'">Back</button>
+                    <button @click="update" class="btn btn-success">Save</button> |   <button class="btn btn-primary" onclick="window.location.href='../posuppllier'">Back</button>
                 </div>
             </div>
 
@@ -199,7 +199,7 @@
             },
             methods: {
                 deleteData: function(fk_rls){
-                    console.log("FK RLS "+fk_rls)
+                   
                     // const $this = this;
                     // axios.post("/delete-barang-supplier-detail", {
                     //     _token: _TOKEN_,
@@ -271,7 +271,7 @@
                         "fno_pos": this.no_pos,
                         "fharga": this.harga_pos,
                         "fqa_pos": this.qty_pos,
-                        "no_spo": this.no_spo,
+                        "fno_spo": this.no_spo,
                         "sub_total":this.qty_pos*this.harga_pos
                     }]
                     
@@ -365,7 +365,7 @@
                             console.log(error);
                         });
                 },
-                save: function() {
+                update: function() {
 
                     if (this.tgl_pos == null) {
                         this.$refs.tgl_pos.focus()
@@ -382,7 +382,7 @@
                         return;
                     }
 
-                    if (_getStorage('data') == null) {
+                    if ($storage == null) {
 
                         alert("Pilih barang terlebih dahulu")
                         return;
@@ -390,9 +390,9 @@
 
                     const $this = this;
 
-                    axios.post("/save-h-supplier", {
+                    axios.post("/update-h-supplier", {
                             _token: _TOKEN_,
-                            data: (_getStorage('data')),
+                            data: ($storage),
                             tgl_pos: this.tgl_pos,
                             result_suppllier: this.result_suppllier,
                             ket: this.ket,
@@ -458,7 +458,7 @@
                     const $this = this;
                     $storage =  JSON.parse('<?= $data_detail ?>');
                     this.data_barangs = $storage;
-
+                    console.table(this.data_barangs)
                     var grand_total = 0;
                     $storage.forEach(element => {
                         grand_total += parseFloat(element['sub_total']);

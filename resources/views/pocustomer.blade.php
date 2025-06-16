@@ -177,10 +177,13 @@
                 ket: null,
                 result_kode_user: null,
                 data_kode_user: null,
-                searchData : null,
-                detail_poc : null
+                detail_poc : null,
+                ftgl_poc:null
             },
             methods: {
+                searchData : function(){
+
+                },
                 printPage : function(fno_pos){
                     window.location.href = './print-pocustomer/'+fno_pos;
                 },
