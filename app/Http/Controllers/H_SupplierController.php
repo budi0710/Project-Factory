@@ -155,6 +155,6 @@ class H_SupplierController extends Controller
         // delete data di table detail berdasarkan fno_pos
         $detail = tb_d_pos::where('fno_pos',$fno_pos)->delete();
         
-        return $detail ? response()->json(['result'=>true]) : response()->json(['result'=>false]);
+        return $supplier ? response()->json(['result'=>true]) : response()->json(['result'=>false]);
     }
 }

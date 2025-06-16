@@ -279,7 +279,12 @@ Route::get('/edit-data/{id}',function($id){
                  $grand_total = $sub_total;
              }
 
-             $view_relasi = ViewRelasiBarangSupplier::where('kode_rls',$kode_rls)->get();
+             $view_relasi = ViewRelasiBarangSupplier::where('kode_rls',$kode_rls)->count();
+
+             if ($view_relasi==0){
+                return redirect("/posuppllier");
+             }
+              $view_relasi = ViewRelasiBarangSupplier::where('kode_rls',$kode_rls)->get();
              $view_relasi = $view_relasi[0];
 
              $data = array('data_detail'=>$data_detail_pos,
@@ -294,6 +299,31 @@ Route::get('/edit-data/{id}',function($id){
             return redirect('/posuppllier');
         }
     });
+
+    Route::get('/edit-posupplier/{fnopos}',function($fnopos){
+        $data = H_Supplier::where('fno_pos',$fnopos)->count();
+        $data_detail_pos =  L_d_pos::where('fno_pos',$fnopos)->count();
+
+        if ($data){
+
+             $data_header     = H_Supplier::where('fno_pos',$fnopos)->get();
+             $data_header     = $data_header[0];
+
+            if ($data_detail_pos==0){
+                return redirect('/posuppllier');
+            }
+              
+            $data_detail_pos =  L_d_pos::where('fno_pos',$fnopos)->get();
+            $data = array('data_header'=>$data_header,'data_detail'=>$data_detail_pos);
+
+            return view('edit-posupplier',$data);
+        }else{
+            return redirect('/posupplier');
+        }
+    });
+
+    Route::post('/delete-barang-supplier-detail',[DetailBarangController::class, 'delete']);
+    
 });
 
 

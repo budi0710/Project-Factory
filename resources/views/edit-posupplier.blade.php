@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit PO Supplier </title>
+    @include('@component/assets')
+    <script src="../storage/function.js"></script>
+</head>
+<body>
+    @include('@component/navbar')
+    <div id="app" class="mx-auto">
+        <br>
+        <div class="grid grid-flow-col grid-rows-1">
+            <!-- Card 1 -->
+            <div class="row-span-1 ms-4">
+                <div class="bg-white rounded-xl shadow-md p-2">
+                    <h2 class="text-xl font-semibold mb-2"></h2>
+                    <h2 class="card-title">Header Data PO</h2>
+                    <input type="text" disabled ref="no_pos" v-model="no_pos" placeholder="NO Faktur PO"
+                        class="input input-primary" /><br><br>
+                    <input type="date" ref="tgl_pos" v-model="tgl_pos" placeholder="Tgl Faktur"
+                        class="input input-primary" /><br><br>
+                    <select v-model="result_suppllier" :disabled="disabled_supplier" ref="result_suppllier" class="select">
+                        <option disabled selected>Pilih Suppllier</option>
+                        <option v-for="data in data_suppllier" :value="data.kode_supplier">@{{ data.nama_supplier }}</option>
+                    </select>
+                    <br>
+                    <center>
+                        <legend class="fieldset-legend text-center"></legend>
+                    </center>
+                    <label class="label">
+                        <input type="checkbox" ref="PPN_suppllier" v-model="PPN_suppllier" class="checkbox" />
+                        PPN
+                    </label>
+                    </fieldset>
+                    <br>
+                    <center>
+                        <legend class="fieldset-legend"></legend>
+                    </center>
+                    <label class="label">
+                        <input type="checkbox" ref="pph23" v-model="pph23" class="checkbox" />
+                        PPH23
+                    </label>
+                    </fieldset>
+                    <br><br>
+
+                    <input type="text" ref="ket" v-model="ket" placeholder="Keterangan"
+                        class="input input-primary" /><br><br>
+                    <button @click="save" class="btn btn-success">Save</button> |   <button class="btn btn-primary" onclick="window.location.href='../posuppllier'">Back</button>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="col-span-2 row-span-2 ms-2">
+                <div class="bg-white rounded-xl shadow-md p-6">
+                <h2 class="text-xl font-semibold mb-2">Data Barang Supplier</h2>
+                <hr> <br>
+                <input type="text" placeholder="Kode RLS" v-model="kode_rls" class="input" disabled />
+                <input type="text" placeholder="Nama Barang" v-model="nama_barang" class="input" disabled />
+                {{-- <input type="text" placeholder="NO POS" v-model="no_pos" class="input" /> --}}
+                <input type="text" placeholder="Harga POS" v-model="harga_pos" ref="harga_pos" class="input" />
+                <input type="text" placeholder="Qty POS" v-model="qty_pos" ref="qty_pos" class="input" />
+                <input type="hidden" placeholder="NO SPO" v-model="no_spo" class="input" disabled />
+
+                <br><br>
+                <button class="btn" @click="openModalBarang">Cari Barang</button> 
+                <button @click="addData" class="btn btn-primary">Add</button>
+                <button @click="clearData" class="btn btn-success">Clear</button>
+                <br><br>
+                <hr>
+                <div role="alert" class="alert alert-info">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        class="h-6 w-6 shrink-0 stroke-current">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span>Total : @{{ _moneyFormat(grand_total) }}</span>
+                </div>
+                <div class="overflow-x-auto">
+
+                    <table class="table">
+                        <!-- head -->
+                        <thead>
+                            <tr>
+                                <th>Kode RLS</th>
+                                {{-- <th>NO POS</th> --}}
+                                <th>Nama Barang</th>
+                                <th>Harga</th>
+                                <th>Qty</th>
+                                <th>Sub Total</th>
+                                <th>@</th>
+                                {{-- <th>No SPO</th> --}}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- row 1 -->
+                            <tr v-for="data in data_barangs">
+                                <th>@{{ data.fk_rls }}</th>
+                                {{-- <td>@{{ data.no_pos }}</td> --}}
+                                <td>@{{ data.nama_brg_sup }}</td>
+                                <td>@{{ data.fharga }}</td>
+                                <td>@{{ data.fqa_pos }}</td>
+                                <td>@{{ _moneyFormat(data.fqa_pos * data.fharga) }}</td>
+                                <td>
+                                    <button class="btn btn-error" @click="deleteData(data.fk_rls)">x</button>
+                                </td>
+                                {{-- <td>@{{ data.no_spo }}</td> --}}
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            </div>
+        </div>
+        <!-- Open the modal using ID.showModal() method -->
+        <dialog id="my_modal_barang" class="modal">
+            <div class="modal-box">
+                <h3 class="text-lg font-bold">Cari Barang Supplier</h3>
+                <hr>
+                <p class="py-4"></p>
+                <input type="text" placeholder="Search" @keyup="searchData"  v-model="search" ref="search" class="input" />
+                <br>
+                <div class="modal-action">
+
+                    <div class="overflow-x-auto">
+
+                        <table class="table">
+                            <!-- head -->
+                            <thead>
+                                <tr>
+                                    <th>Kode Supplier</th>
+                                    <th>ID Otomatis</th>
+                                    <th>Kode RLS</th>
+                                    <th>Nama Barang</th>
+                                    <th>Kode Part</th>
+                                    <th>Harga Beli</th>
+                                    <th>Satuan Beli</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- row 1 -->
+                                <tr v-for="data in barangs">
+                                    <th @click="addBarang(data)">
+                                        <a href="#">@{{ data.kode_supplier }}</a>
+                                    </th>
+                                    <th>@{{ data.id_otomatis }}</th>
+                                    <th>@{{ data.kode_rls }}</th>
+                                    <th>@{{ data.nama_brg_sup }}</th>
+                                    <th>@{{ data.kode_part }}</th>
+                                    <th>@{{ data.harga_beli }}</th>
+                                    <th>@{{ data.satuan_beli }}</th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- if there is a button in form, it will close the modal -->
+                <button class="btn" onclick="my_modal_barang.close()">Close</button>
+            </div>
+        </dialog>
+    </div>
+    <br><br>
+    @include('@component/footer')
+    <script>
+        var $storage = [];
+
+        const _TOKEN_ = '<?= csrf_token() ?>';
+        new Vue({
+            el: "#app",
+            data: {
+                barangs: null,
+                h_supliers: null,
+                alert: false,
+                jenis_edit: null,
+                links: null,
+                search: null,
+                jenis: null,
+                loading: false,
+                id_edit: null,
+                no_pos: "<?= $data_header->fno_pos ?>",
+                tgl_pos:  "<?= $data_header->ftgl_pos ?>",
+                result_suppllier: "<?= $data_header->fk_sup ?>",
+                data_suppllier: null,
+                no_ppn: null,
+                pph23: null,
+                PPN_suppllier: null,
+                ket: "<?= $data_header->fket ?>",
+                result_kode_user: null,
+                data_kode_user: null,
+                kode_rls: null,
+                nama_barang: null,
+                harga_pos: null,
+                no_spo: null,
+                qty_pos: null,
+                data_barangs: null,
+                grand_total: 0,
+                disabled_supplier: true
+            },
+            methods: {
+                deleteData: function(fk_rls){
+                    console.log("FK RLS "+fk_rls)
+                    // const $this = this;
+                    // axios.post("/delete-barang-supplier-detail", {
+                    //     _token: _TOKEN_,
+                    //     kd_rls: data.fk_rls,
+                    //     fno_pos : data.fno_pos
+                    // })
+                    // .then(function(response) {
+                    //     if (response.data) {
+                    //         $this.data_barangs = response.data;
+                    //     }
+                    // })
+                    // .catch(function(error) {
+                    //     console.log(error);
+                    // });
+                    // var $storage = _getStorage('data');
+                    // $storage = JSON.parse($storage);
+                    
+                    var newData = [];
+                    $storage.forEach(element => {
+                        if (element['fk_rls']===fk_rls){
+                            newData = $storage.filter(item => item.fk_rls !== fk_rls);
+                        }
+                    });
+
+                    this.data_barangs = newData;
+                    $storage = newData;
+
+                    var grand_total = 0;
+                    newData.forEach(element => {
+                        grand_total += parseFloat(element['sub_total']);
+                    });
+                    this.grand_total = grand_total
+                },
+                clearData: function() {
+                    // localStorage.clear()
+                    _refresh()
+                },
+                generateKodeSpo() {
+                    var data = $storage;
+                    if (data) {
+                        data = JSON.parse(data);
+                        var $urut = [];
+                        var $i = 0;
+                        data.forEach(element => {
+                            $urut[$i] = element['no_spo']
+                            $i++;
+                        });
+                        $urut = $urut.sort((a, b) => a - b);
+                        const angka = String($urut[$urut.length - 1]).slice(-3);
+                        this.no_spo = generateNoUrutDateMonth(angka);
+                    } else {
+                        this.no_spo = tahun + bulan + '001';
+                    }
+                },
+                addData: function() {
+                    
+                    if (this.kode_rls == null) {
+                        alert("Pilih Barang dulu !")
+                        return
+                    }
+                    if (this.qty_pos == null) {
+                        this.$refs.qty_pos.focus();
+                        return;
+                    }
+
+                    var $data = [{
+                        "fk_rls": this.kode_rls,
+                        "nama_brg_sup" : this.nama_barang,
+                        "fno_pos": this.no_pos,
+                        "fharga": this.harga_pos,
+                        "fqa_pos": this.qty_pos,
+                        "no_spo": this.no_spo,
+                        "sub_total":this.qty_pos*this.harga_pos
+                    }]
+                    
+                    if ($storage == null) {
+                        $tmp = JSON.stringify($data);
+                        $storage = $tmp;
+                    } else {
+                        var BreakException = {};
+                        $storage.forEach(element => {
+                            if (element['kode_rls']===this.kode_rls){
+                                alert("Data sudah ada !")
+                                throw BreakException;
+                            }   
+                        });
+                        $storage.push(...$data);
+                    }
+
+                    this.data_barangs = $storage;
+                    const $barang_total = this.data_barangs;
+
+                    var grand_total = 0;
+                    $barang_total.forEach(element => {
+                        grand_total += element['sub_total'];
+                    });
+                    this.grand_total = grand_total
+
+
+                    this.kode_rls = null;
+
+                    this.nama_barang = null;
+                    this.qty_pos = null;
+                    this.no_spo = null;
+                    this.harga_pos = null;
+
+
+                    this.generateKodeSpo()
+                    this.disabled_supplier=true;
+                },
+                addBarang: function(data) {
+                    this.kode_rls = data.kode_rls
+                    this.nama_barang = data.nama_brg_sup
+                    this.harga_pos = data.harga_beli
+                    my_modal_barang.close()
+                    this.$refs.qty_pos.focus()
+                },
+                openModalBarang: function() {
+
+                    if (this.result_suppllier == null) {
+                        alert("Pilih Supplier dulu !")
+                        return
+                    }
+                    my_modal_barang.showModal()
+                    this.loadDataBarang(this.result_suppllier);
+                    this.generateKodeSpo();
+                },
+                loadDataBarang: function(kode_supplier) {
+                    const $this = this;
+
+                    axios.post("/load-barang-suppllier", {
+                            _token: _TOKEN_,
+                            kode_supplier: kode_supplier
+                        })
+                        .then(function(response) {
+                            $this.loading = false;
+                            if (response.data) {
+                                $this.barangs = response.data;
+                            }
+                        })
+                        .catch(function(error) {
+                            console.log(error);
+                        });
+                },
+                searchData: function() {
+                    if (this.search == null) {
+                        this.$refs.search.focus()
+                        return
+                    }
+                   
+                    const $this = this;
+                    axios.post("/search-barang-supplier", {
+                            _token: _TOKEN_,
+                            search: this.search,
+                            kode_supplier : this.result_suppllier
+                        })
+                        .then(function(response) {
+                            if (response.data) {
+                                $this.barangs = response.data;
+                            }
+                        })
+                        .catch(function(error) {
+                            console.log(error);
+                        });
+                },
+                save: function() {
+
+                    if (this.tgl_pos == null) {
+                        this.$refs.tgl_pos.focus()
+                        return;
+                    }
+
+                    if (this.result_suppllier == null) {
+                        this.$refs.result_suppllier.focus()
+                        return;
+                    }
+
+                    if (this.ket == null) {
+                        this.$refs.ket.focus()
+                        return;
+                    }
+
+                    if (_getStorage('data') == null) {
+
+                        alert("Pilih barang terlebih dahulu")
+                        return;
+                    }
+
+                    const $this = this;
+
+                    axios.post("/save-h-supplier", {
+                            _token: _TOKEN_,
+                            data: (_getStorage('data')),
+                            tgl_pos: this.tgl_pos,
+                            result_suppllier: this.result_suppllier,
+                            ket: this.ket,
+                            no_pos: this.no_pos,
+                            ppn: this.PPN_suppllier,
+                            pph: this.pph23
+                        })
+                        .then(function(response) {
+                            $this.loading = false;
+                            if (response.data) {
+                                alert("Berhasil Save Data");
+                                _refresh()
+                                localStorage.clear()
+                            }
+                        })
+                        .catch(function(error) {
+                            console.log(error);
+                        });
+                },
+                logout: function() {
+                    window.location.href = '/logout';
+                },
+
+                // generateId() {
+                //     const $this = this;
+                //     axios.post("/generate-id-h-supplier", {
+                //             _token: _TOKEN_
+                //         })
+                //         .then(function(response) {
+
+                //             if (response.data) {
+                //                 if (response.data.fno_pos) {
+                //                     const angka = String(response.data.fno_pos).slice(-3);
+
+                //                     $this.no_pos = generateNoUrutDateMonth(angka);
+                //                 } else {
+
+
+                //                     $this.no_pos = tahun + bulan + (response.data);
+                //                 }
+                //             }
+                //         })
+                //         .catch(function(error) {
+                //             console.log(error);
+                //         });
+                // },
+                loadSupplier() {
+                    const $this = this;
+                    axios.post("/load-suppllier-data", {
+                            _token: _TOKEN_
+                        })
+                        .then(function(response) {
+
+                            if (response.data) {
+                                $this.data_suppllier = response.data;
+                            }
+                        })
+                        .catch(function(error) {
+                            console.log(error);
+                        });
+                },
+                loadDetail : function(){
+                    const $this = this;
+                    $storage =  JSON.parse('<?= $data_detail ?>');
+                    this.data_barangs = $storage;
+
+                    var grand_total = 0;
+                    $storage.forEach(element => {
+                        grand_total += parseFloat(element['sub_total']);
+                        console.log(grand_total)
+                    });
+                    this.grand_total = grand_total
+                }
+            },
+            mounted() {
+           
+                this.loadSupplier();
+                this.loadDetail();
+
+                const ppn ="<?= $data_header->fppn ?>";
+                 const pph ="<?= $data_header->fpph23 ?>";
+
+                if (ppn){
+                    this.PPN_suppllier = 1;
+                }else{
+                     this.PPN_suppllier = 0;
+                }
+
+                 if (pph){
+                    this.pph23 = 1;
+                }else{
+                     this.pph23 = 0;
+                }
+
+
+            }
+        });
+    </script>
+</body>
+
+</html>
