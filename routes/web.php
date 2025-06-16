@@ -10,10 +10,14 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\BarangJadiController;
 use App\Http\Controllers\DetailBarangController;
 use App\Http\Controllers\H_SupplierController;
+use App\Http\Controllers\Hpo_customerController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TodoController;
 use App\Http\Middleware\Auth;
+use App\Models\Hpo_Customer;
+use App\Models\L_d_poc;
+use App\Models\Rls_brg_cus;
 use App\Models\H_Supplier;
 use App\Models\L_d_pos;
 use App\Models\Rls_brg_sup;
@@ -42,7 +46,6 @@ Route::get('/register',function(Request $request){
 });
 
 Route::middleware([Auth::class])->group(function () {
-
     Route::get('/home',function(){
         return view('home');
     });
@@ -87,8 +90,16 @@ Route::middleware([Auth::class])->group(function () {
         return view('posuppllier');
     });
 
-      Route::get('/add-posuppllier',function(){
+    Route::get('/add-posuppllier',function(){
         return view('add-posuppllier');
+    });
+
+    Route::get('/pocustomer',function(){
+        return view('pocustomer');
+    });
+
+    Route::get('/add-pocustomer',function(){
+        return view('add-pocustomer');
     });
 
      Route::get('/receive',function(){
@@ -96,20 +107,20 @@ Route::middleware([Auth::class])->group(function () {
     });
 
 
-Route::get('/edit-data/{id}',function($id){
-        $todo = Todos::where('id', $id)->count();
-        if ($todo){
-            $todo = Todos::where('id', $id)->get();
-            $todo = $todo[0]; 
-           
-            return view('edit-data',[
-                'id' => $todo['id'],
-                'todo' => $todo['todo'],
-                'foto' => $todo['foto']
-            ]);
-        }
-        return redirect('home');
-    });
+    Route::get('/edit-data/{id}',function($id){
+                $todo = Todos::where('id', $id)->count();
+                if ($todo){
+                    $todo = Todos::where('id', $id)->get();
+                    $todo = $todo[0]; 
+                
+                    return view('edit-data',[
+                        'id' => $todo['id'],
+                        'todo' => $todo['todo'],
+                        'foto' => $todo['foto']
+                    ]);
+                }
+                return redirect('home');
+            });
 
     Route::post('/load-todo',[TodoController::class, 'load']);
 
@@ -194,25 +205,11 @@ Route::get('/edit-data/{id}',function($id){
 
     Route::post('/search-rls-sup',[Rls_brg_supController::class, 'search']);
 
-    Route::post('/load-customer',[CustomerController::class, 'load']);
-
-    Route::post('/load-data-customer',[CustomerController::class, 'loadData']);
-
-    Route::post('/generate-id-cus',[CustomerController::class, 'generateId_cus']);
-
     Route::post('/load-h-suppllier',[H_SupplierController::class, 'load']);
-
-    Route::post('/delete-customer',[CustomerController::class, 'delete']);
 
     Route::post('/delete-h-supplier',[H_SupplierController::class, 'delete']);
 
-    Route::post('/update-customer',[CustomerController::class, 'update']);
-
-    Route::post('/save-customer',[CustomerController::class, 'save']);
-
     Route::post('/save-po-suppllier',[H_SupplierController::class, 'save']);
-
-    Route::post('/search-customer',[CustomerController::class, 'search']);
 
     Route::post('/generate-id-h-supplier',[H_SupplierController::class,'generateNo']);
 
@@ -252,9 +249,77 @@ Route::get('/edit-data/{id}',function($id){
 
     Route::post('/load-detail-barang',[DetailBarangController::class, 'loadWhere']);
 
+    Route::post('/load-customer',[CustomerController::class, 'load']);
+
+    Route::post('/load-data-customer',[CustomerController::class, 'loadData']);
+
+    Route::post('/generate-id-cus',[CustomerController::class, 'generateId_cus']);
+
+    Route::post('/delete-customer',[CustomerController::class, 'delete']);
+
+    Route::post('/update-customer',[CustomerController::class, 'update']);
+
+    Route::post('/save-customer',[CustomerController::class, 'save']);
+
+    Route::post('/search-customer',[CustomerController::class, 'search']);
+
+    Route::post('/load-hpo-customer',[Hpo_customerController::class, 'load']);
+
+    Route::post('/delete-hpo_customer',[Hpo_customerController::class, 'delete']);
+
+    Route::post('/save-hpo_customer',[Hpo_customerController::class, 'save']);
+
+    Route::post('/generate-id-hpo-customer',[Hpo_customerController::class,'generateNo']);
+
+    Route::post('/generate-kode-spk',[Hpo_customerController::class,'generateKodeSpK']);
+
+    Route::post('/save-hpo_customer',[Hpo_customerController::class,'saveData']);
+
+    Route::post('/load-detail-poc',[DetailPocController::class, 'loadWhere']);
+
+    Route::get('/print-pocustomer/{fnopos}',function($fnopos){
+        $data = H_Supplier::where('fno_pos',$fnopos)->count();
+        if ($data){
+            // ambil data detail
+             $data_detail_pos =  L_d_poc::where('fno_poc',$fnopos)->get();
+             $data_header     = H_Supplier::where('fno_poc',$fnopos)->get();
+             $data_header = $data_header[0];
+             $kode_rls='';
+
+             $sub_total =0;
+            foreach ($data_detail_pos as $x) {
+                $kode_rls =  $x['fk_rls'];
+                $sub_total += $x['FJumlah'];
+            }
+             
+              $ppn = 0;
+              $grand_total = 0;
+             if ($data_header['fppn']==1){
+                $ppn = 11/100 * $sub_total;
+                $grand_total = $ppn + $sub_total;
+             }else{
+                 $ppn = 0;
+                 $grand_total = $sub_total;
+             }
+
+             $view_relasi = ViewRelasiBarangSupplier::where('kode_rls',$kode_rls)->get();
+             $view_relasi = $view_relasi[0];
+
+             $data = array('data_detail'=>$data_detail_pos,
+                            'data_header'=>$data_header,
+                                'view_relasi'=>$view_relasi,
+                                'data_total'=>$sub_total,
+                                'ppn'=>$ppn,
+                                'grand_total'=> $grand_total);
+            
+            return view('print-posupplier',$data);
+        }else{
+            return redirect('/posuppllier');
+        }
+    });
+
     Route::get('/print-posuppllier/{fnopos}',function($fnopos){
         $data = H_Supplier::where('fno_pos',$fnopos)->count();
-
         if ($data){
             // ambil data detail
              $data_detail_pos =  L_d_pos::where('fno_pos',$fnopos)->get();
@@ -298,14 +363,10 @@ Route::get('/edit-data/{id}',function($id){
 
 
 Route::post('/forgot',[UserController::class, 'forgot']);
-
 Route::post('/login',[UserController::class, 'login']);
-
 // ini route register menuju UserController dengan method register
 Route::post('/register',[UserController::class, 'register']);
-
 Route::view('/forgot','forgot');
-
 
 Route::get('/logout',function(Request $request){
     $request->session()->forget('admin');
@@ -315,7 +376,6 @@ Route::get('/logout',function(Request $request){
 Route::get('/md5',function(){
     return md5('123456');
 });
-
 
 Route::get('/test',function(){
     return 'ok';
