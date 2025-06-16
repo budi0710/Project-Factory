@@ -33,24 +33,21 @@ class Hpo_customerController extends Controller
 
         $Hpo_Customer->fno_poc = $request->fno_poc;
         $Hpo_Customer->fk_cus = $request->result_customer;
-
-        $Hpo_Customer->fpph23 = $request->pph;
+        $Hpo_Customer->fppn = $request->PPN_customer;
+        $Hpo_Customer->fpph23 = $request->pph23_customer;
         $Hpo_Customer->fket = $request->ket;
         $Hpo_Customer->ftgl_poc = $request->ftgl_poc;
         $Hpo_Customer->fk_user =  $request->session()->get('admin');
-        $Hpo_Customer->fppn = $request->ppn;
-
         $Hpo_Customer->save();
 
         $data = $request->data;
         $data = json_decode($data);
         
        foreach ($data as $item) {
-            $fno_rbc = $item->fno_rbc;
-            $harga = $item->harga;
+            $fno_rbc = $item->kode_rbc;
+            $harga = $item->harga_poc;
             $fqt_poc = $item->fqt_poc;
             $fno_spk = $item->fno_spk;
-
             $fno_poc =$request->fno_poc;
           
             DB::insert('INSERT INTO dpo_customer (fno_rbc, fno_poc,fharga,fqt_poc,fno_spk) VALUES (?, ?, ?, ? , ?)', [$fno_rbc, $fno_poc, $harga, $fqt_poc, $fno_spk]);

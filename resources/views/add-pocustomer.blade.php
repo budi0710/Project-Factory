@@ -16,9 +16,9 @@
                 <div class="bg-white rounded-xl shadow-md p-2">
                     <h2 class="text-xl font-semibold mb-2"></h2>
                     <h2 class="card-title">Header Data POC</h2>
-                    <input type="text" disabled ref="no_poc" v-model="no_poc" placeholder="NO Faktur PO"
+                    <input type="text" disabled ref="fno_poc" v-model="fno_poc" placeholder="NO Faktur PO"
                         class="input input-primary" /><br><br>
-                    <input type="date" ref="tgl_poc" v-model="tgl_poc" placeholder="Tgl Faktur"
+                    <input type="date" ref="ftgl_poc" v-model="ftgl_poc" placeholder="Tgl Faktur"
                         class="input input-primary" /><br><br>
                     <select v-model="result_customer" ref="result_customer" class="select">
                         <option disabled selected>Pilih Customer</option>
@@ -28,7 +28,7 @@
                         <legend class="fieldset-legend text-center"></legend>
                     </center>
                     <label class="label">
-                        <input type="checkbox" ref="PPN_Customer" v-model="PPN_Customer" class="checkbox" />
+                        <input type="checkbox" ref="PPN_customer" v-model="PPN_customer" class="checkbox" />
                         PPN
                     </label>
                     </fieldset>
@@ -166,6 +166,7 @@
             el: "#app",
             data: {
                 barangs: null,
+                fno_poc : null,
                 PPN_Customer : null,
                 pph23_customer : null,
                 fno_spk : null,
@@ -351,8 +352,8 @@
                         });
                 },
                 save: function() {
-                    if (this.tgl_poc == null) {
-                        this.$refs.tgl_poc.focus()
+                    if (this.ftgl_poc == null) {
+                        this.$refs.ftgl_poc.focus()
                         return;
                     }
 
@@ -374,7 +375,7 @@
                     axios.post("/save-hpo_customer", {
                             _token: _TOKEN_,
                             data: (_getStorage('data')),
-                            tgl_poc: this.tgl_poc,
+                            ftgl_poc: this.ftgl_poc,
                             result_customer: this.result_customer,
                             ket: this.ket,
                             fno_poc: this.fno_poc,

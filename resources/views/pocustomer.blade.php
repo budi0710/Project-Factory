@@ -12,7 +12,8 @@
         <hr>
         <br>
         <center>
-            <input type="text" @keyup="searchData" ref="search" v-model="search" placeholder="Search" class="input input-primary" /> <button class="btn btn-primary" @click="openPage">Add</button>
+            <input type="text" @keyup="searchData" ref="search" v-model="search" placeholder="Search"
+                class="input input-primary" /> <button class="btn btn-primary" @click="openPage">Add</button>
         </center>
         <!-- Open the modal using ID.showModal() method -->
         <center>
@@ -120,11 +121,11 @@
                 </thead>
                 <tbody>
                     <!-- row 1 -->
-                    <tr v-for="data in h_supliers">
+                    <tr v-for="data in Hpo_Customer">
                         <th>@{{ data.id }}</th>
                         <td>@{{ data.fno_poc }}</td>
                         <td>@{{ data.ftgl_poc }}</td>
-                        <td>@{{ data.kode_cus }}</td>
+                        <td>@{{ data.fk_cus }}</td>
                         <td>@{{ data.fppn }}</td>
                         <td>@{{ data.fpph23 }}</td>
                         <td>@{{ data.fket }}</td>
@@ -157,6 +158,7 @@
             el: "#app",
             data: {
                 barangs: null,
+                Hpo_Customer : null,
                 fno_poc : null,
                 h_supliers: null,
                 alert: false,
@@ -341,7 +343,7 @@
                 },
                 generateId() {
                     const $this = this;
-                    axios.post("/generate-id-hpo-customer'", {
+                    axios.post("/generate-id-hpo-customer", {
                             _token: _TOKEN_
                         })
                         .then(function(response) {
@@ -381,5 +383,4 @@
         });
     </script>
 </body>
-
 </html>

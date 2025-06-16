@@ -377,7 +377,6 @@
                 },
                 loadData: function() {
                     const $this = this;
-
                     axios.post("/load-h-suppllier", {
                             _token: _TOKEN_
                         })
@@ -439,5 +438,4 @@
         });
     </script>
 </body>
-
 </html>
