@@ -140,6 +140,7 @@
 
                         <td>
                             <button @click="printPage(data.fno_pos)" class="btn btn-success">Print</button>
+                            <button @click="editPage(data.fno_pos)" class="btn btn-primary">Edit</button>
                             <button @click="editModal(data.fno_pos)" class="btn btn-warning">Lihat Detail</button>
                             <button @click="editData(data.id,data)" class="btn btn-error">Edit</button>
                             <button @click="deleteData(data.id,data)" class="btn btn-error">x</button>
@@ -187,6 +188,9 @@
                 detail_barangs : null
             },
             methods: {
+                editPage: function(fnopos){
+                    window.location.href="./edit-posupplier/"+fnopos;
+                },
                 printPage : function(fno_pos){
                     window.location.href = './print-posuppllier/'+fno_pos;
                 },

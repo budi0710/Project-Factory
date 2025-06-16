@@ -7,20 +7,33 @@ use Illuminate\Support\Facades\DB;
 
 class H_SupplierController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
+  
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function updateData(Request $request)
     {
         //
+        $delete = tb_d_pos::where('fno_pos',$request->no_pos)->delete();
+
+        
+        $data = $request->data;
+        $data = ($data);
+      
+
+        for ($i=0; $i < count($data); $i++) { 
+             $tmp = $data[$i];
+             $kode_rls = $tmp['fk_rls'];
+             $harga = $tmp['fharga'];
+             $qty = $tmp['fqa_pos'];
+             $no_spo = $tmp['fno_spo'];
+             $no_pos =$request->no_pos;
+             
+            DB::insert('INSERT INTO tb_d_pos (fk_rls, fno_pos,fharga,fqa_pos,fno_spo) VALUES (?, ?, ?, ? , ?)', [$kode_rls, $no_pos,$harga,$qty,$no_spo]);
+     
+        }
+        return response()->json(['result'=>true]) ;
     }
 
     /**
@@ -119,21 +132,7 @@ class H_SupplierController extends Controller
        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+   
 
     /**
      * Remove the specified resource from storage.
@@ -154,6 +153,6 @@ class H_SupplierController extends Controller
         // delete data di table detail berdasarkan fno_pos
         $detail = tb_d_pos::where('fno_pos',$fno_pos)->delete();
         
-        return $detail ? response()->json(['result'=>true]) : response()->json(['result'=>false]);
+        return $supplier ? response()->json(['result'=>true]) : response()->json(['result'=>false]);
     }
 }

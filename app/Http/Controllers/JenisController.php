@@ -37,7 +37,7 @@ class JenisController extends Controller
     }
 
      public function search(Request $request){
-        $Jenis = Jenis::where('jenis','like','%'.$request->search.'%')->get();
-        return ($Jenis);
+        return Jenis::where('jenis','like','%'.$request->search.'%')->get();
+       
     }
 }

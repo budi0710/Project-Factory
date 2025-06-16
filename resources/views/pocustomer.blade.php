@@ -180,6 +180,9 @@
                 detail_poc : null
             },
             methods: {
+                searchData : function(){
+
+                },
                 printPage : function(fno_pos){
                     window.location.href = './print-pocustomer/'+fno_pos;
                 },
