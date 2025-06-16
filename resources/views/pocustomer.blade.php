@@ -69,7 +69,7 @@
         <!-- Open the modal using ID.showModal() method -->
         <dialog id="my_modal_detail" class="modal">
             <div class="modal-box">
-                <h3 class="text-lg font-bold">Detail PO</h3>
+                <h3 class="text-lg font-bold">Detail PO Customer</h3>
                 <p class="py-4">
                 <div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100">
                     <table class="table">
@@ -177,7 +177,6 @@
                 ket: null,
                 result_kode_user: null,
                 data_kode_user: null,
-                searchData : null,
                 detail_poc : null
             },
             methods: {
@@ -223,10 +222,10 @@
                     .catch(function(error) {
                         console.log(error);
                     });
-                },
+                },  
                 save: function() {
                     if (this.tgl_pos == null) {
-                        this.$refs.tgl_pocfocus()
+                        this.$refs.tgl_poc.focus()
                         return
                     }
                     if (this.result_customer == null) {
@@ -250,7 +249,7 @@
                     }
 
                     const $this = this;
-                    axios.post("/save-hpo_customer", {
+                    axios.post("/save-hpo-customer", {
                             _token: _TOKEN_,
                             tgl_poc: this.tgl_poc,
                             result_customer: this.result_customer,
@@ -283,12 +282,36 @@
                             console.log(error);
                         });
                 },
+                searchData: function() {
+                    if (this.search == null) {
+                        this.$refs.search.focus()
+                        return
+                    }
+                    this.loading = true;
+                    const $this = this;
+                    axios.post("/search-jenis", {
+                            _token: _TOKEN_,
+                            search: this.search
+                        })
+                        .then(function(response) {
+                            if (response.data) {
+                                $this.loading = false;
+                                $this.jeniss = response.data;
+                            }
+                        })
+                        .catch(function(error) {
+                            console.log(error);
+                        });
+                },
+                    editData: function(fno_pos) {
+                    
+                },
                 deleteData: function(id, data) {
                     if (id) {
                         const $this = this;
                         Swal.fire({
                             title: "Are you sure?",
-                            text: "Apakah anda ingin menghapus data ini {" + data.fno_pos + "}",
+                            text: "Apakah anda ingin menghapus data ini {" + data.fno_poc + "}",
                             icon: "warning",
                             showCancelButton: true,
                             confirmButtonColor: "#3085d6",

@@ -11,12 +11,13 @@ use App\Http\Controllers\BarangJadiController;
 use App\Http\Controllers\DetailBarangController;
 use App\Http\Controllers\H_SupplierController;
 use App\Http\Controllers\Hpo_customerController;
+use App\Http\Controllers\DetailPocController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TodoController;
 use App\Http\Middleware\Auth;
 use App\Models\Hpo_Customer;
-use App\Models\L_d_poc;
+use App\Models\l_d_poc;
 use App\Models\Rls_brg_cus;
 use App\Models\H_Supplier;
 use App\Models\L_d_pos;
@@ -267,7 +268,7 @@ Route::middleware([Auth::class])->group(function () {
 
     Route::post('/delete-hpo_customer',[Hpo_customerController::class, 'delete']);
 
-    Route::post('/save-hpo_customer',[Hpo_customerController::class, 'save']);
+    Route::post('/save-hpo-customer',[Hpo_customerController::class, 'save']);
 
     Route::post('/generate-id-hpo-customer',[Hpo_customerController::class,'generateNo']);
 

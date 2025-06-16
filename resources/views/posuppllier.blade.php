@@ -21,7 +21,6 @@
         </center>
         <br>
         <dialog id="my_modal_1" class="modal">
-
             <div class="modal-box">
                 <h3 class="text-lg font-bold"></h3>
                 <p class="py-4">
@@ -231,6 +230,9 @@
                         console.log(error);
                     });
                 },
+                editData: function(fno_pos) {
+                    
+                },
                 updateData: function() {
                     if (this.id_edit) {
                         const $this = this;
@@ -325,7 +327,6 @@
                                 //     footer: ''
                                 // });
                                 $this.generateId()
-
                             }
                         })
                         .catch(function(error) {
@@ -334,7 +335,6 @@
                 },
                 deleteData: function(id, data) {
                     if (id) {
-
                         const $this = this;
                         Swal.fire({
                             title: "Are you sure?",

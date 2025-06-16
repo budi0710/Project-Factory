@@ -169,6 +169,7 @@
                 fno_poc : null,
                 PPN_Customer : null,
                 pph23_customer : null,
+                ftgl_poc : null,
                 fno_spk : null,
                 Hpo_Customer: null,
                 alert: false,
@@ -228,14 +229,14 @@
                         var $urut = [];
                         var $i = 0;
                         data.forEach(element => {
-                            $urut[$i] = element['no_spk']
+                            $urut[$i] = element['fno_spk']
                             $i++;
                         });
                         $urut = $urut.sort((a, b) => a - b);
                         const angka = String($urut[$urut.length - 1]).slice(-3);
-                        this.no_spk = generateNoUrutDateMonth(angka);
+                        this.fno_spk = generateNoUrutDateMonth(angka);
                     } else {
-                        this.no_spk = tahun + bulan + '001';
+                        this.fno_spk = tahun + bulan + '001';
                     }
                 },
                 addData: function() {
@@ -289,7 +290,7 @@
                     this.kode_rbc = null;
                     this.nama_brg_cus = null;
                     this.fqt_poc = null;
-                    this.no_spk = null;
+                    this.fno_spk = null;
                     this.harga_poc = null;
                     this.generateKodeSpk()
                     this.disabled_customer=true;
