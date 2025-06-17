@@ -142,6 +142,10 @@
                             <button @click="printPage(data.fno_pos)" class="btn btn-success">Print</button>
                             <button @click="editPage(data.fno_pos)" class="btn btn-primary">Edit</button>
                             <button @click="editModal(data.fno_pos)" class="btn btn-warning">Lihat Detail</button>
+<<<<<<< HEAD
+=======
+                           
+>>>>>>> 4ecbfbeaf5d30f4b7126da79a4675a8ea8b3fd3a
                             <button @click="deleteData(data.id,data)" class="btn btn-error">x</button>
                         </td>
                     </tr>

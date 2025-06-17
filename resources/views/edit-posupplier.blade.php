@@ -278,9 +278,10 @@
                         $tmp = JSON.stringify($data);
                         $storage = $tmp;
                     } else {
+                         //$storage = $tmp;
                         var BreakException = {};
                         $storage.forEach(element => {
-                            if (element['kode_rls']===this.kode_rls){
+                            if (element['fk_rls']===this.kode_rls){
                                 alert("Data sudah ada !")
                                 throw BreakException;
                             }   
@@ -373,6 +374,10 @@
                         this.$refs.ket.focus()
                         return;
                     }
+<<<<<<< HEAD
+=======
+                    console.table($storage)
+>>>>>>> 4ecbfbeaf5d30f4b7126da79a4675a8ea8b3fd3a
                     if ($storage == null) {
                         alert("Pilih barang terlebih dahulu")
                         return;
