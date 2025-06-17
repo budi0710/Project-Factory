@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 use App\Models\H_Supplier;
 use App\Models\tb_d_pos;
+use App\Models\tb_h_pos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -17,7 +18,9 @@ class H_SupplierController extends Controller
         //
         $delete = tb_d_pos::where('fno_pos',$request->no_pos)->delete();
 
-        
+        $data_h = tb_h_pos::where('fno_pos',$request->no_pos)->get();
+        $id_data_h = $data_h[0]['id'];
+      
         $data = $request->data;
         $data = ($data);
       
@@ -33,7 +36,14 @@ class H_SupplierController extends Controller
             DB::insert('INSERT INTO tb_d_pos (fk_rls, fno_pos,fharga,fqa_pos,fno_spo) VALUES (?, ?, ?, ? , ?)', [$kode_rls, $no_pos,$harga,$qty,$no_spo]);
      
         }
-        
+        $update = H_Supplier::find($id_data_h);
+
+        $update->fpph23 = $request->pph;
+        $update->fket = $request->ket;
+       // $update->ftgl_pos = $request->tgl_pos;
+        $update->fppn = $request->ppn;
+
+        $update->save();
 
         return response()->json(['result'=>true]) ;
     }

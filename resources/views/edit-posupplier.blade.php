@@ -475,13 +475,13 @@
                 const ppn ="<?= $data_header->fppn ?>";
                  const pph ="<?= $data_header->fpph23 ?>";
 
-                if (ppn){
+                if (ppn==='1'){
                     this.PPN_suppllier = 1;
                 }else{
                      this.PPN_suppllier = 0;
                 }
 
-                 if (pph){
+                 if (pph==='1'){
                     this.pph23 = 1;
                 }else{
                      this.pph23 = 0;
