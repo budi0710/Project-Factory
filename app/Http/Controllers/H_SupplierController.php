@@ -33,6 +33,8 @@ class H_SupplierController extends Controller
             DB::insert('INSERT INTO tb_d_pos (fk_rls, fno_pos,fharga,fqa_pos,fno_spo) VALUES (?, ?, ?, ? , ?)', [$kode_rls, $no_pos,$harga,$qty,$no_spo]);
      
         }
+        
+
         return response()->json(['result'=>true]) ;
     }
 
