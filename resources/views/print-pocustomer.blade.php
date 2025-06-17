@@ -47,11 +47,11 @@
                 <table class="table table-sm no-border">
                     <tr>
                         <td>No PO</td>
-                        <td>:  {{ $data_header->fno_pos }}</td>
+                        <td>:  {{ $data_header->fno_poc }}</td>
                     </tr>
                     <tr>
                         <td>Tgl PO</td>
-                        <td>: {{ $data_header->ftgl_pos }}</td>
+                        <td>: {{ $data_header->ftgl_poc }}</td>
                     </tr>
                     <tr>
                         <td>Keterangan</td>
@@ -76,11 +76,11 @@
                  <!-- row 1 -->
                     @foreach ($data_detail as $d)
                         <tr>
-                            <th>{{ $d->id_otomatis }}</th>
-                            <th>{{ $d->nama_brg_sup }}</th>
-                            <th>{{ $d->satuan }}</th>
+                            <th>{{ $d->kode_brj }}</th>
+                            <th>{{ $d->nama_brg_cus }}</th>
+                            <th>{{ $d->satuan_jual }}</th>
                             <th>{{ formatRupiah($d->fharga) }}</th>
-                            <th>{{ $d->fqa_pos }}</th>
+                            <th>{{ $d->fqt_poc }}</th>
                             <th>{{ formatRupiah($d->FJumlah) }}</th>
                         </tr>
                     @endforeach
@@ -119,7 +119,4 @@
         window.print()
     </script>
 </body>
-
-
-
 </html>

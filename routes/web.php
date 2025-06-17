@@ -27,6 +27,7 @@ use App\Models\tb_d_pos;
 use Illuminate\Http\Request;
 use App\Models\Todos;
 use App\Models\ViewRelasiBarangSupplier;
+use App\Models\ViewRelasiBarangCustomer;
 
 function formatRupiah($angka, $prefix = 'Rp') {
     return $prefix . ' ' . number_format($angka, 0, ',', '.');
@@ -280,18 +281,18 @@ Route::middleware([Auth::class])->group(function () {
 
     Route::post('/load-detail-poc',[DetailPocController::class, 'loadWhere']);
 
-    Route::get('/print-pocustomer/{fnopos}',function($fnopos){
-        $data = H_Supplier::where('fno_pos',$fnopos)->count();
+    Route::get('/print-pocustomer/{fno_poc}',function($fno_poc){
+        $data = Hpo_Customer::where('fno_poc',$fno_poc)->count();
         if ($data){
             // ambil data detail
-             $data_detail_pos =  L_d_poc::where('fno_poc',$fnopos)->get();
-             $data_header     = H_Supplier::where('fno_poc',$fnopos)->get();
+             $data_detail_poc =  l_d_poc::where('fno_poc',$fno_poc)->get();
+             $data_header     = Hpo_Customer::where('fno_poc',$fno_poc)->get();
              $data_header = $data_header[0];
-             $kode_rls='';
+             $kode_rbc='';
 
              $sub_total =0;
-            foreach ($data_detail_pos as $x) {
-                $kode_rls =  $x['fk_rls'];
+            foreach ($data_detail_poc as $x) {
+                $kode_rbc =  $x['kode_rbc'];
                 $sub_total += $x['FJumlah'];
             }
              
@@ -305,19 +306,19 @@ Route::middleware([Auth::class])->group(function () {
                  $grand_total = $sub_total;
              }
 
-             $view_relasi = ViewRelasiBarangSupplier::where('kode_rls',$kode_rls)->get();
+             $view_relasi = ViewRelasiBarangCustomer::where('kode_rbc',$kode_rbc)->get();
              $view_relasi = $view_relasi[0];
 
-             $data = array('data_detail'=>$data_detail_pos,
+             $data = array('data_detail'=>$data_detail_poc,
                             'data_header'=>$data_header,
                                 'view_relasi'=>$view_relasi,
                                 'data_total'=>$sub_total,
                                 'ppn'=>$ppn,
                                 'grand_total'=> $grand_total);
             
-            return view('print-posupplier',$data);
+            return view('print-pocustomer',$data);
         }else{
-            return redirect('/posuppllier');
+            return redirect('/pocustomer');
         }
     });
 
