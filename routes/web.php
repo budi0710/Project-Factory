@@ -374,27 +374,20 @@ Route::middleware([Auth::class])->group(function () {
         $data_detail_pos =  L_d_pos::where('fno_pos',$fnopos)->count();
 
         if ($data){
-
              $data_header     = H_Supplier::where('fno_pos',$fnopos)->get();
              $data_header     = $data_header[0];
-
             if ($data_detail_pos==0){
                 return redirect('/posuppllier');
             }
-              
             $data_detail_pos =  L_d_pos::where('fno_pos',$fnopos)->get();
             $data = array('data_header'=>$data_header,'data_detail'=>$data_detail_pos);
-
             return view('edit-posupplier',$data);
         }else{
             return redirect('/posupplier');
         }
     });
-
     Route::post('/delete-barang-supplier-detail',[DetailBarangController::class, 'delete']);
-    
 });
-
 
 Route::post('/forgot',[UserController::class, 'forgot']);
 Route::post('/login',[UserController::class, 'login']);

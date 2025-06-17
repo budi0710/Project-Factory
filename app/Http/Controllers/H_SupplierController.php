@@ -16,12 +16,9 @@ class H_SupplierController extends Controller
     {
         //
         $delete = tb_d_pos::where('fno_pos',$request->no_pos)->delete();
-
-        
         $data = $request->data;
         $data = ($data);
-      
-
+    
         for ($i=0; $i < count($data); $i++) { 
              $tmp = $data[$i];
              $kode_rls = $tmp['fk_rls'];
@@ -31,7 +28,6 @@ class H_SupplierController extends Controller
              $no_pos =$request->no_pos;
              
             DB::insert('INSERT INTO tb_d_pos (fk_rls, fno_pos,fharga,fqa_pos,fno_spo) VALUES (?, ?, ?, ? , ?)', [$kode_rls, $no_pos,$harga,$qty,$no_spo]);
-     
         }
         return response()->json(['result'=>true]) ;
     }
@@ -45,15 +41,12 @@ class H_SupplierController extends Controller
 
         $supplier->fno_pos = $request->no_pos;
         $supplier->fk_sup = $request->result_suppllier;
-
         $supplier->fpph23 = $request->pph;
         $supplier->fket = $request->ket;
         $supplier->ftgl_pos = $request->tgl_pos;
         $supplier->fk_user =  $request->session()->get('admin');
         $supplier->fppn = $request->ppn;
-
         $supplier->save();
-
         $data = $request->data;
         $data = json_decode($data);
         
@@ -62,12 +55,10 @@ class H_SupplierController extends Controller
             $harga = $item->harga;
             $qty = $item->qty;
             $no_spo = $item->no_spo;
-
             $no_pos =$request->no_pos;
           
             DB::insert('INSERT INTO tb_d_pos (fk_rls, fno_pos,fharga,fqa_pos,fno_spo) VALUES (?, ?, ?, ? , ?)', [$kode_rls, $no_pos,$harga,$qty,$no_spo]);
         }
-
         return response()->json(['result'=>true]) ;
     }
 
@@ -112,7 +103,6 @@ class H_SupplierController extends Controller
 
     public function generateNo(){
         $result= H_Supplier::select('fno_pos')->orderBy('fno_pos','desc')->first();
-       
        if ($result==null){
           return '001';
        }else{
@@ -132,7 +122,6 @@ class H_SupplierController extends Controller
        }
     }
 
-   
 
     /**
      * Remove the specified resource from storage.
@@ -140,19 +129,16 @@ class H_SupplierController extends Controller
     public function delete(request $request)
     {
         // check receive apakah sudah pernah dilakukan transaksi 
-
         // ambil fno_pos terlebih dahulu
         $fno_pos = H_Supplier::select('fno_pos')->where("id",$request->id)->get();
         // ambil data index ke 0 dan key fno_pos
         $fno_pos = $fno_pos[0]['fno_pos'];
-       
+    
         // delete data di table header berdasarkan primary key id
         $supplier = H_Supplier::find($request->id);
         $supplier->delete();
-
         // delete data di table detail berdasarkan fno_pos
         $detail = tb_d_pos::where('fno_pos',$fno_pos)->delete();
-        
         return $supplier ? response()->json(['result'=>true]) : response()->json(['result'=>false]);
     }
 }

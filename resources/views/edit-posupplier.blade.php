@@ -199,7 +199,6 @@
             },
             methods: {
                 deleteData: function(fk_rls){
-                   
                     // const $this = this;
                     // axios.post("/delete-barang-supplier-detail", {
                     //     _token: _TOKEN_,
@@ -298,15 +297,11 @@
                     });
                     this.grand_total = grand_total
 
-
                     this.kode_rls = null;
-
                     this.nama_barang = null;
                     this.qty_pos = null;
                     this.no_spo = null;
                     this.harga_pos = null;
-
-
                     this.generateKodeSpo()
                     this.disabled_supplier=true;
                 },
@@ -366,30 +361,24 @@
                         });
                 },
                 update: function() {
-
                     if (this.tgl_pos == null) {
                         this.$refs.tgl_pos.focus()
                         return;
                     }
-
                     if (this.result_suppllier == null) {
                         this.$refs.result_suppllier.focus()
                         return;
                     }
-
                     if (this.ket == null) {
                         this.$refs.ket.focus()
                         return;
                     }
-
                     if ($storage == null) {
-
                         alert("Pilih barang terlebih dahulu")
                         return;
                     }
 
                     const $this = this;
-
                     axios.post("/update-h-supplier", {
                             _token: _TOKEN_,
                             data: ($storage),
@@ -415,30 +404,6 @@
                 logout: function() {
                     window.location.href = '/logout';
                 },
-
-                // generateId() {
-                //     const $this = this;
-                //     axios.post("/generate-id-h-supplier", {
-                //             _token: _TOKEN_
-                //         })
-                //         .then(function(response) {
-
-                //             if (response.data) {
-                //                 if (response.data.fno_pos) {
-                //                     const angka = String(response.data.fno_pos).slice(-3);
-
-                //                     $this.no_pos = generateNoUrutDateMonth(angka);
-                //                 } else {
-
-
-                //                     $this.no_pos = tahun + bulan + (response.data);
-                //                 }
-                //             }
-                //         })
-                //         .catch(function(error) {
-                //             console.log(error);
-                //         });
-                // },
                 loadSupplier() {
                     const $this = this;
                     axios.post("/load-suppllier-data", {
@@ -473,21 +438,18 @@
                 this.loadDetail();
 
                 const ppn ="<?= $data_header->fppn ?>";
-                 const pph ="<?= $data_header->fpph23 ?>";
-
+                const pph ="<?= $data_header->fpph23 ?>";
                 if (ppn){
                     this.PPN_suppllier = 1;
                 }else{
                      this.PPN_suppllier = 0;
                 }
 
-                 if (pph){
+                if (pph){
                     this.pph23 = 1;
                 }else{
                      this.pph23 = 0;
                 }
-
-
             }
         });
     </script>
