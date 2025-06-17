@@ -40,7 +40,7 @@ class H_SupplierController extends Controller
 
         $update->fpph23 = $request->pph;
         $update->fket = $request->ket;
-       // $update->ftgl_pos = $request->tgl_pos;
+        $update->ftgl_pos = $request->tgl_pos;
         $update->fppn = $request->ppn;
 
         $update->save();
