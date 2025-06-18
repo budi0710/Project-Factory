@@ -9,7 +9,7 @@
 <body>
     @include('@component/navbar')
     <div id="app" class="mx-auto">
-        <br>
+          <br><br><br>
         <div class="grid grid-flow-col grid-rows-1">
             <!-- Card 1 -->
             <div class="row-span-1 ms-4">

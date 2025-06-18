@@ -11,7 +11,7 @@
 
 <body>
     @include('@component/navbar')
-    <br>
+    <br><br><br>
 
     <div id="app" class="mx-auto">
         <div class="items-center">

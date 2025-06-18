@@ -11,8 +11,9 @@
 
 <body>
     @include('@component/navbar')
-    <div id="app" class="mx-auto">
-        <hr>
+    <br><br><br>
+    <div id="app" class="container">
+      
         <br>
         <center>
             <input type="text" @keyup="searchData" ref="search" v-model="search" placeholder="Search" class="input input-primary" /> | <button class="btn btn-primary" onclick="my_modal_1.showModal()">Add</button>
@@ -51,7 +52,7 @@
 
         <!-- Open the modal using ID.showModal() method -->
 
-        <dialog id="my_modal_edit" class="modal">
+        <dialog  id="my_modal_edit" class="modal fade">
             <div class="modal-box">
                 <h3 class="text-lg font-bold">Edit</h3>
                 <p class="py-4">

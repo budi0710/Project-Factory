@@ -1,4 +1,4 @@
-<div class="navbar bg-base-300 shadow-sm  p-4">
+{{-- <div class="navbar bg-base-100 shadow-sm">
   <div class="navbar-start">
     <div class="dropdown "  >
       <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
@@ -122,5 +122,66 @@
   </div>
   <div class="navbar-end">
     <a href="/logout" style="color: red" @click="logout">Log Out</a>
+  </div>
+</div> --}}
+
+<div class="navbar bg-base-100 shadow-sm fixed top-0 w-full z-50">
+  <div class="flex-1">
+    <a class="btn btn-ghost text-xl" href=".">SIP</a>
+  </div>
+  <div class="flex-none">
+    <ul class="menu menu-horizontal px-1">
+      
+      <li>
+        <details>
+          <summary>Master Data</summary>
+          <ul class="bg-base-100 rounded-t-none p-2">
+            <li><a href="./jenis">Jenis</a></li>
+            <li><a href="./satuan">Satuan</a></li>
+            <li><a href="./barang">Material</a></li>
+            <li><a href="./brj">Barang Jadi</a></li>
+            <li><a href="./supplier">Supplier</a></li>
+            <li><a href="./customer">Customer</a></li>
+          </ul>
+        </details>
+      </li>
+
+      <li>
+        <details>
+          <summary>Transaksi Supplier</summary>
+          <ul class="bg-base-100 rounded-t-none p-2">
+            <li><a href="./rls_brg_sup">Barang Supplier</a></li>
+            <li><a href="./posuppllier">PO Supplier</a></li>
+            <li><a href="./receive">Receive</a></li>
+            <li><a>Retur Receive</a></li>
+            <li><a>AP</a></li>
+          </ul>
+        </details>
+      </li>
+
+      <li>
+        <details>
+          <summary>Transaksi Customer</summary>
+          <ul class="bg-base-100 rounded-t-none p-2">
+            <li><a>Barang Customer</a></li>
+            <li><a href="./pocustomer">PO Customer</a></li>
+            <li><a>Pengiriman</a></li>
+            <li><a>Retur Kirim</a></li>
+            <li><a>AR</a></li>
+          </ul>
+        </details>
+      </li>
+
+       <li>
+        <details>
+          <summary>Accounting</summary>
+          <ul class="bg-base-100 rounded-t-none p-2">
+           <li><a>Kas Bank</a></li>
+            <li><a>Jurnal GL</a></li>
+          </ul>
+        </details>
+      </li>
+    <li><a href="./logout" style="color: red">Logout</a></li>
+    </ul>
   </div>
 </div>

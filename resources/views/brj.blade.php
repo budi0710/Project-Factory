@@ -11,7 +11,7 @@
 <body>
     @include('@component/navbar')
     <div id="app" class="mx-auto">
-        <hr>
+       <br><br><br>
         <br>
         <center>
             <input type="text" @keyup="searchData" ref="search" v-model="search" placeholder="Search"
@@ -148,7 +148,7 @@
                 loading: false,
                 links: null,
                 file_barang: null,
-                foto_barang: './storage/barang_Jadi/no-image.png',
+                foto_barang: './storage/no-image.png',
                 kode_brj_edit: null,
                 nama_brj_edit: null,
                 decription_edit: null,
@@ -242,7 +242,7 @@
                     this.kode_brj_edit = data.kode_brj;
                    
                     if (data.foto === 'no-image.png') {
-                        this.foto_barang_edit = '/storage/barang_Jadi/' + data.foto;
+                        this.foto_barang_edit = '/storage/' + data.foto;
                     } else {
                         this.foto_barang_edit = '/storage/barang_Jadi/' + data.foto;
                     }
@@ -294,7 +294,7 @@
                 },
                 viewFoto: function(foto) {
                     if (foto === 'no-image.png') {
-                        return '/storage/barang_Jadi/' + foto
+                        return '/storage/' + foto
                     } else {
                         return '/storage/barang_Jadi/' + foto
                     }

@@ -9,10 +9,10 @@
 
 </head>
 
-<body>
+<body  class="pt-16">
     @include('@component/navbar')
     <div id="app" class="mx-auto">
-        <hr>
+          <br><br><br>
         <br>
         <center>
             <input type="text" @keyup="searchData" ref="search" v-model="search" placeholder="Search"

@@ -26,8 +26,11 @@ use App\Models\Satuan;
 use App\Models\tb_d_pos;
 use Illuminate\Http\Request;
 use App\Models\Todos;
+use App\Models\UsersSql2;
+use App\Models\UsersSqlServer;
 use App\Models\ViewRelasiBarangSupplier;
 use App\Models\ViewRelasiBarangCustomer;
+use Illuminate\Support\Facades\DB;
 
 function formatRupiah($angka, $prefix = 'Rp') {
     return $prefix . ' ' . number_format($angka, 0, ',', '.');
@@ -411,6 +414,21 @@ Route::get('/md5',function(){
     return md5('123456');
 });
 
+
+
 Route::get('/test',function(){
-    return 'ok';
+    //$data = DB::connection('mysql2')->select('SELECT * FROM users')
+    $data = UsersSql2::all();
+    return $data;
+});
+
+Route::get('/sqlserver',function(){
+    //$data = DB::connection('mysql2')->select('SELECT * FROM users')
+    $data = UsersSqlServer::all();
+    return $data;
+});
+
+
+Route::get('/info',function(){
+    return phpinfo();
 });
